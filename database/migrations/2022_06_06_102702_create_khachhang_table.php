@@ -24,6 +24,8 @@ return new class extends Migration
             $table->integer('sdt');
             $table->integer('trang_thai')->default(0);
             $table->integer('gioi_tinh');
+            $table->timestamp('email_verified_at')->nullable();
+            $table->rememberToken()->default(Null);
             $table->softDeletes();
             $table->timestamps();
         });

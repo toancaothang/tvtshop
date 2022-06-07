@@ -15,7 +15,15 @@ use App\Http\Controllers\KhachHangController;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/dangnhap_dangky',[KhachHangController::class,'hienthidangky'])->name('hienthi_dangky');
-Route::post('/dangnhap_dangky',[KhachHangController::class,'xulydangky'])->name('xuly_dangky');
+Route::get('/dangky',[KhachHangController::class,'hienthidangky'])->name('hienthi_dangky');
+Route::post('/dangky',[KhachHangController::class,'xulydangky'])->name('xuly_dangky');
+
+Route::get('/dangnhap',[KhachHangController::class,'hienthidangnhap'])->name('hienthi_dangnhap');
+Route::post('/dangnhap',[KhachHangController::class,'xulydangnhap'])->name('xuly_dangnhap');
+
+    
+
+
+
     
 

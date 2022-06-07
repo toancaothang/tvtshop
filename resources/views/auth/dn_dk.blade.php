@@ -18,29 +18,30 @@
                     <div class="row">
                         <div class="col-sm-12 col-md-12 col-xs-12 col-lg-6 mb-30">
                             <!-- Login Form s-->
-                            <form action="#" >
+                            <form action="{{route('xuly_dangnhap')}}" method="POST" enctype = multipart/form-data>
+                            @csrf
                                 <div class="login-form">
                                     <h4 class="login-title">Đăng Nhập</h4>
                                     <div class="row">
                                         <div class="col-md-12 col-12 mb-20">
-                                            <label>Email Address*</label>
-                                            <input class="mb-0" type="email" placeholder="Email Address">
+                                            <label>Tên Tài Khoản Hoặc Email</label>
+                                            <input class="mb-0" type="text" placeholder="Tài Khoản "name="ten_tk">
                                         </div>
                                         <div class="col-12 mb-20">
-                                            <label>Password</label>
-                                            <input class="mb-0" type="password" placeholder="Password">
+                                            <label>Mật Khẩu</label>
+                                            <input class="mb-0" type="password" placeholder="Mật Khẩu"name="mat_khau">
                                         </div>
                                         <div class="col-md-8">
                                             <div class="check-box d-inline-block ml-0 ml-md-2 mt-10">
                                                 <input type="checkbox" id="remember_me">
-                                                <label for="remember_me">Remember me</label>
+                                                <label for="remember_me">Ghi Nhớ Tôi</label>
                                             </div>
                                         </div>
                                         <div class="col-md-4 mt-10 mb-20 text-left text-md-right">
-                                            <a href="#"> Forgotten pasward?</a>
+                                            <a href="#"> Quên Mật Khẩu?</a> 
                                         </div>
                                         <div class="col-md-12">
-                                            <button class="register-button mt-0">Login</button>
+                                            <button type="submit" class="register-button mt-0">Login</button>
                                         </div>
                                     </div>
                                 </div>
@@ -64,11 +65,11 @@
                                     <div class="row">
                                         <div class="col-md-6 col-12 mb-20">
                                             <label>Họ Tên</label>
-                                            <input class="mb-0" type="text" placeholder="Họ tên" name="ten"> 
+                                            <input class="mb-0" type="text" placeholder="Họ tên" name="ho_ten"> 
                                         </div>
                                         <div class="col-md-6 col-12 mb-20">
                                             <label>Tên Tài Khoản</label>
-                                            <input class="mb-0" type="text" placeholder="Tên tài khoản"name="tentk">
+                                            <input class="mb-0" type="text" placeholder="Tên tài khoản"name="ten_tk">
                                             @if($errors->has('tentk'))
                     		<span>{{$errors->first('tentk')}}</span>
                			@endif
@@ -79,7 +80,7 @@
                                         </div>
                                         <div class="col-md-6 col-12 mb-20">
                                             <label>Địa Chỉ</label>
-                                            <input class="mb-0" type="text" placeholder="Địa Chỉ" name="diachi">
+                                            <input class="mb-0" type="text" placeholder="Địa Chỉ" name="dia_chi">
                                         </div>
                                         <div class="col-md-12 mb-20">
                                             <label>Địa Chỉ Email</label>
@@ -87,14 +88,14 @@
                                         </div>
                                         <div class="col-md-12 mb-20">
                                             <label>Ngaỳ Sinh</label>
-                                            <input class="mb-0" type="text" placeholder="Ngày Sinh" name="ngaysinh">
+                                            <input class="mb-0" type="date" placeholder="Ngày Sinh" name="ngay_sinh">
                                         </div>
                                         <div class="col-md-6 mb-20">
                                             <label>Mật Khẩu</label>
-                                            <input class="mb-0" type="password" placeholder="Mật khẩu" name="matkhau">
+                                            <input class="mb-0" type="password" placeholder="Mật khẩu" name="mat_khau">
                                         </div>
-                                        <input type="radio" id="sex" name="gioitinh" value="1" />Nữ
-<input type="radio" id="sex" name="gioitinh" value="0" />Nam
+                                        <input type="radio" id="sex" name="gioi_tinh" value="1" />Nữ
+                                        <input type="radio" id="sex" name="gioi_tinh" value="0" />Nam
                                     
                                         <div class="col-12">
                                             <button class="register-button mt-0">Đăng Ký</button>
