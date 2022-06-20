@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('tin_tuc', function (Blueprint $table) {
-            $table->unsignedInteger('ma_admin')->after('noi_dung');
-            $table->foreign('ma_admin')
+        Schema::table('news', function (Blueprint $table) {
+            $table->unsignedInteger('admin_id')->after('content');
+            $table->foreign('admin_id')
                   ->references('id')->on('admin')
                   ->onDelete('cascade');
         });
@@ -28,7 +28,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('tin_tuc', function (Blueprint $table) {
+        Schema::table('news', function (Blueprint $table) {
             //
         });
     }

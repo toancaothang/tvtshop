@@ -15,15 +15,18 @@ return new class extends Migration
     {
         Schema::create('admin', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('ten_tk',20)->unique(); 
+            $table->string('username',20)->unique();
             $table->string('email')->unique();
-            $table->string('mat_khau');
-            $table->string('ho_ten');      
-            $table->string('ngay_sinh');
-            $table->text('dia_chi');
-            $table->integer('sdt');
-            $table->integer('gioi_tinh');
-            $table->integer('trang_thai')->default(0);
+            $table->string('password');
+            $table->string('full_name');   
+            $table->string('avatar')->nullable();    
+            $table->string('birth');
+            $table->text('address');
+            $table->integer('phone_number');
+            $table->integer('status')->default(0);
+            $table->integer('gender');
+            $table->timestamp('email_verified_at')->nullable();
+            $table->rememberToken()->default(Null);
             $table->softDeletes();
             $table->timestamps();
         });

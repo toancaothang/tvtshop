@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class BinhLuan extends Model
 {
     use HasFactory;
-    protected $table = 'binh_luan';
+    protected $table = 'comment';
 }

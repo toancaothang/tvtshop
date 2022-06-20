@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('anh_tintuc', function (Blueprint $table) {
-            $table->unsignedInteger('ma_tintuc')->after('id');
-            $table->foreign('ma_tintuc')
-                  ->references('id')->on('tin_tuc')
+        Schema::table('news_image', function (Blueprint $table) {
+            $table->unsignedInteger('news_id')->after('id');
+            $table->foreign('news_id')
+                  ->references('id')->on('news')
                   ->onDelete('cascade');
         });
     }
@@ -28,7 +28,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('anh_tintuc', function (Blueprint $table) {
+        Schema::table('news_image', function (Blueprint $table) {
             //
         });
     }

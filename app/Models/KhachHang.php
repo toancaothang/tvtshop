@@ -1,25 +1,31 @@
 <?php
 
 namespace App\Models;
-
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Auth\User as Authenticatable; 
-class KhachHang extends Authenticatable
+use Illuminate\Foundation\Auth\User as Authenticatable;
+class KhachHang extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory;
-    protected $table = 'khach_hang';
+    protected $table = 'user';
     protected $fillable = [
-        'ten_tk',
-        'mat_khau',
+        'username',
+        'password',
         'email',
-        'gioi_tinh',
-        'dia_chi',
-        'ho_ten',
-        'sdt',
-        'trang_thai',
-        'ngay_sinh'
+        'address',
+        'birth',
+        'gender',
+        'status',
+        'remember_token',
     ];
+     /**
+     * Get the password for the user.
+     *
+     * @return string
+     */
+   
+
+    
 }
 
-//dang ky em tu tao 

@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class CTHoaDon extends Model
 {
     use HasFactory;
-    protected $table = 'ct_hoa_don';
+    protected $table = 'bill_details';
 }

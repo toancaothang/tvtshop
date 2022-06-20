@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class NSX extends Model
 {
     use HasFactory;
-    protected $table = 'nha_sx';
+    protected $table = 'producer';
 }

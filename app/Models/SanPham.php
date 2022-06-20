@@ -8,5 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class SanPham extends Model
 {
     use HasFactory;
-    protected $table = 'san_pham';
+    protected $table = 'product';
+    public function getModelProduct(){
+        return $this->hasOne(ModelSP::class,'model_id','id');
+    }
 }

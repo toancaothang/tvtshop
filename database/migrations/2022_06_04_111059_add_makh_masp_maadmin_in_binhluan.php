@@ -13,18 +13,18 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('binh_luan', function (Blueprint $table) {
-            $table->unsignedInteger('ma_kh')->after('noi_dung');
-            $table->foreign('ma_kh')
-                  ->references('id')->on('khach_hang')
+        Schema::table('comment', function (Blueprint $table) {
+            $table->unsignedInteger('user_id')->after('content');
+            $table->foreign('user_id')
+                  ->references('id')->on('user')
                   ->onDelete('cascade');
-                  $table->unsignedInteger('ma_admin')->after('noi_dung');
-                  $table->foreign('ma_admin')
+                  $table->unsignedInteger('admin_id')->after('content');
+                  $table->foreign('admin_id')
                         ->references('id')->on('admin')
                         ->onDelete('cascade');
-                        $table->unsignedInteger('ma_sp')->after('noi_dung');
-                        $table->foreign('ma_sp')
-                              ->references('id')->on('san_pham')
+                        $table->unsignedInteger('model_id')->after('content');
+                        $table->foreign('model_id')
+                              ->references('id')->on('product_model')
                               ->onDelete('cascade');
         });
     }
@@ -36,7 +36,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('BinhLuan', function (Blueprint $table) {
+        Schema::table('comment', function (Blueprint $table) {
             //
         });
     }

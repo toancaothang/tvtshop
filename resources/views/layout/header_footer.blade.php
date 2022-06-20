@@ -5,13 +5,14 @@
 <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>Đồ Án Website Bán Điện Thoại</title>
+        <title>TvT Shop - Website bán điện thoại chính hãng</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
  
-        <link rel="shortcut icon" type="image/x-icon" href="{{asset('images/favicon.png')}}">
+        <link rel="shortcut icon" type="image/x-icon" href="{{asset('images/logo.png')}}">
    
         <link rel="stylesheet" href="{{asset('css/material-design-iconic-font.min.css')}}">
+        <link rel="stylesheet" href="{{asset('css/profile.css')}}">
         
         <link rel="stylesheet" href="{{asset('css/font-awesome.min.css')}}">
     
@@ -69,16 +70,32 @@
                                 <div class="header-top-right">
                                     <ul class="ht-menu">
                                         <!-- Begin Setting Area -->
+                                        <li> 
+                                        @if(Auth::check()) 
+                                        <div class="ht-setting-trigger"><span>{{Auth::user()->full_name}}</span></div>
+                                        <div class="setting ht-setting">
+                                                <ul class="ht-setting-list" style="width:150px;">
+                                                <li><a href="{{route('hienthi_profile')}}" style="color:black;">Tài Khoản Của Tôi</a></li>
+                                                   <form action="{{route('xuly_dangxuat')}}" method="POST"> 
+                                                        @csrf
+                                                        <button type="submit" style="border:none;background-color:white; font-size:12px; color:black;" >Đăng Xuất </button>
+                                                    </form>
+                                                 </ul>
+                                                
+                                            </div>
+                                        </li>
+                                            @endif
                                         <li>
                                             <div class="ht-setting-trigger"><span>Cài Đặt</span></div>
                                             <div class="setting ht-setting">
                                                 <ul class="ht-setting-list">
-                                                    <li><a href="login-register.html">Tài Khoản Của Tôi</a></li>
-                                                    <li><a href="checkout.html">Thanh Toán</a></li>
-                                                    <li><a href="{{route('hienthi_dangky')}}">Đăng Nhập</a></li>
+                                                  <li><a href="{{route('hienthi_dangky')}}" style="color:black;">Đăng Nhập</a></li>
+                                                    
                                                 </ul>
+            
                                             </div>
                                         </li>
+                                  
                                         <!-- Setting Area End Here -->
                                         <!-- Begin Currency Area -->
                                         <li>
@@ -99,7 +116,7 @@
                                             <div class="language ht-language">
                                                 <ul class="ht-setting-list">
                                                     <li class="active"><a href="#"><img src="{{url('public/site')}}/images/menu/flag-icon/1.jpg" alt="">English</a></li>
-                                                    <li><a href="#"><img src="{{url('public/site')}}/images/menu/flag-icon/2.jpg" alt="">Français</a></li>
+                      
                                                 </ul>
                                             </div>
                                         </li>
@@ -119,8 +136,8 @@
                             <!-- Begin Header Logo Area -->
                             <div class="col-lg-3">
                                 <div class="logo pb-sm-30 pb-xs-30">
-                                    <a href="index.html">
-                                        <img src="images/menu/logo/2.jpg" alt="">
+                                    <a href="{{route('htsp_trangchu')}}">
+                                        <img src=" {{asset('images/menu/logo/logo.png')}}" alt="">
                                     </a>
                                 </div>
                             </div>
@@ -135,27 +152,32 @@
                                         <option value="0">Samsung</option>  
                                         <option value="0">Xiaomi</option>  
                                         <option value="0">Asus</option>  
-                                        <option value="0">Mobistar</option>                         
+                                        <option value="0">Iphone</option>                         
                                         
                                     </select>
                                     <input type="text" placeholder="Nhập Vào...">
                                     <button class="li-btn" type="submit"><i class="fa fa-search"></i></button>
                                 </form>
                                 <!-- Header Middle Searchbox Area End Here -->
+                                @php 
+                                        $wishcount=(App\Models\WishList::count());
+                                        @endphp
                                 <!-- Begin Header Middle Right Area -->
                                 <div class="header-middle-right">
                                     <ul class="hm-menu">
                                         <!-- Begin Header Middle Wishlist Area -->
-                                        <li class="hm-wishlist">
-                                            <a href="wishlist.html">
-                                                <span class="cart-item-count wishlist-item-count">0</span>
-                                                <i class="fa fa-heart-o"></i>
+                                        <li class="hm-wishlist"  >
+                                            <a href="{{route('hienthi_wishlist')}}" >
+                                            @if(Auth::check())
+                                                <span class="cart-item-count wishlist-item-count" style="color:white;background-color:deeppink;"> {{$wishcount}} </span>
+                                                @endif
+                                                <i class="fa fa-heart-o" ></i>
                                             </a>
                                         </li>
                                         <!-- Header Middle Wishlist Area End Here -->
                                         <!-- Begin Header Mini Cart Area -->
                                         <li class="hm-minicart">
-                                            <div class="hm-minicart-trigger">
+                                            <div class="hm-minicart-trigger" >
                                                 <span class="item-icon"></span>
                                                 <span class="item-text">000
                                                     <span class="cart-item-count">2</span>
@@ -169,8 +191,8 @@
                                                             <img src="images/product/small-size/1.jpg" alt="cart products">
                                                         </a>
                                                         <div class="minicart-product-details">
-                                                            <h6><a href="single-product.html">Aenean eu tristique</a></h6>
-                                                            <span>£40 x 1</span>
+                                                            <h6><a href="single-product.html">Demo</a></h6>
+                                                            <span>0</span>
                                                         </div>
                                                         <button class="close">
                                                             <i class="fa fa-close"></i>
@@ -181,21 +203,21 @@
                                                             <img src="images/product/small-size/2.jpg" alt="cart products">
                                                         </a>
                                                         <div class="minicart-product-details">
-                                                            <h6><a href="single-product.html">Aenean eu tristique</a></h6>
-                                                            <span>£40 x 1</span>
+                                                            <h6><a href="single-product.html">Demo</a></h6>
+                                                            <span>0</span>
                                                         </div>
                                                         <button class="close">
                                                             <i class="fa fa-close"></i>
                                                         </button>
                                                     </li>
                                                 </ul>
-                                                <p class="minicart-total">SUBTOTAL: <span>£80.00</span></p>
+                                                <p class="minicart-total">Tổng Cộng <span>0</span></p>
                                                 <div class="minicart-button">
                                                     <a href="checkout.html" class="li-button li-button-dark li-button-fullwidth li-button-sm">
-                                                        <span>View Full Cart</span>
+                                                        <span>Xem Giỏ Hàng</span>
                                                     </a>
                                                     <a href="checkout.html" class="li-button li-button-fullwidth li-button-sm">
-                                                        <span>Checkout</span>
+                                                        <span>Thanh Toán</span>
                                                     </a>
                                                 </div>
                                             </div>
@@ -222,112 +244,29 @@
                                            <li class="dropdown-holder"><a href="index.html">Trang Chủ</a>
                                                
                                            </li>
-                                           <li class="megamenu-holder"><a href="shop-left-sidebar.html">Shop</a>
+                                           <li class="megamenu-holder"><a href="shop-left-sidebar.html">Các Mẫu Điện Thoại</a>
                                                <ul class="megamenu hb-megamenu">
-                                                   <li><a href="shop-left-sidebar.html">Xem Sản Phẩm</a>
-                                                       <ul>
-                                                           <li><a href="shop-3-column.html">Tất Cả Sản Phẩm</a></li>
-                                                          
-                                                       </ul>
-                                                   </li>
-                                                   <li><a href="single-product-gallery-left.html">Chi Tiết Sản Phẩm</a>
-                                                       <ul>
-                                                           <li><a href="single-product-carousel.html">Single Product Carousel</a></li>
-                                                           <li><a href="single-product-gallery-left.html">Single Product Gallery Left</a></li>
-                                                           <li><a href="single-product-gallery-right.html">Single Product Gallery Right</a></li>
-                                                           <li><a href="single-product-tab-style-top.html">Single Product Tab Style Top</a></li>
-                                                           <li><a href="single-product-tab-style-left.html">Single Product Tab Style Left</a></li>
-                                                           <li><a href="single-product-tab-style-right.html">Single Product Tab Style Right</a></li>
-                                                       </ul>
-                                                   </li>
-                                                   <li><a href="single-product.html">Single Products</a>
-                                                       <ul>
-                                                           <li><a href="single-product.html">Single Product</a></li>
-                                                           <li><a href="single-product-sale.html">Single Product Sale</a></li>
-                                                           <li><a href="single-product-group.html">Single Product Group</a></li>
-                                                           <li><a href="single-product-normal.html">Single Product Normal</a></li>
-                                                           <li><a href="single-product-affiliate.html">Single Product Affiliate</a></li>
-                                                       </ul>
-                                                   </li>
+                                                
+                                              
                                                </ul>
                                            </li>
-                                           <li class="dropdown-holder"><a href="blog-left-sidebar.html">Blog</a>
+                                           <li class="dropdown-holder"><a href="blog-left-sidebar.html">Danh Mục Sản Phẩm</a>
                                                <ul class="hb-dropdown">
-                                                   <li class="sub-dropdown-holder"><a href="blog-left-sidebar.html">Blog Grid View</a>
-                                                       <ul class="hb-dropdown hb-sub-dropdown">
-                                                           <li><a href="blog-2-column.html">Blog 2 Column</a></li>
-                                                           <li><a href="blog-3-column.html">Blog 3 Column</a></li>
-                                                           <li><a href="blog-left-sidebar.html">Grid Left Sidebar</a></li>
-                                                           <li><a href="blog-right-sidebar.html">Grid Right Sidebar</a></li>
-                                                       </ul>
+                                                     @foreach($category as $value)
+                                                   <li class="sub-dropdown-holder"><a href="{{route('hienthi_danhmuc',['id'=>$value->id])}}"> {{$value->category_name}}</a>
+                                                       
                                                    </li>
-                                                   <li class="sub-dropdown-holder"><a href="blog-list-left-sidebar.html">Blog List View</a>
-                                                       <ul class="hb-dropdown hb-sub-dropdown">
-                                                           <li><a href="blog-list.html">Blog List</a></li>
-                                                           <li><a href="blog-list-left-sidebar.html">List Left Sidebar</a></li>
-                                                           <li><a href="blog-list-right-sidebar.html">List Right Sidebar</a></li>
-                                                       </ul>
-                                                   </li>
-                                                   <li class="sub-dropdown-holder"><a href="blog-details-left-sidebar.html">Blog Details</a>
-                                                       <ul class="hb-dropdown hb-sub-dropdown">
-                                                           <li><a href="blog-details-left-sidebar.html">Left Sidebar</a></li>
-                                                           <li><a href="blog-details-right-sidebar.html">Right Sidebar</a></li>
-                                                       </ul>
-                                                   </li>
-                                                   <li class="sub-dropdown-holder"><a href="blog-gallery-format.html">Blog Format</a>
-                                                       <ul class="hb-dropdown hb-sub-dropdown">
-                                                           <li><a href="blog-audio-format.html">Blog Audio Format</a></li>
-                                                           <li><a href="blog-video-format.html">Blog Video Format</a></li>
-                                                           <li><a href="blog-gallery-format.html">Blog Gallery Format</a></li>
-                                                       </ul>
-                                                   </li>
+                                                   @endforeach
+                                                  
+                                                 
                                                </ul>
                                            </li>
-                                           <li class="megamenu-static-holder"><a href="index.html">Pages</a>
-                                               <ul class="megamenu hb-megamenu">
-                                                   <li><a href="blog-left-sidebar.html">Blog Layouts</a>
-                                                       <ul>
-                                                           <li><a href="blog-2-column.html">Blog 2 Column</a></li>
-                                                           <li><a href="blog-3-column.html">Blog 3 Column</a></li>
-                                                           <li><a href="blog-left-sidebar.html">Grid Left Sidebar</a></li>
-                                                           <li><a href="blog-right-sidebar.html">Grid Right Sidebar</a></li>
-                                                           <li><a href="blog-list.html">Blog List</a></li>
-                                                           <li><a href="blog-list-left-sidebar.html">List Left Sidebar</a></li>
-                                                           <li><a href="blog-list-right-sidebar.html">List Right Sidebar</a></li>
-                                                       </ul>
-                                                   </li>
-                                                   <li><a href="blog-details-left-sidebar.html">Blog Details Pages</a>
-                                                       <ul>
-                                                           <li><a href="blog-details-left-sidebar.html">Left Sidebar</a></li>
-                                                           <li><a href="blog-details-right-sidebar.html">Right Sidebar</a></li>
-                                                           <li><a href="blog-audio-format.html">Blog Audio Format</a></li>
-                                                           <li><a href="blog-video-format.html">Blog Video Format</a></li>
-                                                           <li><a href="blog-gallery-format.html">Blog Gallery Format</a></li>
-                                                       </ul>
-                                                   </li>
-                                                   <li><a href="index.html">Other Pages</a>
-                                                       <ul>
-                                                           <li><a href="login-register.html">My Account</a></li>
-                                                           <li><a href="checkout.html">Checkout</a></li>
-                                                           <li><a href="compare.html">Compare</a></li>
-                                                           <li><a href="wishlist.html">Wishlist</a></li>
-                                                           <li><a href="shopping-cart.html">Shopping Cart</a></li>
-                                                       </ul>
-                                                   </li>
-                                                   <li><a href="index.html">Other Pages 2</a>
-                                                       <ul>
-                                                           <li><a href="contact.html">Contact</a></li>
-                                                           <li><a href="about-us.html">About Us</a></li>
-                                                           <li><a href="faq.html">FAQ</a></li>
-                                                           <li><a href="404.html">404 Error</a></li>
-                                                       </ul>
-                                                   </li>
-                                               </ul>
+                                           <li class="megamenu-static-holder"><a href="index.html">Tin Tức</a>
+                                               
                                            </li>
-                                           <li><a href="about-us.html">About Us</a></li>
-                                           <li><a href="contact.html">Contact</a></li>
-                                           <li><a href="shop-left-sidebar.html">Smartwatch</a></li>
-                                           <li><a href="shop-left-sidebar.html">Accessories</a></li>
+                                           <li><a href="about-us.html">Về Chúng Tôi</a></li>
+                                           <li><a href="contact.html">Thông Tin Liên Hệ</a></li>
+                                          
                                        </ul>
                                    </nav>
                                </div>
@@ -364,11 +303,11 @@
                                 <div class="col-lg-3 col-md-6 col-sm-6 pb-sm-55 pb-xs-55">
                                     <div class="li-shipping-inner-box">
                                         <div class="shipping-icon">
-                                            <img src="images/shipping-icon/1.png" alt="Shipping Icon">
+                                            <img src="{{asset('images/shipping-icon/1.png')}}" alt="Shipping Icon">
                                         </div>
                                         <div class="shipping-text">
-                                            <h2>Free Delivery</h2>
-                                            <p>And free returns. See checkout for delivery dates.</p>
+                                            <h2>Miễn Phí Vận Chuyển</h2>
+                                            <p>Đổi Trả Miễn Phí</p>
                                         </div>
                                     </div>
                                 </div>
@@ -377,11 +316,11 @@
                                 <div class="col-lg-3 col-md-6 col-sm-6 pb-sm-55 pb-xs-55">
                                     <div class="li-shipping-inner-box">
                                         <div class="shipping-icon">
-                                            <img src="images/shipping-icon/2.png" alt="Shipping Icon">
+                                            <img src="{{asset('images/shipping-icon/2.png')}}" alt="Shipping Icon">
                                         </div>
                                         <div class="shipping-text">
-                                            <h2>Safe Payment</h2>
-                                            <p>Pay with the world's most popular and secure payment methods.</p>
+                                            <h2>Thanh Toán An Toàn</h2>
+                                            <p>Thanh Toán Với Các Hình Thức An Toàn Nhất.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -390,11 +329,11 @@
                                 <div class="col-lg-3 col-md-6 col-sm-6 pb-xs-30">
                                     <div class="li-shipping-inner-box">
                                         <div class="shipping-icon">
-                                            <img src="images/shipping-icon/3.png" alt="Shipping Icon">
+                                            <img src="{{asset('images/shipping-icon/3.png')}}" alt="Shipping Icon">
                                         </div>
                                         <div class="shipping-text">
-                                            <h2>Shop with Confidence</h2>
-                                            <p>Our Buyer Protection covers your purchasefrom click to delivery.</p>
+                                            <h2>Cam Kết Chính Hãng</h2>
+                                            <p>Sản Phẩm được cam kết chính hãng từ các nhà sản xuất </p>
                                         </div>
                                     </div>
                                 </div>
@@ -403,11 +342,11 @@
                                 <div class="col-lg-3 col-md-6 col-sm-6 pb-xs-30">
                                     <div class="li-shipping-inner-box">
                                         <div class="shipping-icon">
-                                            <img src="images/shipping-icon/4.png" alt="Shipping Icon">
+                                            <img src="{{asset('images/shipping-icon/4.png')}}" alt="Shipping Icon">
                                         </div>
                                         <div class="shipping-text">
-                                            <h2>24/7 Help Center</h2>
-                                            <p>Have a question? Call a Specialist or chat online.</p>
+                                            <h2>Tư Vấn Tận Tình</h2>
+                                            <p>Tận tình tư vấn các mẫu sản phẩm và giải đáp các thắc mắc</p>
                                         </div>
                                     </div>
                                 </div>
@@ -426,7 +365,7 @@
                                 <!-- Begin Footer Logo Area -->
                                 <div class="col-lg-4 col-md-6">
                                     <div class="footer-logo">
-                                        <img src="images/menu/logo/1.jpg" alt="Footer Logo">
+                                        <img src="{{asset('images/menu/logo/logo.png')}}" alt="Footer Logo">
                                         <p class="info">
                                             We are a team of designers and developers that create high quality HTML Template & Woocommerce, Shopify Theme.
                                         </p>

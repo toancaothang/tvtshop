@@ -451,7 +451,7 @@ textarea:focus {
 /*----------------------------------------*/
 /*Home One | Slider Background Image*/
 .bg-1, .bg-2, .bg-3 {
-	background-image: url(images/slider/1.jpg);
+	background-image: url(images/slider/2147765.jpg);
 	background-repeat: no-repeat;
 	background-position: center center;
 	background-size: cover;
@@ -459,10 +459,10 @@ textarea:focus {
 	width: 100%;
 }
 .bg-2 {
-	background-image: url(images/slider/2.jpg);
+	background-image: url(images/slider/galaxy-s-22-ultra.jpg);
 }
 .bg-3 {
-	background-image: url(images/slider/3.jpg);
+	background-image: url(images/slider/galaxy-s20-ultra-lo-phien-ban-mau-trang-truoc-khi-ca-ngay-ra-mat-tai-trung-quoc-xtmobile-banner.jpg);
 }
 /*Home Two | Slider Background Image*/
 .bg-4, .bg-5, .bg-6 {
@@ -2028,11 +2028,13 @@ textarea:focus {
 }
 .slider-content {
 	position: absolute;
+	color:white;
 	padding-left: 58px;
 }
 .slider-content > h5 {
 	font-weight: 400;
 	line-height: 18px;
+	color:white;
 	text-transform: capitalize;
 	max-width: 280px;
 	margin-bottom: 10px;
@@ -2043,6 +2045,7 @@ textarea:focus {
 .slider-content > h2 {
 	font-size: 35px;
 	font-weight: 400;
+	color:white;
 	text-transform: capitalize;
 	max-width: 310px;
 	margin-bottom: 20px;
@@ -2050,6 +2053,7 @@ textarea:focus {
 .slider-content > h3 {
 	font-size: 18px;
 	font-weight: 400;
+	color:white;
 	line-height: 24px;
 	margin-bottom: 64px;
 }
@@ -2066,7 +2070,7 @@ textarea:focus {
 	font-size: 16px;
 	padding: 20px 0;
 	color: #fff;
-	background-image: url(images/static-top/1.jpg);
+	background-color:#1256A1;
 	background-size: cover;
 	margin-top: 20px;
 }
@@ -2236,7 +2240,7 @@ textarea:focus {
 	color: #fed700;
 }
 .rating li i {
-  font-size: 12px;
+  font-size: 20px;
   color: #fed700;
 }
 .rating li.no-star i {
@@ -2378,6 +2382,7 @@ textarea:focus {
 }
 .add-actions-link li.add-cart.active a {
 	color: #242424;
+	font-size:11px;
 }
 .add-actions-link li:hover a, 
 .add-actions-link li.add-cart:hover a {
@@ -2655,7 +2660,7 @@ textarea:focus {
 /*  2.7 Li's Static Home Banner
 /*----------------------------------------*/
 .li-static-home-image {
-	background-image: url(images/bg-banner/1.jpg);
+	background-image: url(images/bg-banner/25f85601-a98c-4283-a77e-887e5e85807f___d42a8f07dd542a306c582345181ce344.webp);
 	background-size: cover;
 	height: 400px;
 	background-repeat: no-repeat;
@@ -2668,7 +2673,7 @@ textarea:focus {
 }
 .li-static-home-content > p {
 	margin: 0;
-	color: #242424;
+	color: white;
 	font-size: 14px;
 	margin-bottom: 20px;
 	font-weight: 400;
@@ -2684,7 +2689,7 @@ textarea:focus {
 	letter-spacing: -.025em;
 }
 .li-static-home-content > h2 {
-	color: #242424;
+	color: white;
 	font-weight: 400;
 	font-size: 36px;
 	line-height: 30px;
@@ -2692,7 +2697,7 @@ textarea:focus {
 }
 .li-static-home-content > p.schedule{
 	font-size: 14px;
-	color: #242424;
+	color: white;
 	margin-top: 20px;
 	margin-bottom: 53px;
 }
@@ -2974,7 +2979,7 @@ text-align: center;
 /*  03. Home Page Two
 /*----------------------------------------*/
 .li-header-4 {
-	background: #293a6c;
+	background: #1256A1;
 }
 .li-header-4 .header-top {
 	background: transparent;
@@ -2994,7 +2999,7 @@ text-align: center;
 	background: #ffffff;
 }
 .li-header-4 .header-bottom {
-	background: #293a6c;
+	background: #1256A1;
 	border-top: 1px solid rgba(255,255,255,.1);
 	color: #ffffff;
 }
@@ -5194,7 +5199,7 @@ span.required {
 	color: #000;
 }
 .feedback-area .br-theme-fontawesome-stars .br-widget a {
-	font-size: 14px;
+	font-size: 20px;
 }
 .feedback-area .br-theme-fontawesome-stars .br-widget a.br-active:after {
   color: #fed700;
@@ -5431,6 +5436,15 @@ span.required {
 .small-version {
   display: none;
 }
+.show-thongso-tittle{
+	font-size:15px;
+	line-height: 2.0;
+}
+.show-thongso{
+	font-size:15px;
+}
+
+
 /*----------------------------------------------------------------------------------------------------*/
 /*------------------------------------------> The End <-----------------------------------------------*/
 /*----------------------------------------------------------------------------------------------------*/

@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class AnhTinTuc extends Model
 {
     use HasFactory;
-    protected $table = 'anh_tintuc';
+    protected $table = 'news_image';
 }

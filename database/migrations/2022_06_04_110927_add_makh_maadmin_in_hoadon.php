@@ -13,13 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('hoa_don', function (Blueprint $table) {
-            $table->unsignedInteger('ma_kh')->after('id');
-            $table->foreign('ma_kh')
-                  ->references('id')->on('khach_hang')
+        Schema::table('bill', function (Blueprint $table) {
+            $table->unsignedInteger('user_id')->after('id');
+            $table->foreign('user_id')
+                  ->references('id')->on('user')
                   ->onDelete('cascade');
-                  $table->unsignedInteger('ma_admin')->after('id');
-                  $table->foreign('ma_admin')
+                  $table->unsignedInteger('admin_id')->after('id');
+                  $table->foreign('admin_id')
                         ->references('id')->on('admin')
                         ->onDelete('cascade');
         });
@@ -32,7 +32,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('HoaDon', function (Blueprint $table) {
+        Schema::table('bill', function (Blueprint $table) {
             //
         });
     }
