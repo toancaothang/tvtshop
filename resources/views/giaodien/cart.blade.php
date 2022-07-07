@@ -1,5 +1,13 @@
 @extends('layout/header_footer')
 @section('main')
+<script>
+ $(document).ready(function(){
+$(".total_after").change(function(e) {
+    e.preventDefault();
+   alert("hello");
+});});
+</script>
+
 <!--<script>
 $(document).ready(function()
 {
@@ -127,9 +135,9 @@ success: function(response){
                                         <div class="coupon-all">
                                         <div class="coupon2">
                                         <input id="total_after" class="total" name="total_after" value="{{$total}}"  type="hidden">
-                                        <button type="submit" class="buttonupdate" style="border:none;background-color: #333333;margin-top: -5px;color: white;height: 42px;border-radius: 2px;"> <a href="{{route('delete_all_cart')}}" style="color:#FFFFFF;"> Cập Nhật Giỏ Hàng </a></button>
+                                        <button type="submit" class="buttonupdate" style="border:none;background-color: #0382C7;margin-top: -5px;color: white;height: 42px;border-radius: 2px;font-weight:bold;"> <a style="color:#FFFFFF;"> Cập Nhật Giỏ Hàng </a></button>
                                         </form>
-                                        <button style="border:none;background-color:#333333;margin-bottom:5px;color:white;height:42px;border-radius:2px;"> <a href="{{route('delete_all_cart')}}" style="color:#FFFFFF;"> Xóa Tất Cả Sản Phẩm </a></button>      
+                                        <button style="border:none;background-color:#0382C7;margin-bottom:5px;color:white;height:42px;border-radius:2px;font-weight:bold;"> <a href="{{route('delete_all_cart')}}" style="color:#FFFFFF;"> Xóa Tất Cả Sản Phẩm </a></button>      
                                         </div>
                                                 
                                                 
@@ -161,7 +169,7 @@ success: function(response){
                                                 <li>Giảm Giá : <span>{{number_format($total_coupon)}} <u> đ</u></span></li>
                                                 
                                               <li>Tổng Tiền: <span>{{number_format($total-$total_coupon)}} <u> đ</u></span></li>
-                                              <input id="total_after" class="total" name="total_after" value="{{$total-$total_coupon}}"  type="hidden">
+                                              <input id="total_after" class="total" name="total_after" value="{{$total-$total_coupon}}"  type="text">
                                             </ul>
                                             
                                             <div style="background-image: url(images/menu/logo/coupon2.jpg);background-size:cover; width:320px;height:100px;margin-top:5px; box-shadow: 1px 2px 3px 0px;">
@@ -171,10 +179,10 @@ success: function(response){
                                             @endforeach
                                             @else
                                             <li>Tổng Tiền: <span>{{number_format($total)}} <u> đ</u></span></li>
-                                            <input id="total_after" class="total" name="total_after" value="{{$total}}"  type="hidden">
+                                            <input id="total_after" class="total" name="total_after" value="{{$total}}"  type="text">
                                             </ul>
                                             @endif
-                                            <button style="border:none;background-color:#333333;color:white;margin-top:5px;height:42px;border-radius:2px;width:200px;" type="submit"> Thanh Toán    </button> 
+                                            <button style="border:none;background-color:#333333;color:white;margin-top:5px;height:42px;border-radius:2px;width:200px;font-weight:bold;" type="submit"> Thanh Toán    </button> 
                                         </div>
                                         <form>
                                     </div>
@@ -209,4 +217,6 @@ success: function(response){
                 </div>
             </div>
             <!--Shopping Cart Area End-->
+
+
 @stop()

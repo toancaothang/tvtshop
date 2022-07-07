@@ -274,8 +274,7 @@ $.ajax({
                                                                 @php $exsale=$value->getpro->first()->sale*$value->getpro->first()->price/100; @endphp
                                                                 @csrf
                                                                <span class="new-price new-price-2" id="price-{{ $value->id }}">{{number_format($value->getpro->first()->price-$exsale)}} <u>đ</u>
-                                                               
-                                                               <input type="hidden" value=" <?php echo $value->getpro->first()->id;?>" name="productid" />
+                                                             <input type="hidden" value=" <?php echo $value->getpro->first()->id;?>" name="productid" />
                                                             </span>
                                                                @if($value->getpro->first()->sale)
                                                              <span id="salefix-{{ $value->id }}">
@@ -495,7 +494,7 @@ $.ajax({
                                                                         
                                 @endforeach
                                                                         <input type="hidden" value="<?php echo $value->id?>" id="produm-{{ $value->id }}" class="produm"/> 
-                                                                        <input class="cart-plus-minus-box " value="1" type="text" name="quaninput">
+                                                                        <input class="cart-plus-minus-box " value="1" type="hidden" name="quaninput">
                                                                 </h5>
                                                                 </div>
                                                             </div>

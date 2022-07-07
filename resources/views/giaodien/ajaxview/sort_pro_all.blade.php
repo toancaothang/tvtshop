@@ -1,157 +1,45 @@
-@extends('layout/header_footer')
-@section('main')
-<head>
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
-  <link rel="stylesheet" href="/resources/demos/style.css">
-  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-  <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
-  <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
-
-    <script src="~/Scripts/jquery.validate.js"></script>
-    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script> 
-</head>
-<script >
-  $(document).ready(function(){
-    $('#sortpro').change(function () {
-   var sort=$(this).val();
+<head> 
+ <link rel="shortcut icon" type="image/x-icon" href="{{asset('images/menu/logo/logo.png')}}">
    
-    $.ajax({
-method:"get",
-dataType: "html",
-data:{sort:sort},
-success:function(data){
-    $('.ajaxupdate').html(data);
-}
-    });
+   <link rel="stylesheet" href="{{asset('css/material-design-iconic-font.min.css')}}">
+   <link rel="stylesheet" href="{{asset('css/profile.css')}}">
+   
+   <link rel="stylesheet" href="{{asset('css/font-awesome.min.css')}}">
 
+   <link rel="stylesheet" href="{{asset('css/fontawesome-stars.css')}}">
+
+   <link rel="stylesheet" href="{{asset('css/meanmenu.css')}}">
+
+   <link rel="stylesheet" href="{{asset('css/owl.carousel.min.css')}}">
+
+   <link rel="stylesheet" href="{{asset('css/slick.css')}}">
+
+   <link rel="stylesheet" href="{{asset('css/animate.css')}}">
+
+   <link rel="stylesheet" href="{{asset('css/jquery-ui.min.css')}}">
+
+   <link rel="stylesheet" href="{{asset('css/venobox.css')}}">
  
-}); 
+   <link rel="stylesheet" href="{{asset('css/nice-select.css')}}">
 
-});
-</script>
-<!--xu ly bien -->
-<script>
-  $(document).ready(function(){
-$('.update-bienthe').click(function(){
- var bienthes=$(this).data("type");
- var produm = $('#produm-' + $(this).data('id') ). change (). val();
- const price=$(this).data('id');
- $.ajax({
-    
-type:'get',
-dataType:'html',
-url:'<?php echo url('/selectbienthe');?>',
-data: "bienthes="+ bienthes +"&produm="+produm,
-success:function (response){
-    console.log(response);
-    $('#price-'+price).html(response);
-    $('#price1-'+price).html(response);
-    $('#price2-'+price).html(response);
-}
-}); 
-$.ajax({
-    
-    type:'get',
-    dataType:'html',
-    url:'<?php echo url('/selectwish');?>',
-    data: "bienthes="+ bienthes +"&produm="+produm,
-    success:function (response){
-        console.log(response);
-        $('#wish-'+price).html(response); 
-        $('#wish1-'+price).html(response); 
-        $('#wish2-'+price).html(response); 
-    }
-    }); 
-$.ajax({
-    
-    type:'get',
-    dataType:'html',
-    url:'<?php echo url('/selectsalecate');?>',
-    data: "bienthes="+ bienthes +"&produm="+produm,
-    success:function (response){
-        console.log(response);
-        $('#salefix-'+price).html(response); 
-        $('#salefix1-'+price).html(response);
-        $('#salefix2-'+price).html(response);
-    }
-    }); 
-    $.ajax({
-    
-    type:'get',
-    dataType:'html',
-    url:'<?php echo url('/selectcompare');?>',
-    data: "bienthes="+ bienthes +"&produm="+produm,
-    success:function (response){
-        console.log(response);
-        $('#compares-'+price).html(response);
-        $('#compares1-'+price).html(response);
-        $('#compares2-'+price).html(response);
-    }
-    }); 
-    
-});
+   <link rel="stylesheet" href="{{asset('css/magnific-popup.css')}}">
 
-  });
-    </script>
+   <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
 
-            <!-- Li's Breadcrumb Area End Here -->
-            <!-- Begin Li's Content Wraper Area -->
-            <div class="content-wraper pt-60 pb-60">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <!-- Begin Li's Banner Area -->
-                            <div class="single-banner shop-page-banner">
-                                <a href="#">
-                                <img src="{{asset('images/bg-banner/1.jpg')}}" alt="Li's Static Banner">
-                                </a>
-                            </div>
-                            <!-- Li's Banner Area End Here -->
-                            <!-- shop-top-bar start -->
-                            <div class="shop-top-bar mt-30">
-                                <div class="shop-bar-inner">
-                                    <div class="product-view-mode">
-                                        <!-- shop-item-filter-list start -->
-                                        <ul class="nav shop-item-filter-list" role="tablist">
-                                            <li class="active" role="presentation"><a aria-selected="true" class="active show" data-toggle="tab" role="tab" aria-controls="grid-view" href="#grid-view"><i class="fa fa-th"></i></a></li>
-                                            <li role="presentation"><a data-toggle="tab" role="tab" aria-controls="list-view" href="#list-view"><i class="fa fa-th-list"></i></a></li>
-                                        </ul>
-                                        <!-- shop-item-filter-list end -->
-                                    </div>
-                                    <div class="toolbar-amount">
-                                        <span>Đang Hiển Thị </span>
-                                    </div>
-                                </div>
-                               <!-- product-select-box start -->
-                                
-                               <div class="product-select-box">
-                                    <div class="product-short">
-                                    
-                                       <p>Sắp xếp theo:</p>
-                                       <form id="softproform">
-                                       <select class="nice-select" name="sortpro" id="sortpro">
-                                       <option value="">Chọn Sắp Xếp</option>
-                                       <option value="toprate" @if(isset($_GET['sortpro']) && $_GET['sortpro']=="toprate") selected="" @endif>Đánh Giá Cao Nhất</option>
-                                            <option value="lowtohigh" @if(isset($_GET['sortpro']) && $_GET['sortpro']=="lowtohigh") selected="" @endif >Giá Thấp Đến Cao</option>
-                                            <option value="hightolow" @if(isset($_GET['sortpro']) && $_GET['sortpro']=="hightolow") selected="" @endif >Giá Cao Đến Thấp</option>
-                                      <option value="lastest" @if(isset($_GET['sortpro']) && $_GET['sortpro']=="lastest") selected="" @endif >Mới Nhất</option>
-                                            <option value="old" @if(isset($_GET['sortpro']) && $_GET['sortpro']=="old") selected="" @endif >Cũ Nhât</option>
-                                            
-                                        </select>
-                                       
-                                    </div>
-                                    
-                                    </form>
-                                   
-                                </div>
-                               
-                                
-                                <!-- product-select-box end -->
-                                
-                            </div>
-                            <!-- shop-top-bar end -->
-                            <!-- shop-products-wrapper start -->
-                            <div class="shop-products-wrapper ajaxupdate">
+   <link rel="stylesheet" href="{{asset('css/helper.css')}}">
+
+   <link rel="stylesheet" href="{{asset('style.css')}}">
+
+   <link rel="stylesheet" href="{{asset('css/responsive.css')}}">
+   <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+   <script src="{{asset('js/vendor/modernizr-2.8.3.min.js')}}"></script>
+</head>
+ <!-- shop-products-wrapper start -->
+
+ <div class="shop-products-wrapper ajaxupdate">
                                 <div class="tab-content">
                                     <div id="grid-view" class="tab-pane fade active show" role="tabpanel">
                                         <div class="product-area shop-product-area">
@@ -474,5 +362,25 @@ $.ajax({
                 </div>
             </div>
             <!-- Content Wraper Area End Here -->
-    
-@stop()
+     <!-- jQuery-V1.12.4 -->
+     <script src="{{asset('js/vendor/jquery-1.12.4.min.js')}}"></script>
+        <script src="{{asset('js/vendor/popper.min.js')}}"></script>
+        <script src="{{asset('js/bootstrap.min.js')}}"></script>
+        <script src="{{asset('js/ajax-mail.js')}}"></script>
+        <script src="{{asset('js/jquery.meanmenu.min.js')}}"></script>
+        <script src="{{asset('js/wow.min.js')}}"></script>
+        <script src="{{asset('js/slick.min.js')}}"></script>
+        <script src="{{asset('js/owl.carousel.min.js')}}"></script>
+        <script src="{{asset('js/jquery.magnific-popup.min.js')}}"></script>
+        <script src="{{asset('js/isotope.pkgd.min.js')}}"></script>
+        <script src="{{asset('js/imagesloaded.pkgd.min.js')}}"></script>
+        <script src="{{asset('js/jquery.mixitup.min.js')}}"></script>
+        <script src="{{asset('js/jquery.countdown.min.js')}}"></script>
+        <script src="{{asset('js/jquery.counterup.min.js')}}"></script>
+        <script src="{{asset('js/waypoints.min.js')}}"></script>
+        <script src="{{asset('js/jquery.barrating.min.js')}}"></script>
+        <script src="{{asset('js/jquery-ui.min.js')}}"></script>
+        <script src="{{asset('js/venobox.min.js')}}"></script>
+        <script src="{{asset('js/jquery.nice-select.min.js')}}"></script>
+        <script src="{{asset('js/scrollUp.min.js')}}"></script>
+        <script src="{{asset('js/main.js')}}"></script>

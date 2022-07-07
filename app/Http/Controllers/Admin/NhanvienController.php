@@ -31,7 +31,14 @@ class NhanvienController extends Controller
         $KH->address = $req->diachi;
         $KH->gender = $req->gioitinh;
         $KH->phone_number = $req->sodienthoai;
-        $KH->avatar = $req->anhdaidien;
+        if($req->hasfile('anhdaidien'))
+        {
+       $file=$req->image;
+        $extention=$file->getClientOriginalExtension();
+        $filename=time().'.'.$extention;
+        $file->move('website/adminavatar/',$filename);
+        $KH->image =$filename;
+        }
         //$KH->anhdaidien = $req->anhdaidien;
         $KH->status = 1;
         $KH -> save();
@@ -63,8 +70,13 @@ class NhanvienController extends Controller
         if($req->anhdaidien == '')
         {
             $KH->avatar = $a;
-        }else{
-            $KH->avatar = $req->anhdaidien;
+        }else if($req->hasfile('anhdaidien'))
+        {
+       $file=$req->image;
+        $extention=$file->getClientOriginalExtension();
+        $filename=time().'.'.$extention;
+        $file->move('adminavatar/',$filename);
+        $KH->image =$filename;
         }
         $KH -> save();    
         $dsnhanvien = Admin::all();
@@ -105,8 +117,13 @@ class NhanvienController extends Controller
         if($req->avatar == '')
         {
             $KH->avatar = $a;
-        }else{
-            $KH->avatar = $req->avatar;
+        }else if($req->hasfile('anhdaidien'))
+        {
+       $file=$req->image;
+        $extention=$file->getClientOriginalExtension();
+        $filename=time().'.'.$extention;
+        $file->move('adminavatar/',$filename);
+        $KH->image =$filename;
         }
         $KH -> save();    
         $dsnhanvien = Admin::all();

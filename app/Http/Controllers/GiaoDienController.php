@@ -42,8 +42,52 @@ $apple=ModelSP::where('category_id',$danhmucapple->id)->where('status',1)->order
     }
 
 //tat ca san pham
-public function allproduct(){
-$productshow=ModelSP::with('getpro')->with('getimage')->with('getcomment')->where('status',1)->get();
+public function allproduct(Request $request){
+    if($request->ajax()){
+        $data=$request->all();
+$productshow=ModelSP::with('getpro')->with('getimage')->with('getcomment')->where('status',1);
+// neu co sort
+if(isset($data['sort'])&&!empty($data['sort'])){
+    if($data['sort']=="toprate")
+    {
+        $productshow->orderBy('total_rated','Desc');
+    }
+    elseif($data['sort']=="lastest")
+    {
+        $productshow->orderBy('id','Desc');
+    }
+    else if($data['sort']=="old")
+    {
+        $productshow->orderBy('id','Asc');
+    }
+    else if($data['sort']=="lowtohigh")
+    {
+        $productshow->with(['getpro'=>function($q) {
+            $q->orderBy('id','Asc');
+        }
+    ])->addSelect(['price'=>SanPham::selectRaw('Min(price)')->whereColumn('product_model.id','product.model_id')])->where('status',1)->orderBy('price','Asc');
+    }
+    else if($data['sort']=="hightolow")
+    {
+        $productshow->with(['getpro'=>function($q) {
+            $q->orderBy('id','Asc');
+        }
+    ])->addSelect(['price'=>SanPham::selectRaw('Min(price)')->whereColumn('product_model.id','product.model_id')])->where('status',1)->orderBy('price','Desc');
+    }
+    $productshow=$productshow->paginate(6);
+}
+else{
+    $productshow=ModelSP::with('getpro')->with('getimage')->with('getcomment')->where('status',1)->paginate(30);
+   
+}
+return view('giaodien/ajaxview.sort_pro_all',compact('productshow'));
+
+        }
+        else{
+            $productshow=ModelSP::with('getpro')->with('getimage')->with('getcomment')->where('status',1)->paginate(30);
+        }
+
+   
 return view('giaodien.product_all',compact('productshow'));
 
 }
@@ -58,13 +102,17 @@ public function hienthidanhmuc(Request $request,$id){
 $productshow=ModelSP::with('getpro')->with('getimage')->with('getcomment')->where('category_id',$categoryshow->id)->where('status',1);
 //neu co filter dung luong
 if(isset($data['capavalue'])&&!empty($data['capavalue'])){
+    $data=$data['capavalue'];
+    $productshow->with(['getpro'=>function($q) use($data){
+        $q->Where('capacity',$data);
+    }
+])->addSelect(['capacity'=>SanPham::WhereIn('capacity',$data)->whereColumn('product_model.id','product.model_id')])->where('status',1);
 
-   
 }
 
 //neu co filter ram
 if(isset($data['ramvalue'])&&!empty($data['ramvalue'])){
-    $productshow->whereIn('ram',$data['ramvalue']);
+    $productshow->WhereIn('ram',$data['ramvalue']);
 }
 
 // neu co sort
@@ -110,7 +158,6 @@ return view('giaodien/ajaxview.sort_pro',compact('productshow','categoryshow','i
 
         }
 
-  
 }
 //edit user
 public function editprofile(){

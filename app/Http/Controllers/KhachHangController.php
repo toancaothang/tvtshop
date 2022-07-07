@@ -362,7 +362,7 @@ public function ajaxsearch()
 //tim kiem binh thuong
 public function search(Request $request){
     if($request->searchdm==0){
-        $data=ModelSP::join('product','product_model.id','=','product.model_id')->where('model_name','like','%'.$request->searchrs.'%')->orWhere('capacity','like','%'.$request->searchrs.'%')->where('product_model.status',1)->where('product.status',1)
+        $data=ModelSP::join('product','product_model.id','=','product.model_id')->where('product_model.status',1)->where('product.status',1)->where('model_name','like','%'.$request->searchrs.'%')->orWhere('capacity','like','%'.$request->searchrs.'%')
         ->get(['product_model.id as mid',
         'product.id',
         'product_model.model_name',
@@ -376,7 +376,7 @@ public function search(Request $request){
     ]);
     }
     else{
-$data=ModelSP::join('product','product_model.id','=','product.model_id')->where('category_id','=',$request->searchdm)->where('model_name','like','%'.$request->searchrs.'%')->orWhere('capacity','like','%'.$request->searchrs.'%')->where('product_model.status',1)->where('product.status',1)
+$data=ModelSP::join('product','product_model.id','=','product.model_id')->where('product_model.status',1)->where('product.status',1)->where('category_id','=',$request->searchdm)->where('model_name','like','%'.$request->searchrs.'%')->orWhere('capacity','like','%'.$request->searchrs.'%')
 ->get(['product_model.id as mid',
     'product.id',
     'product_model.model_name',
@@ -419,7 +419,7 @@ public function compare(Request $req,$id)
 {
     $modelid=$id;
     $proid=$req->productid;
-   $takecompare=SanPham::join('product_model','product.model_id','=','product_model.id')->where('product_model.id',$modelid)->where('product.id',$proid)->where('product_model.status',1)->where('product.status',1)->first();
+   $takecompare=SanPham::join('product_model','product.model_id','=','product_model.id')->where('product_model.id',$modelid)->where('product.id',$proid)->first();
    $compare=Session::get('compare');
    $compare[$proid]=[
 "name"=>$takecompare->model_name,

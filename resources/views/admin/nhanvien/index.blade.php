@@ -36,7 +36,7 @@
                         <tbody>
                           @foreach ($dsnhanvien as $a)
                             <tr>
-                              <td style="padding-left: 30px"><img style="width:80px;height:80px" src="{!! url('users/'.$a->avatar.'') !!}"></td>
+                              <td style="padding-left: 30px"><img style="width:80px;height:80px" src="{!! url('adminavatar/'.$a->avatar.'') !!}"></td>
                               <td>{{$a->full_name}}</td>
                               <td>0{{$a->phone_number}}</td>
                               <td>{{$a->address}}</td>

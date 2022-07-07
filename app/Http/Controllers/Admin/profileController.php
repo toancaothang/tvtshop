@@ -37,8 +37,13 @@ class profileController extends Controller
         if($req->avatar == '')
         {
             $KH->avatar = $a;
-        }else{
-            $KH->avatar = $req->avatar;
+        }else if($req->hasfile('avatar'))
+        {
+       $file=$req->image;
+        $extention=$file->getClientOriginalExtension();
+        $filename=time().'.'.$extention;
+        $file->move('adminavatar/',$filename);
+        $KH->image =$filename;
         }
         $KH -> save();    
         return redirect()->intended(route('admin.dashboard'));

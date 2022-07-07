@@ -134,7 +134,10 @@ class SanphamModelController extends Controller
         $KH->pin = $req->pin;
         $KH->ram = $req->ram;
         $KH->description = $req->description;
-        if($req->hasfile('image'))
+        if($req->image == '')
+        {
+            $KH->image = $a;
+        }else if($req->hasfile('image'))
         {
        $file=$req->image;
         $extention=$file->getClientOriginalExtension();

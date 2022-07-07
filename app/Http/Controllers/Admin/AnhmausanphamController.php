@@ -29,7 +29,7 @@ class AnhmausanphamController extends Controller
         if($files=$req->file('filename')){
             foreach($files as $file){
                 $name=$file->getClientOriginalName();
-                $file->move('filename',$name);
+                $file->move('website/product/',$name);
                 $images[]=$name; 
             }
         };
