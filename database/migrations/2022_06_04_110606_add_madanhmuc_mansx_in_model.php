@@ -18,9 +18,9 @@ return new class extends Migration
             $table->foreign('category_id')
                   ->references('id')->on('product_category')
                   ->onDelete('cascade');
-                  $table->unsignedInteger('producer_id')->after('model_name');
-                  $table->foreign('producer_id')
-                        ->references('id')->on('producer')
+                  $table->unsignedInteger('branch_id')->after('model_name');
+                  $table->foreign('branch_id')
+                        ->references('id')->on('branch')
                         ->onDelete('cascade');
         });
     }

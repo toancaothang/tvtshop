@@ -8,7 +8,7 @@
         <title>TvT Shop - Website bán điện thoại chính hãng</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
- 
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <link rel="shortcut icon" type="image/x-icon" href="{{asset('images/logo.png')}}">
    
         <link rel="stylesheet" href="{{asset('css/material-design-iconic-font.min.css')}}">
@@ -41,6 +41,8 @@
         <link rel="stylesheet" href="{{asset('style.css')}}">
 
         <link rel="stylesheet" href="{{asset('css/responsive.css')}}">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
         <script src="{{asset('js/vendor/modernizr-2.8.3.min.js')}}"></script>
     </head>
@@ -177,46 +179,38 @@
                                         <!-- Header Middle Wishlist Area End Here -->
                                         <!-- Begin Header Mini Cart Area -->
                                         <li class="hm-minicart">
+                                       
                                             <div class="hm-minicart-trigger" >
-                                                <span class="item-icon"></span>
-                                                <span class="item-text">000
-                                                    <span class="cart-item-count">2</span>
+                                             <span class="item-icon"></span>
+                                                <span class="item-text">2
                                                 </span>
                                             </div>
-                                            <span></span>
-                                            <div class="minicart">
+                                            
+                                          <div class="minicart">
+                                        
                                                 <ul class="minicart-product-list">
+                                              
                                                     <li>
                                                         <a href="single-product.html" class="minicart-product-image">
                                                             <img src="images/product/small-size/1.jpg" alt="cart products">
                                                         </a>
                                                         <div class="minicart-product-details">
-                                                            <h6><a href="single-product.html">Demo</a></h6>
+                                                            <h6><a href="single-product.html"> </a></h6>
                                                             <span>0</span>
                                                         </div>
                                                         <button class="close">
                                                             <i class="fa fa-close"></i>
                                                         </button>
                                                     </li>
-                                                    <li>
-                                                        <a href="single-product.html" class="minicart-product-image">
-                                                            <img src="images/product/small-size/2.jpg" alt="cart products">
-                                                        </a>
-                                                        <div class="minicart-product-details">
-                                                            <h6><a href="single-product.html">Demo</a></h6>
-                                                            <span>0</span>
-                                                        </div>
-                                                        <button class="close">
-                                                            <i class="fa fa-close"></i>
-                                                        </button>
-                                                    </li>
+                                                  
                                                 </ul>
+                                                
                                                 <p class="minicart-total">Tổng Cộng <span>0</span></p>
                                                 <div class="minicart-button">
-                                                    <a href="checkout.html" class="li-button li-button-dark li-button-fullwidth li-button-sm">
+                                                    <a href="{{route('hienthi_cart')}}" class="li-button li-button-dark li-button-fullwidth li-button-sm">
                                                         <span>Xem Giỏ Hàng</span>
                                                     </a>
-                                                    <a href="checkout.html" class="li-button li-button-fullwidth li-button-sm">
+                                                    <a href="" class="li-button li-button-fullwidth li-button-sm">
                                                         <span>Thanh Toán</span>
                                                     </a>
                                                 </div>
@@ -367,21 +361,21 @@
                                     <div class="footer-logo">
                                         <img src="{{asset('images/menu/logo/logo.png')}}" alt="Footer Logo">
                                         <p class="info">
-                                            We are a team of designers and developers that create high quality HTML Template & Woocommerce, Shopify Theme.
+                                            TvT Shop là đồ án website bán điện thoại trực tuyến, được Trần Thanh Toàn và Phạm Khắc Trung triển khai, sử dụng ngôn ngữ là PHP, Laravel framework.
                                         </p>
                                     </div>
                                     <ul class="des">
                                         <li>
-                                            <span>Address: </span>
-                                            6688Princess Road, London, Greater London BAS 23JK, UK
+                                            <span>Địa Chỉ: </span>
+                                            83A, Trần Hưng Đạo, Thành Phố Hồ Chí Minh
                                         </li>
                                         <li>
-                                            <span>Phone: </span>
-                                            <a href="#">(+123) 123 321 345</a>
+                                            <span>Số Điện Thoại: </span>
+                                            <a href="#">0703413165</a>
                                         </li>
                                         <li>
                                             <span>Email: </span>
-                                            <a href="mailto://info@yourdomain.com">info@yourdomain.com</a>
+                                            <a href="zipdaryl@gmail.com">zipdaryl@gmail.com</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -389,12 +383,12 @@
                                 <!-- Begin Footer Block Area -->
                                 <div class="col-lg-2 col-md-3 col-sm-6">
                                     <div class="footer-block">
-                                        <h3 class="footer-block-title">Product</h3>
+                                        <h3 class="footer-block-title">Các Dòng Sán Phẩm</h3>
                                         <ul>
-                                            <li><a href="#">Prices drop</a></li>
-                                            <li><a href="#">New products</a></li>
-                                            <li><a href="#">Best sales</a></li>
-                                            <li><a href="#">Contact us</a></li>
+                                            @foreach($category as $value)
+                                            <li><a href="#">{{$value->category_name}}</a></li>
+                                            @endforeach
+                                            
                                         </ul>
                                     </div>
                                 </div>
@@ -402,65 +396,20 @@
                                 <!-- Begin Footer Block Area -->
                                 <div class="col-lg-2 col-md-3 col-sm-6">
                                     <div class="footer-block">
-                                        <h3 class="footer-block-title">Our company</h3>
+                                        <h3 class="footer-block-title">Về Website Của Chúng Tôi</h3>
                                         <ul>
-                                            <li><a href="#">Delivery</a></li>
-                                            <li><a href="#">Legal Notice</a></li>
-                                            <li><a href="#">About us</a></li>
-                                            <li><a href="#">Contact us</a></li>
+                                            <li><a href="#">Chính Sách Vận Chuyển</a></li>
+                                            <li><a href="#">Chính Sách Đổi Trả</a></li>
+                                            <li><a href="#">Về Chúng Tôi</a></li>
+                                            <li><a href="#">Liên Lạc Với Chúng Tôi</a></li>
                                         </ul>
                                     </div>
                                 </div>
                                 <!-- Footer Block Area End Here -->
                                 <!-- Begin Footer Block Area -->
-                                <div class="col-lg-4">
-                                    <div class="footer-block">
-                                        <h3 class="footer-block-title">Follow Us</h3>
-                                        <ul class="social-link">
-                                            <li class="twitter">
-                                                <a href="https://twitter.com/" data-toggle="tooltip" target="_blank" title="Twitter">
-                                                    <i class="fa fa-twitter"></i>
-                                                </a>
-                                            </li>
-                                            <li class="rss">
-                                                <a href="https://rss.com/" data-toggle="tooltip" target="_blank" title="RSS">
-                                                    <i class="fa fa-rss"></i>
-                                                </a>
-                                            </li>
-                                            <li class="google-plus">
-                                                <a href="https://www.plus.google.com/discover" data-toggle="tooltip" target="_blank" title="Google +">
-                                                    <i class="fa fa-google-plus"></i>
-                                                </a>
-                                            </li>
-                                            <li class="facebook">
-                                                <a href="https://www.facebook.com/" data-toggle="tooltip" target="_blank" title="Facebook">
-                                                    <i class="fa fa-facebook"></i>
-                                                </a>
-                                            </li>
-                                            <li class="youtube">
-                                                <a href="https://www.youtube.com/" data-toggle="tooltip" target="_blank" title="Youtube">
-                                                    <i class="fa fa-youtube"></i>
-                                                </a>
-                                            </li>
-                                            <li class="instagram">
-                                                <a href="https://www.instagram.com/" data-toggle="tooltip" target="_blank" title="Instagram">
-                                                    <i class="fa fa-instagram"></i>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
+                               
                                     <!-- Begin Footer Newsletter Area -->
-                                    <div class="footer-newsletter">
-                                        <h4>Sign up to newsletter</h4>
-                                        <form action="#" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="footer-subscribe-form validate" target="_blank" novalidate>
-                                           <div id="mc_embed_signup_scroll">
-                                              <div id="mc-form" class="mc-form subscribe-form form-group" >
-                                                <input id="mc-email" type="email" autocomplete="off" placeholder="Enter your email" />
-                                                <button  class="btn" id="mc-submit">Subscribe</button>
-                                              </div>
-                                           </div>
-                                        </form>
-                                    </div>
+                                    
                                     <!-- Footer Newsletter Area End Here -->
                                 </div>
                                 <!-- Footer Block Area End Here -->
@@ -475,40 +424,11 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <!-- Begin Footer Links Area -->
-                                <div class="footer-links">
-                                    <ul>
-                                        <li><a href="#">Online Shopping</a></li>
-                                        <li><a href="#">Promotions</a></li>
-                                        <li><a href="#">My Orders</a></li>
-                                        <li><a href="#">Help</a></li>
-                                        <li><a href="#">Customer Service</a></li>
-                                        <li><a href="#">Support</a></li>
-                                        <li><a href="#">Most Populars</a></li>
-                                        <li><a href="#">New Arrivals</a></li>
-                                        <li><a href="#">Special Products</a></li>
-                                        <li><a href="#">Manufacturers</a></li>
-                                        <li><a href="#">Our Stores</a></li>
-                                        <li><a href="#">Shipping</a></li>
-                                        <li><a href="#">Payments</a></li>
-                                        <li><a href="#">Warantee</a></li>
-                                        <li><a href="#">Refunds</a></li>
-                                        <li><a href="#">Checkout</a></li>
-                                        <li><a href="#">Discount</a></li>
-                                        <li><a href="#">Refunds</a></li>
-                                        <li><a href="#">Policy Shipping</a></li>
-                                    </ul>
-                                </div>
-                                <!-- Footer Links Area End Here -->
-                                <!-- Begin Footer Payment Area -->
-                                <div class="copyright text-center">
-                                    <a href="#">
-                                        <img src="images/payment/1.png" alt="">
-                                    </a>
-                                </div>
+                               
                                 <!-- Footer Payment Area End Here -->
                                 <!-- Begin Copyright Area -->
                                 <div class="copyright text-center pt-25">
-                                    <span><a target="_blank" href="https://www.templateshub.net">Templates Hub</a></span>
+                                    <span><a target="_blank" href="">TvT Shop</a></span>
                                 </div>
                                 <!-- Copyright Area End Here -->
                             </div>

@@ -18,10 +18,7 @@ return new class extends Migration
             $table->foreign('user_id')
                   ->references('id')->on('user')
                   ->onDelete('cascade');
-                  $table->unsignedInteger('admin_id')->after('id');
-                  $table->foreign('admin_id')
-                        ->references('id')->on('admin')
-                        ->onDelete('cascade');
+                  
         });
     }
 

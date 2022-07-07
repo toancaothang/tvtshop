@@ -40,12 +40,12 @@
                                             @foreach ($prowishshow as $ps)
                                             <tr>
                                                
-                                                <td class="li-product-thumbnail"><a href="#"><img src="{{url('website/product')}}/{{$ps->getProduct->image}}" alt="" style="width:100px;height:100px;"></a></td>
-                                                <td class="li-product-name"><a href="#"> </a> {{$ps->getProduct->model_name}}</td>
-                                                <td class="li-product-price"><span class="amount"> {{number_format($ps->getProduct->getpro->first()->price)}}</span></td>
+                                                <td class="li-product-thumbnail"><a href="#"><img src="{{url('website/product')}}/{{$ps->image}}" alt="" style="width:100px;height:100px;"></a></td>
+                                                <td class="li-product-name"><a href="#"> </a> {{$ps->model_name}}  {{$ps->capacity}} GB</td>
+                                                <td class="li-product-price"><span class="amount"> {{number_format($ps->price)}} <u> đ</u></span></td>
                                                 <td class="li-product-stock-status"><span class="in-stock">Còn Hàng</span></td>
                                                 <td class="li-product-add-cart"><a href="#">Thêm Vào Giỏ Hàng</a></td>
-                                                <td class="li-product-remove"><a href="{{route('delete_wish',['id'=>$ps->id])}}"><i class="fa fa-times"></i></a></td>
+                                                <td class="li-product-remove"><a href="{{route('delete_wish',['id'=>$ps->wid])}}"><i class="fa fa-times"></i></a></td>
                                                 
                                             </tr>
                                             @endforeach

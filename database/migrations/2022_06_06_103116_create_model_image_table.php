@@ -13,11 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('news', function (Blueprint $table) {
-            $table->unsignedInteger('category_id')->after('title');
-            $table->foreign('category_id')
-                  ->references('id')->on('news_category')
-                  ->onDelete('cascade');
+        Schema::create('model_image', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('file_name');
+            $table->integer('status')->default(0);
+            $table->softDeletes();
+            $table->timestamps();
         });
     }
 
@@ -28,8 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('news', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('model_image');
     }
 };

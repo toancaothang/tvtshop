@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('bill_details', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('amount');
-            $table->float('unit_price');
+            $table->integer('quantity');
+            $table->float('unit_price',100);
             $table->integer('status')->default(0);
             $table->softDeletes();
             $table->timestamps();

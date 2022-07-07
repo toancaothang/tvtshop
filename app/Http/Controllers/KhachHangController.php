@@ -6,6 +6,9 @@ use App\Models\SanPham;
 use App\Models\ModelSP;
 use App\Models\BinhLuan;
 use App\Models\WishList;
+use App\Models\CTHoaDon;
+use App\Models\HoaDon;
+use App\Models\Cart;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -97,22 +100,31 @@ class KhachHangController extends Controller
 
     }
     //them vao wishlist 
-    public function wishlist($id){
-        $prowish=WishList::where('product_id',$id)->where('user_id',Auth::user()->id)->first();
-if(isset($prowish))
-{   
-    return redirect('/wishlist')->with(['messtontaiwishlist' => 'Sản Phẩm Đã Tồn Tại']);
-}
-else{
-        $wl = new Wishlist();
-$wl->user_id=Auth::user()->id;
-$wl->product_id=$id;
-$wl->save();
-}   
-$auth = Auth::user()->id;
-$prowishshow = WishList::where('user_id',$auth)->get();
+    public function wishlist(Request $req,$id){
+      $prowish=Wishlist::where('product_id',$id)->where('user_id',Auth::user()->id)->first();
+        if(isset($prowish))
+        {   
+           dd("san pham da ton tai !");
+        }
+        else{
+                $prowish = new WishList();
+                $prowish->user_id=Auth::user()->id;
+                $prowish->	model_pro_id=$id;
+                $prowish->product_id=$req->productidwish;
+              $prowish->save();
+        
+        }   
 
-return view('giaodien.wishlist',compact('prowishshow'));
+        $auth = Auth::user()->id;
+        $prowishshow = WishList::join('product_model','wishlist.model_pro_id','=','product_model.id')->
+        join('product','wishlist.product_id','=','product.id')
+        ->where('user_id',$auth)->get(['wishlist.id as wid',
+           'product_model.model_name',
+           'product_model.image',
+           'product.capacity',
+           'product.price',
+    ]);
+    return view('giaodien.wishlist',compact('prowishshow'));
 
     }
     //xoa khoi wishlist
@@ -123,4 +135,97 @@ $delpro->delete();
 return redirect('/wishlist')->with(['messtontaiwishlist' => 'Sản Phẩm Đã Được Xóa Khỏi Danh Sách Yêu Thích']);
     }
    
-}       
+    //them vao cart 
+    public function addcart(Request $request,$id){
+        
+       $procart=Cart::where('product_id',$id)->where('user_id',Auth::user()->id)->first();
+if(isset($procart))
+{   
+   dd("san pham da ton tai !");
+}
+else{
+        $procart = new Cart();
+$procart->user_id=Auth::user()->id;
+$procart->pro_model_id=$id;
+$procart->product_id=$request->productid;
+$procart->pro_quantity=$request->quaninput;
+$procart->save();
+
+
+}   
+$auth = Auth::user()->id;
+    $procartshow = Cart::join('product_model','cart.pro_model_id','=','product_model.id')->
+    join('product','cart.product_id','=','product.id')
+    ->where('user_id',$auth)->get(['cart.id as cid',
+       'cart.pro_quantity',
+       'product_model.model_name',
+       'product_model.image',
+       'product.capacity',
+       'product.price',
+]);
+return view('giaodien.cart',compact('procartshow'));
+}
+
+     //xoa khoi cart
+     public function deletecart($id)
+     {
+ $delpro=Cart::find($id);
+ $delpro->delete();
+ return redirect('/cart')->with(['messtontaiwishlist' => 'Sản Phẩm Đã Được Xóa Khỏi Danh Sách Yêu Thích']);
+     }
+   
+    //update cart
+    public function updatecart(Request $request){
+        $prod_id=$request-> input('prod_id');
+        $prod_qty=$request-> input('prod_qty');
+      $cart=Cart::where('product_id',$prod_id)->where('user_id',Auth::id())->first();
+        $cart->pro_quantity=$prod_qty;
+        $cart->update();
+ 
+    }
+
+public function checkout(){
+
+    $auth = Auth::user()->id;
+    $takecart = Cart::join('product_model','cart.pro_model_id','=','product_model.id')->
+    join('product','cart.product_id','=','product.id')
+    ->where('user_id',$auth)->get(['cart.id as cid',
+       'cart.pro_quantity',
+       'product_model.model_name',
+       'product_model.image',
+       'product.capacity',
+       'product.price',]);
+    return view('giaodien.checkout',compact('takecart'));
+}
+
+public function dathang( Request $request){
+$order=new HoaDon();
+$order->user_id=Auth::user()->id;
+$order->receiver_fullname=$request->fname;
+$order->receiver_email=$request->email;
+$order->phone_number=$request->phonenum;
+$order->deliver_address=$request->addr;
+$order->notes=$request->notes;
+$order->total=0;
+$order->save();
+$orderdetail=Cart::join('product_model','cart.pro_model_id','=','product_model.id')->
+join('product','cart.product_id','=','product.id')
+->where('user_id',$auth)->get(['cart.id as cid',
+   'cart.pro_quantity',
+   'product_model.model_name',
+   'product_model.image',
+   'product.capacity',
+   'product.price',]);
+foreach($orderdetail as $detail)
+{
+ CTHoaDon::create([
+'bill_id'=>$order->id,
+'product_id'=>$detail->product_id,
+'quantity'=>$detail->pro_quantity,
+'unit_price'=>$detail->price,
+]);
+}
+
+}   
+
+}

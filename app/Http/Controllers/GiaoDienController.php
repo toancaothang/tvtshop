@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\AnhSP;
 use App\Models\WishList;
 use App\Models\SanPham;
+use App\Models\Cart;
 use Illuminate\Http\Request;
 use App\Models\BinhLuan;
 use Illuminate\Support\Facades\Auth;
@@ -53,13 +54,70 @@ return view('giaodien.product_details',compact('ctmodel','modelimage','samemodel
 public function hienthiwishlist()
 {
     $auth = Auth::user()->id;
-    $prowishshow = WishList::where('user_id',$auth)->get();
-   return view('giaodien.wishlist',compact('prowishshow'));
+    $prowishshow = WishList::join('product_model','wishlist.model_pro_id','=','product_model.id')->
+    join('product','wishlist.product_id','=','product.id')
+    ->where('user_id',$auth)->get(['wishlist.id as wid',
+       'product_model.model_name',
+       'product_model.image',
+       'product.capacity',
+       'product.price',
+]);
+return view('giaodien.wishlist',compact('prowishshow'));
 }
+//dem so luong sp trong wishlist
 public function wishlistcount($id)
 {
     $wishcount=WishList::count($id);
     return view('layout.header_footer',compact('wishcount'));
 }
-
+//chon bien the vao cart
+public function selectbienthe(Request $ca){
+$produm= $ca->produm;
+$bienthes=$ca->bienthes;
+$productinfo=SanPham::where('model_id',$produm)->where('capacity',$bienthes)->get();
+foreach($productinfo as $sprice){
+    echo number_format($sprice->price) ." <u>đ</u>";?>
+    <input type="hidden" value=" <?php echo $sprice->id;?>" name="productid"/>
+    <input type="hidden" value=" <?php echo $sprice->price;?>" name="newprice"/>
+    
+    <?php
+}
+  }
+//chon bien the vao wishlist
+public function selectwishlist(Request $ha){
+    $produm= $ha->produm;
+    $bienthes=$ha->bienthes;
+    $productinfo=SanPham::where('model_id',$produm)->where('capacity',$bienthes)->get();
+    foreach($productinfo as $sprice){
+        ?>
+        <input type="hidden" value=" <?php echo $sprice->id;?>" name="productidwish"/>
+    <?php
+    }
+}
+//show cart
+public function hienthicart()
+{
+    $auth = Auth::user()->id;
+    $takecart=Cart::get();
+    $procartshow = Cart::join('product_model','cart.pro_model_id','=','product_model.id')->
+    join('product','cart.product_id','=','product.id')
+    ->where('user_id',$auth)->get(['cart.id as cid',
+       'cart.pro_quantity',
+       'product_model.model_name',
+       'product_model.image',
+       'product.capacity',
+       'product.price',
+       'cart.product_id',
+       
+]);
+return view('giaodien.cart',compact('procartshow'));
+}
+//xem nhanh cart
+/*public function quickcart()
+{
+    $auth = Auth::user()->id;
+    $quickcart = Cart::get();
+    return view('layout.header_footer',compact('$quickcart'));
+}
+*/
 }

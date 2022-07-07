@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('comment_name');
             $table->text('content');
             $table->integer('stars');
-            $table->integer('status')->default(0);
             $table->softDeletes();
             $table->timestamps();
         });

@@ -13,10 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('news_category', function (Blueprint $table) {
+        Schema::create('cart', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('category_name');
-            $table->softDeletes();
+            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('pro_model_id');
+            $table->unsignedInteger('pro_quantity');
+            $table->unsignedInteger('product_id');
+         $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -28,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('news_category');
+        Schema::dropIfExists('cart');
     }
 };

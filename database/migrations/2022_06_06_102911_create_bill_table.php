@@ -15,9 +15,14 @@ return new class extends Migration
     {
         Schema::create('bill', function (Blueprint $table) {
             $table->increments('id');
-            $table->dateTime('create_day');
+            $table->string('receiver_fullname');
+            $table->string('receiver_email');
+            $table->integer('phone_number');
+            $table->string('deliver_address');
+            $table->text('notes');
+            $table->dateTime('created_day');
             $table->dateTime('deliver_day');
-            $table->integer('total');
+            $table->float('total',100);
           $table->integer('status')->default(0);
             $table->softDeletes();
             $table->timestamps();

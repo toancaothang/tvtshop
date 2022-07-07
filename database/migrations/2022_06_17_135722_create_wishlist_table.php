@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('wishlist', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id');
+            $table->unsignedInteger('pro_model_id');
             $table->unsignedInteger('product_id');
             $table->softDeletes();
             $table->timestamps();

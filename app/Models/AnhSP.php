@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class AnhSP extends Model
 {
     use HasFactory;
-    protected $table = 'product_image';
+    protected $table = 'model_image';
 }

@@ -17,8 +17,7 @@ return new class extends Migration
             $table->increments('id');
             $table->string('title');   
             $table->text('content');
-            $table->string('up_day');  
-            $table->integer('status')->default(0);
+          $table->integer('status')->default(0);
             $table->softDeletes();
             $table->timestamps();
         });

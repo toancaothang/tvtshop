@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('product_image', function (Blueprint $table) {
+        Schema::table('model_image', function (Blueprint $table) {
             $table->unsignedInteger('model_id')->after('id');
             $table->foreign('model_id')
                   ->references('id')->on('product_model')
@@ -28,7 +28,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('product_image', function (Blueprint $table) {
+        Schema::table('model_image', function (Blueprint $table) {
             //
         });
     }

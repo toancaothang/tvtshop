@@ -30,9 +30,21 @@ Route::post('/',[KhachHangController::class,'xulytimkiem'])->name('timkiem');
 //binh luan
 Route::post('/comment/{id}',[KhachHangController::class,'binhluanuser'])->name('binh_luan')->middleware('CheckLogin');
 //them vao wishlist
-Route::get('/wishlist/{id}',[KhachHangController::class,'wishlist'])->name('wish_list')->middleware('CheckLogin');
+Route::post('/wishlist/{id}',[KhachHangController::class,'wishlist'])->name('wish_list')->middleware('CheckLogin');
 //xoa khoi wishlist
 Route::get('/delete-wishlist/{id}',[KhachHangController::class,'deletewish'])->name('delete_wish');
+//xoa khoi giohang
+Route::get('/delete-cart/{id}',[KhachHangController::class,'deletecart'])->name('delete_cart');
+// them vao gio hang
+Route::post('/cart/{id}',[KhachHangController::class,'addcart'])->name('add_cart');
+//update gio hang
+Route::post('update-cart',[KhachHangController::class,'updatecart'])->name('update_cart');
+//thanh toan gio hang
+Route::get('/checkout',[KhachHangController::class,'checkout'])->name('check_out');
+//dat hang
+Route::post('/place-order',[KhachHangController::class,'dathang'])->name('dat_hang');
+
+//=====================================================================================================
 // GIAO DIEN:
 //show du lieu ra trang chu
 Route::get('/',[GiaoDienController::class,'httrangchu'])->name('htsp_trangchu');
@@ -43,9 +55,13 @@ Route::get('/chi-tiet-sanpham/{cateid}/{id}',[GiaoDienController::class,'chitiet
 //hien thi wishlist
 Route::get('/wishlist',[GiaoDienController::class,'hienthiwishlist'])->name('hienthi_wishlist')->middleware('CheckLogin');
 Route::get('/wishlist_count/{id}',[GiaoDienController::class,'wishlistcount'])->name('wish_count');
-
-
-
+//chuyen doi bien the model
+Route::get('/selectbienthe',[GiaoDienController::class,'selectbienthe'])->name('select_bienthe');
+//chuyen doi bien the model wishlist
+Route::get('/selectwish',[GiaoDienController::class,'selectwishlist'])->name('select_wishlist');
+//hien thi gio hang
+Route::get('/cart',[GiaoDienController::class,'hienthicart'])->name('hienthi_cart');
+//show nhanh cart
 
 
 

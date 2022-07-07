@@ -98,7 +98,7 @@
                                                                 <ul class="add-actions-link">
                                                                     <li class="add-cart active"><a href="shopping-cart.html">Thêm Vào Giỏ Hàng</a></li>
                                                                     <li><a href="#" title="quick view" class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-eye"></i></a></li>
-                                                                    <li><a class="links-details" href="{{route('wish_list',['id'=>$value->id])}}"><i class="fa fa-heart-o"></i></a></li>
+                                                                    <li><a class="links-details" href=""><i class="fa fa-heart-o"></i></a></li>
                                                                 </ul>
                                                             </div>
                                                         </div>

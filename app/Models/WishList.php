@@ -15,7 +15,7 @@ class WishList extends Model
    
     
     ];
-    public function getProduct(){
+    public function getprowish(){
         return $this->belongsTo(ModelSP::class,'product_id','id');
     }
 

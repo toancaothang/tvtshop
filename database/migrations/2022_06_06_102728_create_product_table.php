@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('pin');
             $table->integer('ram');
              $table->string('image');  
-            $table->text('describe');
+            $table->text('description');
            $table->integer('status')->default(0);
    $table->softDeletes();
             $table->timestamps();

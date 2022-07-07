@@ -13,9 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('product_image', function (Blueprint $table) {
+        Schema::create('branch', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('file_name');
+            $table->string('branch_name');
+            $table->text('info');
             $table->integer('status')->default(0);
             $table->softDeletes();
             $table->timestamps();
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_image');
+        Schema::dropIfExists('branch');
     }
 };

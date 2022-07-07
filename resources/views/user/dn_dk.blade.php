@@ -10,7 +10,9 @@
                         </ul>
                     </div>
                 </div>
+            
             </div>
+            <div><h1 style="text-align:center; color:#0382C7;"> CHÀO MỪNG ĐẾN VỚI TVT SHOP </h1> <img style="display:none;" src=" {{asset('images/menu/logo/logo.png')}}" alt=""></div>
             <!-- Li's Breadcrumb Area End Here -->
             <!-- Begin Login Content Area -->
   <div class="page-section mb-60">
@@ -23,6 +25,8 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-sm-12 col-md-12 col-xs-12 col-lg-6 mb-30">
+
+                        
                             <!-- Login Form s-->
                             <form action="{{route('xuly_dangnhap')}}" method="POST" enctype = multipart/form-data>
                             @csrf
@@ -97,8 +101,18 @@
                                             <input class="mb-0" type="password" placeholder="Mật khẩu" name="matkhau">
                                             <span class="">{{@$errors->first('matkhau')}}</span>
                                         </div>
-                                        <input type="radio" id="sex" name="gioitinh" value="1" />Nữ
-<input type="radio" id="sex" name="gioitinh" value="0" />Nam
+                                        <div class="col-md-12 mb-20">
+                                            <label>Giới Tính</label>
+                                            <p style="margin-bottom:-27px;font-size: 16px;font-weight: bold;"> Nam</p>
+                                            <input type="radio" id="sex" name="gioitinh" value="0" />
+                                            <p style="margin-bottom:-27px;font-size: 16px;font-weight: bold;"> Nữ</p>
+                                            <input type="radio" id="sex" name="gioitinh" value="1" />
+                                            
+                                        </div>  
+                                       
+                                 
+                                       
+
                                     
                                         <div class="col-12">
                                             <button class="register-button mt-0">Đăng Ký</button>

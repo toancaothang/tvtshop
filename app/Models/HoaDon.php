@@ -9,4 +9,15 @@ class HoaDon extends Model
 {
     use HasFactory;
     protected $table = 'bill';
+    protected $fillable = [
+        'receiver_fullname',
+        'receiver_email',
+        'user_id',
+        'phone_number',
+        'deliver_address',
+        'notes',
+    
+    
+    ];
+
 }

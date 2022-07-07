@@ -1,6 +1,42 @@
 @extends('layout/header_footer')
 @section('main')
+<script>
+  $(document).ready(function(){
+$('#bienthes').change(function(){
+ var bienthes=$('#bienthes').val();
+ var produm=$('#produm').val(); 
 
+ $.ajax({
+    
+type:'get',
+dataType:'html',
+url:'<?php echo url('/selectbienthe');?>',
+data: "bienthes="+ bienthes +"&produm="+produm,
+success:function (response){
+    console.log(response);
+    $('#price').html(response); 
+  
+}
+}); 
+$.ajax({
+    
+    type:'get',
+    dataType:'html',
+    url:'<?php echo url('/selectwish');?>',
+    data: "bienthes="+ bienthes +"&produm="+produm,
+    success:function (response){
+        console.log(response);
+        $('#wish').html(response); 
+      
+    }
+    }); 
+    
+
+});
+
+
+  });
+    </script>
 <div class="breadcrumb-area">
                 <div class="container">
                     <div class="breadcrumb-content">
@@ -46,7 +82,9 @@
                         <div class="col-lg-7 col-md-6">
                             <div class="product-details-view-content pt-60">
                                 <div class="product-info">
-                                    <h2>{{$ctmodel->model_name}} {{$ctmodel->getpro->first()->capacity}} GB</h2>
+                                  
+                                    <h2>{{$ctmodel->model_name}}</h2>
+                                    
                                    <div class="rating-box pt-20">
                                         <ul class="rating rating-with-review-item">
                                             <li><i class="fa fa-star-o"></i></li>
@@ -58,39 +96,52 @@
                                             <li class="review-item"><a href="#">Viết Đánh Giá</a></li>
                                         </ul>
                                     </div>
+                                    <form action="{{route('add_cart',['id'=>$ctmodel->id])}}" class="cart-quantity" method="POST" >
+                                        @csrf
                                     <div class="price-box pt-20">
-                                    <label>Giá </label>
-                                        <span class="new-price new-price-2">{{number_format($ctmodel->getpro->first()->price)}} <u>đ </u></span>
+                                    
+                                        <span class="new-price new-price-2" id="price">{{number_format($ctmodel->getpro->first()->price)}} <u>đ </u>
+                                        <input type="hidden" value="<?php echo $ctmodel->getpro->first()->price;?>" name="newprice"/>
+                               <input type="hidden" value=" <?php echo $ctmodel->getpro->first()->id;?>" name="productid"/>
+                                        
+                                    </span>
                                     </div>
                                     <div class="product-variants">
                                         <div class="produt-variants-size">
                                             <label>Chọn Mẫu Khác Của {{$ctmodel->model_name}} </label>
-                                           <select class="nice-select">
+                                           <select class="nice-select" id="bienthes">
                                             @foreach ($bienthe as $bt)
-                                                <option value="$bienthe->id" >{{$bt->capacity}} GB</option>
+                                                <option>{{$bt->capacity}} GB</option>
                                                 @endforeach
                                             </select>
-                                        </div>
-                                    </div>
-                                       
-                                        </div>
-                                    </div>
-                                    <div class="single-add-to-cart">
-                                        <form action="#" class="cart-quantity">
+                                          
+                                           <div class="single-add-to-cart">
+                                        
                                             <div class="quantity">
                                                 <label>Số Lượng</label>
                                                 <div class="cart-plus-minus">
-                                                    <input class="cart-plus-minus-box" value="1" type="text">
+                                                    <input class="cart-plus-minus-box " value="1" type="text" name="quaninput">
                                                     <div class="dec qtybutton"><i class="fa fa-angle-down"></i></div>
                                                     <div class="inc qtybutton"><i class="fa fa-angle-up"></i></div>
                                                 </div>
                                             </div>
-                                            <button class="add-to-cart" type="submit">Thêm Vào Giỏ Hàng</button>
+                                           <button class="add-to-cart" type="submit">Thêm Vào Giỏ Hàng</button>
+                                           <input type="hidden" value="<?php echo $ctmodel->id?>" id="produm" />
+                                        </div>
+                                        </div>
                                         </form>
-                                    </div>
+                                        </div>
+                                        </div>
+                                        </div>
                                     <div class="product-additional-info pt-25">
-                                        <a class="wishlist-btn" href="wishlist.html"><i class="fa fa-heart-o"></i>Thêm Vào wishlist</a>
-                                        <div class="product-social-sharing pt-25">
+                                    <form action="{{route('wish_list',['id'=>$ctmodel->id])}}" class="wishlist_add" method="POST" >
+                                    @csrf
+                                    <span id="wish">
+                                    <input type="hidden" value=" <?php echo $ctmodel->getpro->first()->id;?>" name="productidwish"/>
+</span>
+                                    <button class="wishlist-btn" type="submit"> <i class="fa fa-heart-o"></i>Thêm Vào WishList</button>
+                                    </form>
+                                       <div class="product-social-sharing pt-25">
                                             
                                         </div>
                                     </div>
