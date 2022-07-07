@@ -84,6 +84,7 @@ class SanphamModelController extends Controller
         return view('admin.modelsanpham.createmodel',compact('dsmausanpham','dsLoaisanpham','dsNhasanxuat'));
     }
     function xulycreatemodel(Request $req){
+       
         $KH = new ModelSP();
         $KH->model_name = $req->model_name;
         $KH->opera_sys = $req->opera_sys;
@@ -98,8 +99,15 @@ class SanphamModelController extends Controller
         $KH->pin = $req->pin;
         $KH->ram = $req->ram;
         $KH->description = $req->description;
-        $KH->image = $req->image;
         $KH->status = 1;
+        if($req->hasfile('image'))
+        {
+       $file=$req->image;
+        $extention=$file->getClientOriginalExtension();
+        $filename=time().'.'.$extention;
+        $file->move('website/product/',$filename);
+        $KH->image =$filename;
+        }
         $KH -> save();
         $dsSanPham = ModelSP::all();
        return redirect()->route('modelsanpham',compact('dsSanPham'));
@@ -126,15 +134,15 @@ class SanphamModelController extends Controller
         $KH->pin = $req->pin;
         $KH->ram = $req->ram;
         $KH->description = $req->description;
-        $a = $KH->image;
-        if($req->image == '')
+        if($req->hasfile('image'))
         {
-            $KH->image = $a;
-        }else{
-            $KH->image = $req->image;
+       $file=$req->image;
+        $extention=$file->getClientOriginalExtension();
+        $filename=time().'.'.$extention;
+        $file->move('website/product/',$filename);
+        $KH->image =$filename;
         }
-        
-        $KH->status = 1;
+     $KH->status = 1;
         $KH -> save();    
         $dssanpham = ModelSP::all();
        return redirect()->route('modelsanpham',compact('dssanpham'));

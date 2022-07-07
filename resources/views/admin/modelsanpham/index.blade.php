@@ -35,6 +35,7 @@
                   <table class="table-sortable" id="example" style="margin-bottom: 20px">
                       <thead>
                         <tr>
+                       
                           <th>Tên mẫu sản phẩm</th>
                           <th>Hệ điều hành</th>
                           <th>CPU</th>
@@ -48,6 +49,7 @@
                       <tbody>
                         @foreach ($dsmausanpham as $a)
                           <tr>
+                          
                             <td>{{$a->model_name}}</td>
                             <td>{{$a->opera_sys}}</td>
                             <td>{{$a->cpu}}</td>

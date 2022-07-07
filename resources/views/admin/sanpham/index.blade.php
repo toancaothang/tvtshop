@@ -42,7 +42,7 @@
                                 echo number_format($a->price,'0','.','.')
                                 ?>đ
                                 </td>
-                              <td maxlength="10">{{$a->description}}</td>
+                              <td maxlength="10"><p style="white-space: nowrap;background-color: white;width: 150px;overflow: hidden;text-overflow: ellipsis;"> {{$a->description}}</p></td>
                               <td>{{$a->stock}}</td>
                               <td>{{$a->color}}</td>
                               <td>{{$a->capacity}}</td>
