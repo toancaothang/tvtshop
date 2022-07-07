@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-    <title>Document</title>
+    <title>Quản Lý TVT Shop </title>
     
     <link rel="stylesheet"  href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
@@ -17,11 +17,13 @@
     <input type="checkbox" id="sidebar-toggle">
     <div class="sidebar">
       <div class="sidebar-header">
-        <h3 class="brand">
-          <span class="ti-unlink"></span>
-          <span>easywire</span>
-        </h3>
-        <label for="sidebar-toggle" class="ti-menu-alt"></label>
+      <div class="logo pb-sm-30 pb-xs-30">
+                                    <a href="{{route('htsp_trangchu')}}">
+                                        <img src=" {{asset('images/menu/logo/logo.png')}}" alt="" style="margin-top:20px; margin-left:" >
+                                        
+                                        </a>
+                                        
+                                    </div>
       </div>
       <div class="sidebar-menu">
         <ul id="accordion" class="accordion">
@@ -158,7 +160,7 @@
           <span class="ti-bell"></span>
           <span class="ti-comment"></span>
           <span>Xin chào {{auth()->guard('admin')->user()->full_name}}</span>
-          <a style="background-image: url({{url('adminss/img')}}/{{auth()->guard('admin')->user()->avatar}});" href="{{route('suaprofile',['profile'=>auth()->guard('admin')->user()->id])}}">
+          <a style="background-image: url({{url('users')}}/{{auth()->guard('admin')->user()->avatar}});" href="{{route('suaprofile',['profile'=>auth()->guard('admin')->user()->id])}}">
           </a>
         </div>
       </header>
