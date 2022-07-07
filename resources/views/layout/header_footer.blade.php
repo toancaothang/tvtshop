@@ -173,7 +173,7 @@
                                             <a href="{{route('hienthi_wishlist')}}" >
                                             @if(Auth::check())
                                             @php 
-                                        $wishcount=(App\Models\WishList::where('user_id','=',Auth::user()->id)->count());
+                                        $wishcount=(App\Models\WishList::join('product_model','wishlist.model_pro_id','=','product_model.id')->join('product','wishlist.product_id','=','product.id')->where('user_id',Auth::user()->id)->where('product_model.status',1)->where('product.status',1)->count());
                                         @endphp
                                                 <span class="cart-item-count wishlist-item-count" style="color:white;background-color:deeppink;"> {{$wishcount}} </span>
                                                 @endif
@@ -188,11 +188,10 @@
                                                 <span class="item-icon"></span>
                                                 @if(Auth::check())
                                                 @php 
-                                        $cartcount=(App\Models\Cart::where('user_id','=',Auth::user()->id)->count());
+                                        $cartcount=(App\Models\Cart::join('product_model','cart.pro_model_id','=','product_model.id')->join('product','cart.product_id','=','product.id')->where('user_id',Auth::user()->id)->where('product_model.status',1)->where('product.status',1)->count());
                                         @endphp
                                                 <span class="item-text"><u> đ</u>
-                                               
-                                                    <span class="cart-item-count"> {{$cartcount}}</span>
+                                                       <span class="cart-item-count"> {{$cartcount}}</span>
                                                 </span>
                                             </div>
                                            

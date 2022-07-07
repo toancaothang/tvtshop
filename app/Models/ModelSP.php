@@ -14,7 +14,7 @@ class ModelSP extends Model
     
     public function getpro()
     {
-            return $this->hasMany(SanPham::class,'model_id','id');
+            return $this->hasMany(SanPham::class,'model_id','id')->where('status',1);
     }
     public function getrate()
     {

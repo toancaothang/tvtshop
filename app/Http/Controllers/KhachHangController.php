@@ -217,7 +217,7 @@ return view('giaodien.cart',compact('procartshow'));
      {
  $delpro=Cart::where('user_id',Auth::user()->id)->find($id);
  $delpro->delete();
- return redirect('/cart')->with(['messtontaiwishlist' => 'Sản Phẩm Đã Được Xóa Khỏi Danh Sách Yêu Thích']);
+ return redirect('/cart')->with(['messtontaiwishlist' => 'Sản Phẩm Đã Được Xóa Khỏi Giỏ Hàng']);
      }
      //xoa tat ca khoi cart
      public function deleteallcart()
@@ -246,7 +246,7 @@ public function checkout(Request $req){
  $totalafter=$req->total_after;
  Session::put('totalafter',$totalafter);
  $takecart = Cart::join('product_model','cart.pro_model_id','=','product_model.id')->
-    join('product','cart.product_id','=','product.id')
+    join('product','cart.product_id','=','product.id')->where('product_model.status',1)->where('product.status',1)
     ->where('user_id',$auth)->get(['cart.id as cid',
        'cart.pro_quantity',
        'product_model.model_name',
@@ -268,7 +268,7 @@ $order->notes=$request->notes;
 $order->total=$request->total_after;
 $order->save();
 $orderdetail=Cart::join('product_model','cart.pro_model_id','=','product_model.id')->
-join('product','cart.product_id','=','product.id')
+join('product','cart.product_id','=','product.id')->where('product_model.status',1)->where('product.status',1)
 ->where('user_id',Auth::user()->id)->get(['cart.id as cid',
    'cart.pro_quantity',
    'product_model.model_name',
@@ -347,7 +347,8 @@ public function apiajaxsearch()
 //ajax search
 public function ajaxsearch()
 {
-    $data=ModelSP::join('product','product_model.id','=','product.model_id')->search()->get(['product_model.id as mid',
+    $data=ModelSP::join('product','product_model.id','=','product.model_id')->where('product_model.status',1)->where('product.status',1)
+    ->search()->get(['product_model.id as mid',
     'product.id',
     'product_model.model_name',
     'product_model.category_id',
@@ -361,7 +362,8 @@ public function ajaxsearch()
 //tim kiem binh thuong
 public function search(Request $request){
     if($request->searchdm==0){
-        $data=ModelSP::join('product','product_model.id','=','product.model_id')->where('model_name','like','%'.$request->searchrs.'%')->orWhere('capacity','like','%'.$request->searchrs.'%')->get(['product_model.id as mid',
+        $data=ModelSP::join('product','product_model.id','=','product.model_id')->where('model_name','like','%'.$request->searchrs.'%')->orWhere('capacity','like','%'.$request->searchrs.'%')->where('product_model.status',1)->where('product.status',1)
+        ->get(['product_model.id as mid',
         'product.id',
         'product_model.model_name',
         'product_model.category_id',
@@ -374,7 +376,8 @@ public function search(Request $request){
     ]);
     }
     else{
-$data=ModelSP::join('product','product_model.id','=','product.model_id')->where('category_id','=',$request->searchdm)->where('model_name','like','%'.$request->searchrs.'%')->orWhere('capacity','like','%'.$request->searchrs.'%')->get(['product_model.id as mid',
+$data=ModelSP::join('product','product_model.id','=','product.model_id')->where('category_id','=',$request->searchdm)->where('model_name','like','%'.$request->searchrs.'%')->orWhere('capacity','like','%'.$request->searchrs.'%')->where('product_model.status',1)->where('product.status',1)
+->get(['product_model.id as mid',
     'product.id',
     'product_model.model_name',
     'product_model.category_id',
@@ -416,7 +419,7 @@ public function compare(Request $req,$id)
 {
     $modelid=$id;
     $proid=$req->productid;
-   $takecompare=SanPham::join('product_model','product.model_id','=','product_model.id')->where('product_model.id',$modelid)->where('product.id',$proid)->first();
+   $takecompare=SanPham::join('product_model','product.model_id','=','product_model.id')->where('product_model.id',$modelid)->where('product.id',$proid)->where('product_model.status',1)->where('product.status',1)->first();
    $compare=Session::get('compare');
    $compare[$proid]=[
 "name"=>$takecompare->model_name,

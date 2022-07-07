@@ -20,17 +20,17 @@ class GiaoDienController extends Controller
 // hien thi du lieu ra trang chu
 public function httrangchu(){
 $newpro=ModelSP::where('status',1)->orderBy('updated_at','DESC')->get()->take(5);
-$danhmucss=DanhMuc::where('id',1)->first();
-$samsung=ModelSP::where('category_id',$danhmucss->id)->orderBy('id','DESC')->get();
-$danhmucapple=DanhMuc::where('id',2)->first();
-$apple=ModelSP::where('category_id',$danhmucapple->id)->orderBy('id','DESC')->get();
+$danhmucss=DanhMuc::where('id',1)->where('status',1)->first();
+$samsung=ModelSP::where('category_id',$danhmucss->id)->where('status',1)->orderBy('id','DESC')->get();
+$danhmucapple=DanhMuc::where('id',2)->where('status',1)->first();
+$apple=ModelSP::where('category_id',$danhmucapple->id)->where('status',1)->orderBy('id','DESC')->get();
     return view('welcome',compact('newpro','samsung','apple'));
 }
 
     //xu ly hien thi danh muc
     public function danhmucsp(){
-        $product=ModelSP::all();
-        $category= DanhMuc::where('status',1)->orderBy('id')->get();
+        $product=ModelSP::where('status',1)->all();
+        $category= DanhMuc::where('status',1)->where('status',1)->orderBy('id')->get();
       return view('layout.header_footer',compact('product','category'));
      
     }
@@ -43,7 +43,7 @@ $apple=ModelSP::where('category_id',$danhmucapple->id)->orderBy('id','DESC')->ge
 
 //tat ca san pham
 public function allproduct(){
-$productshow=ModelSP::with('getpro')->with('getimage')->with('getcomment')->get();
+$productshow=ModelSP::with('getpro')->with('getimage')->with('getcomment')->where('status',1)->get();
 return view('giaodien.product_all',compact('productshow'));
 
 }
@@ -55,7 +55,7 @@ public function hienthidanhmuc(Request $request,$id){
         $url=$data['url'];
         //echo "<pre>"; print_r($data); die;
        $categoryshow=DanhMuc::where('id',$id)->first();
-$productshow=ModelSP::with('getpro')->with('getimage')->with('getcomment')->where('category_id',$categoryshow->id);
+$productshow=ModelSP::with('getpro')->with('getimage')->with('getcomment')->where('category_id',$categoryshow->id)->where('status',1);
 //neu co filter dung luong
 if(isset($data['capavalue'])&&!empty($data['capavalue'])){
 
@@ -86,25 +86,25 @@ if(isset($data['sort'])&&!empty($data['sort'])){
         $productshow->with(['getpro'=>function($q) {
             $q->orderBy('id','Asc');
         }
-    ])->addSelect(['price'=>SanPham::selectRaw('Min(price)')->whereColumn('product_model.id','product.model_id')])->orderBy('price','Asc');
+    ])->addSelect(['price'=>SanPham::selectRaw('Min(price)')->whereColumn('product_model.id','product.model_id')])->where('status',1)->orderBy('price','Asc');
     }
     else if($data['sort']=="hightolow")
     {
         $productshow->with(['getpro'=>function($q) {
             $q->orderBy('id','Asc');
         }
-    ])->addSelect(['price'=>SanPham::selectRaw('Min(price)')->whereColumn('product_model.id','product.model_id')])->orderBy('price','Desc');
+    ])->addSelect(['price'=>SanPham::selectRaw('Min(price)')->whereColumn('product_model.id','product.model_id')])->where('status',1)->orderBy('price','Desc');
     }
     $productshow=$productshow->paginate(6);
 }
 else{
-    $productshow=ModelSP::with('getpro')->with('getimage')->with('getcomment')->where('category_id',$categoryshow->id)->paginate(6);
+    $productshow=ModelSP::with('getpro')->with('getimage')->with('getcomment')->where('category_id',$categoryshow->id)->where('status',1)->paginate(6);
 }
 return view('giaodien/ajaxview.sort_pro',compact('productshow','categoryshow','id'));
 
         }else{
-            $categoryshow=DanhMuc::where('id',$id)->first();
-            $productshow=ModelSP::with('getpro')->with('getimage')->with('getcomment')->where('category_id',$categoryshow->id)->paginate(6);
+            $categoryshow=DanhMuc::where('id',$id)->where('status',1)->first();
+            $productshow=ModelSP::with('getpro')->with('getimage')->with('getcomment')->where('category_id',$categoryshow->id)->where('status',1)->paginate(6);
             return view('giaodien.category_product',compact('productshow','categoryshow','id'));
 
 
@@ -119,11 +119,11 @@ public function editprofile(){
     }
 // xem chi tiet san pham
 public function chitietsanpham($cateid,$id){
-    $ctmodel=ModelSP::find($id);
-    $bienthe=SanPham::where('model_id',$ctmodel->id)->get();
+    $ctmodel=ModelSP::where('status',1)->find($id);
+    $bienthe=SanPham::where('status',1)->where('model_id',$ctmodel->id)->get();
 $modelimage=AnhSP::where('model_id',$id)->get();
-$samecate=DanhMuc::where('id',$cateid)->first();
-$samemodel=ModelSP::where('category_id',$samecate->id)->get();
+$samecate=DanhMuc::where('id',$cateid)->where('status',1)->first();
+$samemodel=ModelSP::where('category_id',$samecate->id)->where('status',1)->get();
 $commentshow=BinhLuan::where('model_id',$id)->get();
 $commentcount=BinhLuan::where('model_id',$id)->get();
 $commentsum=BinhLuan::where('model_id',$id)->sum('stars');
@@ -148,7 +148,7 @@ public function hienthiwishlist()
     $auth = Auth::user()->id;
     $prowishshow = WishList::join('product_model','wishlist.model_pro_id','=','product_model.id')->
     join('product','wishlist.product_id','=','product.id')
-    ->where('user_id',$auth)->get(['wishlist.id as wid',
+    ->where('user_id',$auth)->where('product_model.status',1)->where('product.status',1)->get(['wishlist.id as wid',
        'product_model.model_name',
        'product_model.image',
        'product.capacity',
@@ -168,7 +168,7 @@ public function wishlistcount($id)
 public function selectbienthe(Request $req){
 $produm= $req->produm;
 $bienthes=$req->bienthes;
-$productinfo=SanPham::where('model_id',$produm)->where('capacity',$bienthes)->get();
+$productinfo=SanPham::where('model_id',$produm)->where('capacity',$bienthes)->where('status',1)->get();
 foreach($productinfo as $sprice){
     $exsale=$sprice->price*$sprice->sale/100;
     echo number_format($sprice->price-$exsale) ." <u>đ</u>";?>
@@ -182,7 +182,7 @@ foreach($productinfo as $sprice){
 public function selectwishlist(Request $req){
     $produm= $req->produm;
     $bienthes=$req->bienthes;
-    $productinfo=SanPham::where('model_id',$produm)->where('capacity',$bienthes)->get();
+    $productinfo=SanPham::where('model_id',$produm)->where('capacity',$bienthes)->where('status',1)->get();
     foreach($productinfo as $sprice){
         ?>
         <input type="hidden" value=" <?php echo $sprice->id;?>" name="productidwish"/>
@@ -195,7 +195,7 @@ public function changeinfo(Request $req){
     
     $produm= $req->produm;
     $bienthes=$req->bienthes;
-    $productinfo=SanPham::where('model_id',$produm)->where('capacity',$bienthes)->get();
+    $productinfo=SanPham::where('model_id',$produm)->where('capacity',$bienthes)->where('status',1)->get();
     foreach($productinfo as $sprice){
         echo $sprice->capacity ." GB";?>
        
@@ -208,7 +208,7 @@ public function selectcompare(Request $req){
     
     $produm= $req->produm;
     $bienthes=$req->bienthes;
-    $productinfo=SanPham::where('model_id',$produm)->where('capacity',$bienthes)->get();
+    $productinfo=SanPham::where('model_id',$produm)->where('capacity',$bienthes)->where('status',1)->get();
     foreach($productinfo as $sprice){
         ?>
         <input type="hidden" value=" <?php echo $sprice->id;?>" name="productid"/>
@@ -220,7 +220,7 @@ public function selectsale(Request $req){
     
     $produm= $req->produm;
     $bienthes=$req->bienthes;
-    $productinfo=SanPham::where('model_id',$produm)->where('capacity',$bienthes)->get();
+    $productinfo=SanPham::where('model_id',$produm)->where('capacity',$bienthes)->where('status',1)->get();
     foreach($productinfo as $sprice){
         if($sprice->sale){
         ?>
@@ -236,7 +236,7 @@ public function selectsalecate(Request $req){
     
     $produm= $req->produm;
     $bienthes=$req->bienthes;
-    $productinfo=SanPham::where('model_id',$produm)->where('capacity',$bienthes)->get();
+    $productinfo=SanPham::where('model_id',$produm)->where('capacity',$bienthes)->where('status',1)->get();
     foreach($productinfo as $sprice){
         if($sprice->sale){
         ?>
@@ -255,7 +255,7 @@ public function hienthicart()
     $takecart=Cart::get();
     $procartshow = Cart::join('product_model','cart.pro_model_id','=','product_model.id')->
     join('product','cart.product_id','=','product.id')
-    ->where('user_id',$auth)->get(['cart.id as cid',
+    ->where('user_id',$auth)->where('product_model.status',1)->where('product.status',1)->get(['cart.id as cid',
        'cart.pro_quantity',
        'product_model.model_name',
        'product_model.image',
@@ -273,7 +273,7 @@ return view('giaodien.cart',compact('procartshow'));
     {
         $auth = Auth::user()->id;
         $quickcart = Cart::join('product_model','cart.pro_model_id','=','product_model.id')->
-        join('product','cart.product_id','=','product.id')
+        join('product','cart.product_id','=','product.id')->where('product_model.status',1)->where('product.status',1)
         ->where('user_id',$auth)->get(['cart.id as cid',
            'cart.pro_quantity',
            'product_model.model_name',
