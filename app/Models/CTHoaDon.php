@@ -9,4 +9,14 @@ class CTHoaDon extends Model
 {
     use HasFactory;
     protected $table = 'bill_details';
+    protected $fillable = [
+        'pro_model_id',
+        'bill_id',
+        'product_id',
+        'quantity',
+        'unit_price',
+        
+    
+    ];
+
 }

@@ -20,11 +20,12 @@ return new class extends Migration
             $table->string('password');
             $table->string('full_name');   
             $table->string('avatar')->nullable();    
-            $table->string('birth');
+            $table->date('birth');
             $table->text('address');
             $table->integer('phone_number');
             $table->integer('status')->default(0);
             $table->integer('gender');
+            $table->integer('role');
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken()->default(Null);
             $table->softDeletes();

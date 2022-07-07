@@ -27,9 +27,10 @@ return new class extends Migration
             $table->integer('ram');
              $table->string('image');  
             $table->text('description');
+            $table->integer('total_rated');
            $table->integer('status')->default(0);
-   $table->softDeletes();
-            $table->timestamps();
+           $table->softDeletes();
+           $table->timestamps();
         });
     }
 

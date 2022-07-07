@@ -2,8 +2,9 @@
 @section('main')
 <script>
   $(document).ready(function(){
-$('#bienthes').change(function(){
- var bienthes=$('#bienthes').val();
+$('.update-bienthe').click(function(){
+    console.log(this);
+ var bienthes=$(this).data("type");
  var produm=$('#produm').val(); 
 
  $.ajax({
@@ -30,10 +31,44 @@ $.ajax({
       
     }
     }); 
+    $.ajax({
     
+    type:'get',
+    dataType:'html',
+    url:'<?php echo url('/changeinfo');?>',
+    data: "bienthes="+ bienthes +"&produm="+produm,
+    success:function (response){
+        console.log(response);
+        $('.capachange').html(response); 
+      
+    }
+    }); 
+    $.ajax({
+    
+    type:'get',
+    dataType:'html',
+    url:'<?php echo url('/selectcompare');?>',
+    data: "bienthes="+ bienthes +"&produm="+produm,
+    success:function (response){
+        console.log(response);
+        $('#compares').html(response); 
+      
+    }
+    }); 
+    $.ajax({
+    
+    type:'get',
+    dataType:'html',
+    url:'<?php echo url('/selectsale');?>',
+    data: "bienthes="+ bienthes +"&produm="+produm,
+    success:function (response){
+        console.log(response);
+        $('#salefix').html(response); 
+      
+    }
+    }); 
 
 });
-
 
   });
     </script>
@@ -49,6 +84,21 @@ $.ajax({
             </div>
             <!-- Li's Breadcrumb Area End Here -->
             <!-- content-wraper start -->
+            @if(Session::has('dacosanphamcart'))
+ <script>
+    swal("Sản phẩm đã tồn tài trong giỏ hàng.","","info");
+    </script>
+    @endif	
+	@if(Session::has('dacosanphamwish'))
+ <script>
+     swal("Sản phẩm đã tồn tài trong wishlist.","","info");
+    </script>
+    @endif	
+	@if(Session::has('dacosanphamcompare'))
+ <script>
+    swal("Sản phẩm đã tồn tài trong so sánh.","","info");
+    </script>
+    @endif	
             <div class="content-wraper">
                 <div class="container">
                     <div class="row single-product-area">
@@ -81,40 +131,65 @@ $.ajax({
 
                         <div class="col-lg-7 col-md-6">
                             <div class="product-details-view-content pt-60">
-                                <div class="product-info">
+                                <div class="product-info" style="margin-top:-25px;">
                                   
-                                    <h2>{{$ctmodel->model_name}}</h2>
-                                    
+                                    <h2 style="font-size:25px;">{{$ctmodel->model_name}} <span class="capachange" > {{$ctmodel->getpro->first()->capacity}} GB</span></h2>  
+                                
                                    <div class="rating-box pt-20">
+                                    @php $ratenum=number_format($commentvalue)
+                                    
+                                    @endphp
+                                   
+                                    
                                         <ul class="rating rating-with-review-item">
+                                            @for($i=1;$i<=$ratenum;$i++)
                                             <li><i class="fa fa-star-o"></i></li>
-                                            <li><i class="fa fa-star-o"></i></li>
-                                            <li><i class="fa fa-star-o"></i></li>
+                                            @endfor
+                                            @for($j=$ratenum+1;$j<=5;$j++)
                                             <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                            <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                            <li class="review-item"><a href="#">Đọc Đánh Giá</a></li>
-                                            <li class="review-item"><a href="#">Viết Đánh Giá</a></li>
+                                            @endfor
+                                          <li class="review-item"><a href="#" style="font-size:15px;">{{$commentcount->count()}} Đánh Giá</a></li>
+                                         <form action="{{route('com_pare',['id'=>$ctmodel->id])}}" class="compare_add" method="POST" >
+                                            @csrf
+                                            <span id="compares">
+                                            <input type="hidden" value=" <?php echo $ctmodel->getpro->first()->id;?>" name="productid"/>
+                                            
+                                            </span>
+                                            <button class="compare-btn" type="submit" style="border:none; background-color:white; color:#05A7FF; font-size:17px; margin-top:10px;" ><img src=" {{asset('images/menu/logo/compare.png')}}" style="width:27px;"alt="" > So Sánh</button>
+
+                                           </form>
+                                        
                                         </ul>
                                     </div>
+                                    
+                                      
+                                   
                                     <form action="{{route('add_cart',['id'=>$ctmodel->id])}}" class="cart-quantity" method="POST" >
                                         @csrf
-                                    <div class="price-box pt-20">
-                                    
-                                        <span class="new-price new-price-2" id="price">{{number_format($ctmodel->getpro->first()->price)}} <u>đ </u>
-                                        <input type="hidden" value="<?php echo $ctmodel->getpro->first()->price;?>" name="newprice"/>
-                               <input type="hidden" value=" <?php echo $ctmodel->getpro->first()->id;?>" name="productid"/>
+                                       
+                                    <div class="price-box pt-20" style="margin-top:-20px;">
+                                    @php $exsale=$ctmodel->getpro->first()->sale*$ctmodel->getpro->first()->price/100; @endphp
+                                        <span class="new-price new-price-2" id="price">{{number_format($ctmodel->getpro->first()->price-$exsale)}} <u>đ </u>
+                                        <input type="hidden" value="<?php echo $ctmodel->getpro->first()->price-$exsale;?>" name="newprice"/>
+                                 <input type="hidden" value=" <?php echo $ctmodel->getpro->first()->id;?>" name="productid"/>
                                         
                                     </span>
+                                    @if($ctmodel->getpro->first()->sale)
+                                    <span id="salefix">
+                                   <span class="old-price" style="text-decoration:line-through; margin-left:10px;font-size:22px;">{{number_format($ctmodel->getpro->first()->price)}}<u>đ </u></span>
+                                <span class="discount-percentage" style="margin-left:10px;font-size:22px;color:#E80F0F;">-{{$ctmodel->getpro->first()->sale}}%</span>
+                                    </span>
+                                    @endif
                                     </div>
                                     <div class="product-variants">
                                         <div class="produt-variants-size">
                                             <label>Chọn Mẫu Khác Của {{$ctmodel->model_name}} </label>
-                                           <select class="nice-select" id="bienthes">
+                                            <ul>
                                             @foreach ($bienthe as $bt)
-                                                <option>{{$bt->capacity}} GB</option>
-                                                @endforeach
-                                            </select>
-                                          
+                                            <div class="update-bienthe" type="submit" data-type="{{$bt->capacity}}" tabindex="1"  >{{$bt->capacity}}GB</div>
+                                            @endforeach
+                                         </ul>
+                                        
                                            <div class="single-add-to-cart">
                                         
                                             <div class="quantity">
@@ -139,12 +214,11 @@ $.ajax({
                                     <span id="wish">
                                     <input type="hidden" value=" <?php echo $ctmodel->getpro->first()->id;?>" name="productidwish"/>
 </span>
-                                    <button class="wishlist-btn" type="submit"> <i class="fa fa-heart-o"></i>Thêm Vào WishList</button>
+                                    <button class="wishlist-btn" type="submit" style="border:none; background-color:white; color:deeppink; font-size:15px;" > <i class="fa fa-heart-o"></i>Thêm Vào WishList</button>
                                     </form>
-                                       <div class="product-social-sharing pt-25">
-                                            
-                                        </div>
+                                       
                                     </div>
+                           
                                     <div class="block-reassurance">
                                         <ul>
                                             
@@ -167,7 +241,7 @@ $.ajax({
                                 <ul class="nav li-product-menu">
                                    <li><a class="active" data-toggle="tab" href="#description"><span>Thông Tin</span></a></li>
                                    <li><a data-toggle="tab" href="#product-details"><span>Thông Số  </span></a></li>
-                                   <li><a data-toggle="tab" href="#reviews"><span>Đánh Giá {{$ctmodel->model_name}}</span></a></li>
+                                   <li><a data-toggle="tab" href="#reviews">Đánh Giá {{$ctmodel->model_name}}<span class="capachange">{{$ctmodel->getpro->first()->capacity}}GB</span></a></li>
                                 </ul>               
                             </div>
                             <!-- Begin Li's Tab Menu Content Area -->
@@ -176,7 +250,7 @@ $.ajax({
                     <div class="tab-content">
                         <div id="description" class="tab-pane active show" role="tabpanel">
                             <div class="product-description">
-                                <span class="show-info">{{$ctmodel->describe}}</span>
+                                <span class="show-info">{{$ctmodel->description}}</span>
                             </div>
                         </div>
                         <div id="product-details" class="tab-pane" role="tabpanel">
@@ -188,7 +262,7 @@ $.ajax({
                                 <p class="show-thongso"><span class="show-thongso-tittle">Hệ điều hành: </span> {{$ctmodel->opera_sys}}</p>
                                 <p class="show-thongso"><span class="show-thongso-tittle">Camera sau: </span> {{$ctmodel->back_camera}} MP</p>
                                 <p class="show-thongso"><span class="show-thongso-tittle">Camera trước: </span> {{$ctmodel->front_camera}} MP</p>
-                                <p class="show-thongso"><span class="show-thongso-tittle">Dung Lượng Bộ Nhớ Trong: </span> <!--{{$ctmodel->capacity}}--> GB</p>
+                                <p class="show-thongso"><span class="show-thongso-tittle" >Dung Lượng Bộ Nhớ Trong: </span> <span class="capachange" style="font-weight:normal; color:gray;"> {{$ctmodel->getpro->first()->capacity}} GB</span></p>
                                 <p class="show-thongso"><span class="show-thongso-tittle">CPU: </span> {{$ctmodel->cpu}}</p>
                                 <p class="show-thongso"><span class="show-thongso-tittle">GPU: </span> {{$ctmodel->gpu}}</p>
                                 <p class="show-thongso"><span class="show-thongso-tittle">RAM: </span> {{$ctmodel->ram}} GB</p>
@@ -215,7 +289,7 @@ $.ajax({
                                     </div>
                                    <div class="comment-details">
                                    <p>{{$cs->content}}</p>
-                                        <p>{{$cs->created_at}}</p>
+                                        <p>{{date_format($cs->created_at,"d/m/y H:i:s")}}</p>
                                     </div>
                                     @endforeach
                                     

@@ -16,8 +16,9 @@ body {
     box-shadow: 0 1px 20px 0 rgba(69,90,100,0.08);
     border: none;
     margin-bottom: 30px;
-    width: 1000px;
-    margin-left: -170px;
+    width:1200px;
+    margin-left: -260px;   
+
 }
 
 .m-r-0 {
@@ -29,12 +30,12 @@ body {
 }
 
 .user-card-full .user-profile {
-    border-radius: 5px 0 0 5px;
+    border-radius: 10px 0 0 10px;
 }
 
 .bg-c-lite-green {
-        background:#1256A1;
-
+    background: -webkit-gradient(linear, left top, right top, from(#0382C7), to(#ED1D26));
+    background: linear-gradient(to right, #ED1D26, #0382C7);
 }
 
 .user-profile {
@@ -50,7 +51,7 @@ body {
 }
 
 .img-radius {
-    border-radius: 5px;
+    border-radius: 100px;
 }
 
 
@@ -95,6 +96,7 @@ p {
 
 .text-muted {
     color: #919aa3 !important;
+    font-weight: 200;
 }
 
 .b-b-default {
@@ -103,6 +105,7 @@ p {
 
 .f-w-600 {
     font-weight: 600;
+    color:#1B1B1B;
 }
 
 .m-b-20 {
@@ -136,4 +139,4 @@ p {
     transition: all 0.3s ease-in-out;
 }
 
-    
+

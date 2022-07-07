@@ -12,15 +12,11 @@
                 </div>
             
             </div>
-            <div><h1 style="text-align:center; color:#0382C7;"> CHÀO MỪNG ĐẾN VỚI TVT SHOP </h1> <img style="display:none;" src=" {{asset('images/menu/logo/logo.png')}}" alt=""></div>
+            <div><h1 style="text-align:center; color:#0382C7;"> CHÀO MỪNG ĐẾN VỚI <img  src=" {{asset('images/menu/logo/logo.png')}}" alt=""> SHOP  </div> </h1>
             <!-- Li's Breadcrumb Area End Here -->
             <!-- Begin Login Content Area -->
   <div class="page-section mb-60">
-  @if(session()->has('messchualogin'))
-    <div class="alert alert-success">
-        {{ session()->get('messchualogin') }}
-    </div>
-@endif
+  @if (session('dangnhap')) <div class="alert alert-success"> {{ session('dangnhap') }} </div> @endif
 </div>
                 <div class="container">
                     <div class="row">

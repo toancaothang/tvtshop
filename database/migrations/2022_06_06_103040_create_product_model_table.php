@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('capacity');
             $table->string('color');
             $table->float('price',100);  
+            $table->int('sale');  
             $table->integer('status')->default(0);
             $table->softDeletes();
             $table->timestamps();

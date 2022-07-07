@@ -17,7 +17,6 @@ class HoaDon extends Model
         'deliver_address',
         'notes',
     
-    
     ];
 
 }

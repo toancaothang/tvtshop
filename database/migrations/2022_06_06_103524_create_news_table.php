@@ -15,7 +15,8 @@ return new class extends Migration
     {
         Schema::create('news', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title');   
+            $table->string('title');
+            $table->string('image');   
             $table->text('content');
           $table->integer('status')->default(0);
             $table->softDeletes();

@@ -9,7 +9,7 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <link rel="shortcut icon" type="image/x-icon" href="{{asset('images/logo.png')}}">
+        <link rel="shortcut icon" type="image/x-icon" href="{{asset('images/menu/logo/logo.png')}}">
    
         <link rel="stylesheet" href="{{asset('css/material-design-iconic-font.min.css')}}">
         <link rel="stylesheet" href="{{asset('css/profile.css')}}">
@@ -43,6 +43,7 @@
         <link rel="stylesheet" href="{{asset('css/responsive.css')}}">
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
         <script src="{{asset('js/vendor/modernizr-2.8.3.min.js')}}"></script>
     </head>
@@ -62,7 +63,7 @@
                             <div class="col-lg-3 col-md-4">
                                 <div class="header-top-left">
                                     <ul class="phone-wrap">
-                                        <li><span>Hotline: </span><a href="#">0703413165</a></li>
+                                        <li><span>Gọi Tư Vấn: </span><a href="#"> +0703413165</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -78,6 +79,7 @@
                                         <div class="setting ht-setting">
                                                 <ul class="ht-setting-list" style="width:150px;">
                                                 <li><a href="{{route('hienthi_profile')}}" style="color:black;">Tài Khoản Của Tôi</a></li>
+                                                <li><a href="{{route('purchase_list')}}" style="color:black;">Thông Tin Mua Hàng</a></li>
                                                    <form action="{{route('xuly_dangxuat')}}" method="POST"> 
                                                         @csrf
                                                         <button type="submit" style="border:none;background-color:white; font-size:12px; color:black;" >Đăng Xuất </button>
@@ -100,24 +102,15 @@
                                   
                                         <!-- Setting Area End Here -->
                                         <!-- Begin Currency Area -->
-                                        <li>
-                                            <span class="currency-selector-wrapper">Tiền Tệ</span>
-                                            <div class="ht-currency-trigger"><span>VND</span></div>
-                                            <div class="currency ht-currency">
-                                                <ul class="ht-setting-list">
-                                                    <li><a href="#">VND</a></li>
-                                                    <li class="active"><a href="#">VND</a></li>
-                                                </ul>
-                                            </div>
-                                        </li>
+                                    
                                         <!-- Currency Area End Here -->
                                         <!-- Begin Language Area -->
                                         <li>
-                                            <span class="language-selector-wrapper">Ngôn Ngữ</span>
+                                            <span class="language-selector-wrapper">Ngôn Ngữ:</span>
                                             <div class="ht-language-trigger"><span>Tiếng Việt</span></div>
                                             <div class="language ht-language">
                                                 <ul class="ht-setting-list">
-                                                    <li class="active"><a href="#"><img src="{{url('public/site')}}/images/menu/flag-icon/1.jpg" alt="">English</a></li>
+                                                    <li class="active"><a href="#"><img src="{{asset('images/menu/flag-icon/1.jpg')}}" alt="">English</a></li>
                       
                                                 </ul>
                                             </div>
@@ -139,31 +132,39 @@
                             <div class="col-lg-3">
                                 <div class="logo pb-sm-30 pb-xs-30">
                                     <a href="{{route('htsp_trangchu')}}">
-                                        <img src=" {{asset('images/menu/logo/logo.png')}}" alt="">
-                                    </a>
-                                </div>
+                                        <img src=" {{asset('images/menu/logo/logo.png')}}" alt="" style="margin-top: -20px; margin-left:-30px;" >
+                                        <h2 style="margin-left:150px;margin-top:-70px; color:#FFFFFF; font-weight:500"> Shop</h2>
+                                        </a>
+                                        
+                                    </div>
+                                
                             </div>
                             <!-- Header Logo Area End Here -->
                             <!-- Begin Header Middle Right Area -->
                             <div class="col-lg-9 pl-0 ml-sm-15 ml-xs-15">
                                 <!-- Begin Header Middle Searchbox Area -->
-                                <form action="#" class="hm-searchbox">
-                                    <select class="nice-select select-search-category">
-                                        <option value="0">All</option>  
-                                        <option value="0">Apple</option>  
-                                        <option value="0">Samsung</option>  
-                                        <option value="0">Xiaomi</option>  
-                                        <option value="0">Asus</option>  
-                                        <option value="0">Iphone</option>                         
+                                <form action="{{route('search_product')}}" class="hm-searchbox" method="POST">
+                                @csrf
+                                    <select class="nice-select select-search-category" name="searchdm">
+                                  
+                                        <option value="0">Tất Cả</option>  
+                                        @foreach($category as $value)
+                                        <option value="{{ $value->id}}"> {{ $value->category_name}}</option>  
+                                        @endforeach                        
                                         
                                     </select>
-                                    <input type="text" placeholder="Nhập Vào...">
+                                    <input type="text" class="input-search-ajax" placeholder="Bạn tìm gì..." name="searchrs">
+
                                     <button class="li-btn" type="submit"><i class="fa fa-search"></i></button>
+                                    <div class="search-ajax-result" style="background-color:white;position:absolute; width:517px;margin-left:75px;margin-top:45px;z-index: 10;max-height:300px;overflow: scroll;display:none;" >
+
+</div>
+                                       
+
+
                                 </form>
                                 <!-- Header Middle Searchbox Area End Here -->
-                                @php 
-                                        $wishcount=(App\Models\WishList::count());
-                                        @endphp
+                             
                                 <!-- Begin Header Middle Right Area -->
                                 <div class="header-middle-right">
                                     <ul class="hm-menu">
@@ -171,6 +172,9 @@
                                         <li class="hm-wishlist"  >
                                             <a href="{{route('hienthi_wishlist')}}" >
                                             @if(Auth::check())
+                                            @php 
+                                        $wishcount=(App\Models\WishList::where('user_id','=',Auth::user()->id)->count());
+                                        @endphp
                                                 <span class="cart-item-count wishlist-item-count" style="color:white;background-color:deeppink;"> {{$wishcount}} </span>
                                                 @endif
                                                 <i class="fa fa-heart-o" ></i>
@@ -178,34 +182,41 @@
                                         </li>
                                         <!-- Header Middle Wishlist Area End Here -->
                                         <!-- Begin Header Mini Cart Area -->
+                                        
                                         <li class="hm-minicart">
-                                       
-                                            <div class="hm-minicart-trigger" >
-                                             <span class="item-icon"></span>
-                                                <span class="item-text">2
+                                        <div class="hm-minicart-trigger">
+                                                <span class="item-icon"></span>
+                                                @if(Auth::check())
+                                                @php 
+                                        $cartcount=(App\Models\Cart::where('user_id','=',Auth::user()->id)->count());
+                                        @endphp
+                                                <span class="item-text"><u> đ</u>
+                                               
+                                                    <span class="cart-item-count"> {{$cartcount}}</span>
                                                 </span>
                                             </div>
-                                            
+                                           
                                           <div class="minicart">
-                                        
+                                      
                                                 <ul class="minicart-product-list">
-                                              
-                                                    <li>
+                                                    
+                                                @foreach($quickcart as $qc)
+                                                <li>
                                                         <a href="single-product.html" class="minicart-product-image">
-                                                            <img src="images/product/small-size/1.jpg" alt="cart products">
+                                                            <img src="{{url('website/product')}}/{{$qc->image}}" alt="cart products">
                                                         </a>
                                                         <div class="minicart-product-details">
-                                                            <h6><a href="single-product.html"> </a></h6>
-                                                            <span>0</span>
+                                                            <h6><a href="single-product.html">{{$qc->model_name}} {{$qc->capacity}}GB</a></h6>
+                                                            @php $exsale=$qc->sale*$qc->price/100;
+                                                $trueprice=$qc->price-$exsale;
+                                                 @endphp
+                                                            <span>{{number_format($qc->sale)}} <u> đ</u> x {{$qc->pro_quantity}}</span>
                                                         </div>
-                                                        <button class="close">
-                                                            <i class="fa fa-close"></i>
-                                                        </button>
                                                     </li>
-                                                  
+                                                    @endforeach
                                                 </ul>
+                                              
                                                 
-                                                <p class="minicart-total">Tổng Cộng <span>0</span></p>
                                                 <div class="minicart-button">
                                                     <a href="{{route('hienthi_cart')}}" class="li-button li-button-dark li-button-fullwidth li-button-sm">
                                                         <span>Xem Giỏ Hàng</span>
@@ -216,6 +227,7 @@
                                                 </div>
                                             </div>
                                         </li>
+                                        @endif
                                         <!-- Header Mini Cart Area End Here -->
                                     </ul>
                                 </div>
@@ -233,18 +245,16 @@
                             <div class="col-lg-12">
                                <!-- Begin Header Bottom Menu Area -->
                                <div class="hb-menu">
-                                   <nav>
+                                   <nav style="margin-left:170px;">
                                        <ul>
-                                           <li class="dropdown-holder"><a href="index.html">Trang Chủ</a>
+                                           <li class=""><a href="{{route('htsp_trangchu')}}">Trang Chủ</a>
                                                
                                            </li>
-                                           <li class="megamenu-holder"><a href="shop-left-sidebar.html">Các Mẫu Điện Thoại</a>
-                                               <ul class="megamenu hb-megamenu">
-                                                
-                                              
-                                               </ul>
+                                           <li class=""><a href="{{route('all_product')}}">Tất Cả Sản Phẩm</a>
+                                               
                                            </li>
-                                           <li class="dropdown-holder"><a href="blog-left-sidebar.html">Danh Mục Sản Phẩm</a>
+                                           
+                                           <li class=""><a href="#">Các Dòng Sản Phẩm</a>
                                                <ul class="hb-dropdown">
                                                      @foreach($category as $value)
                                                    <li class="sub-dropdown-holder"><a href="{{route('hienthi_danhmuc',['id'=>$value->id])}}"> {{$value->category_name}}</a>
@@ -255,7 +265,7 @@
                                                  
                                                </ul>
                                            </li>
-                                           <li class="megamenu-static-holder"><a href="index.html">Tin Tức</a>
+                                           <li class="" style="margin-right:9px;"><a href="{{route('hienthi_baiviet')}}">Tin Tức</a>
                                                
                                            </li>
                                            <li><a href="about-us.html">Về Chúng Tôi</a></li>
@@ -352,8 +362,8 @@
                 </div>
                 <!-- Footer Static Top Area End Here -->
                 <!-- Begin Footer Static Middle Area -->
-                <div class="footer-static-middle">
-                    <div class="container">
+                <div class="footer-static-middle" style="background-color:white;">
+                    <div class="container" >
                         <div class="footer-logo-wrap pt-50 pb-35">
                             <div class="row">
                                 <!-- Begin Footer Logo Area -->
@@ -381,7 +391,8 @@
                                 </div>
                                 <!-- Footer Logo Area End Here -->
                                 <!-- Begin Footer Block Area -->
-                                <div class="col-lg-2 col-md-3 col-sm-6">
+                                <div class="col-lg-2 col-md-3 col-sm-6" style="flex: 6 7 16.666667%;
+ max-width: 23.666667%;">
                                     <div class="footer-block">
                                         <h3 class="footer-block-title">Các Dòng Sán Phẩm</h3>
                                         <ul>
@@ -394,6 +405,18 @@
                                 </div>
                                 <!-- Footer Block Area End Here -->
                                 <!-- Begin Footer Block Area -->
+                                <div class="col-lg-2 col-md-3 col-sm-6" style="flex: 6 7 16.666667%;
+max-width: 26.666667%;">
+                                    <div class="footer-block">
+                                        <h3 class="footer-block-title">Về Website Của Chúng Tôi</h3>
+                                        <ul>
+                                            <li><a href="#">Chính Sách Vận Chuyển</a></li>
+                                            <li><a href="#">Chính Sách Đổi Trả</a></li>
+                                            <li><a href="#">Về Chúng Tôi</a></li>
+                                            <li><a href="#">Liên Lạc Với Chúng Tôi</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
                                 <div class="col-lg-2 col-md-3 col-sm-6">
                                     <div class="footer-block">
                                         <h3 class="footer-block-title">Về Website Của Chúng Tôi</h3>
@@ -419,16 +442,16 @@
                 </div>
                 <!-- Footer Static Middle Area End Here -->
                 <!-- Begin Footer Static Bottom Area -->
-                <div class="footer-static-bottom pt-55 pb-55">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-12">
+                <div class="footer-static-bottom pt-55 pb-55" style="background-color:#1256A1; ">
+                    <div class="container" >
+                        <div class="row" >
+                            <div class="col-lg-12" >
                                 <!-- Begin Footer Links Area -->
                                
                                 <!-- Footer Payment Area End Here -->
                                 <!-- Begin Copyright Area -->
-                                <div class="copyright text-center pt-25">
-                                    <span><a target="_blank" href="">TvT Shop</a></span>
+                                <div class="copyright text-center pt-25" style="height:5px;">
+                                    <span><a target="_blank" href="" style="color:white; font-weight:bold;" >TvT Shop</a></span>
                                 </div>
                                 <!-- Copyright Area End Here -->
                             </div>
@@ -438,118 +461,7 @@
                 <!-- Footer Static Bottom Area End Here -->
             </div>
             <!-- Footer Area End Here -->
-            <!-- Begin Quick View | Modal Area -->
-            <div class="modal fade modal-wrapper" id="exampleModalCenter" >
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="modal-body">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            <div class="modal-inner-area row">
-                                <div class="col-lg-5 col-md-6 col-sm-6">
-                                   <!-- Product Details Left -->
-                                    <div class="product-details-left">
-                                        <div class="product-details-images slider-navigation-1">
-                                            <div class="lg-image">
-                                                <img src="images/product/large-size/1.jpg" alt="product image">
-                                            </div>
-                                            <div class="lg-image">
-                                                <img src="images/product/large-size/2.jpg" alt="product image">
-                                            </div>
-                                            <div class="lg-image">
-                                                <img src="images/product/large-size/3.jpg" alt="product image">
-                                            </div>
-                                            <div class="lg-image">
-                                                <img src="images/product/large-size/4.jpg" alt="product image">
-                                            </div>
-                                            <div class="lg-image">
-                                                <img src="images/product/large-size/5.jpg" alt="product image">
-                                            </div>
-                                            <div class="lg-image">
-                                                <img src="images/product/large-size/6.jpg" alt="product image">
-                                            </div>
-                                        </div>
-                                        <div class="product-details-thumbs slider-thumbs-1">                                        
-                                            <div class="sm-image"><img src="images/product/small-size/1.jpg" alt="product image thumb"></div>
-                                            <div class="sm-image"><img src="images/product/small-size/2.jpg" alt="product image thumb"></div>
-                                            <div class="sm-image"><img src="images/product/small-size/3.jpg" alt="product image thumb"></div>
-                                            <div class="sm-image"><img src="images/product/small-size/4.jpg" alt="product image thumb"></div>
-                                            <div class="sm-image"><img src="images/product/small-size/5.jpg" alt="product image thumb"></div>
-                                            <div class="sm-image"><img src="images/product/small-size/6.jpg" alt="product image thumb"></div>
-                                        </div>
-                                    </div>
-                                    <!--// Product Details Left -->
-                                </div>
-
-                                <div class="col-lg-7 col-md-6 col-sm-6">
-                                    <div class="product-details-view-content pt-60">
-                                        <div class="product-info">
-                                            <h2>Today is a good day Framed poster</h2>
-                                            <span class="product-details-ref">Reference: demo_15</span>
-                                            <div class="rating-box pt-20">
-                                                <ul class="rating rating-with-review-item">
-                                                    <li><i class="fa fa-star-o"></i></li>
-                                                    <li><i class="fa fa-star-o"></i></li>
-                                                    <li><i class="fa fa-star-o"></i></li>
-                                                    <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                                    <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                                    <li class="review-item"><a href="#">Read Review</a></li>
-                                                    <li class="review-item"><a href="#">Write Review</a></li>
-                                                </ul>
-                                            </div>
-                                            <div class="price-box pt-20">
-                                                <span class="new-price new-price-2">$57.98</span>
-                                            </div>
-                                            <div class="product-desc">
-                                                <p>
-                                                    <span>100% cotton double printed dress. Black and white striped top and orange high waisted skater skirt bottom. Lorem ipsum dolor sit amet, consectetur adipisicing elit. quibusdam corporis, earum facilis et nostrum dolorum accusamus similique eveniet quia pariatur.
-                                                    </span>
-                                                </p>
-                                            </div>
-                                            <div class="product-variants">
-                                                <div class="produt-variants-size">
-                                                    <label>Dimension</label>
-                                                    <select class="nice-select">
-                                                        <option value="1" title="S" selected="selected">40x60cm</option>
-                                                        <option value="2" title="M">60x90cm</option>
-                                                        <option value="3" title="L">80x120cm</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="single-add-to-cart">
-                                                <form action="#" class="cart-quantity">
-                                                    <div class="quantity">
-                                                        <label>Quantity</label>
-                                                        <div class="cart-plus-minus">
-                                                            <input class="cart-plus-minus-box" value="1" type="text">
-                                                            <div class="dec qtybutton"><i class="fa fa-angle-down"></i></div>
-                                                            <div class="inc qtybutton"><i class="fa fa-angle-up"></i></div>
-                                                        </div>
-                                                    </div>
-                                                    <button class="add-to-cart" type="submit">Add to cart</button>
-                                                </form>
-                                            </div>
-                                            <div class="product-additional-info pt-25">
-                                                <a class="wishlist-btn" href="wishlist.html"><i class="fa fa-heart-o"></i>Add to wishlist</a>
-                                                <div class="product-social-sharing pt-25">
-                                                    <ul>
-                                                        <li class="facebook"><a href="#"><i class="fa fa-facebook"></i>Facebook</a></li>
-                                                        <li class="twitter"><a href="#"><i class="fa fa-twitter"></i>Twitter</a></li>
-                                                        <li class="google-plus"><a href="#"><i class="fa fa-google-plus"></i>Google +</a></li>
-                                                        <li class="instagram"><a href="#"><i class="fa fa-instagram"></i>Instagram</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>   
-            <!-- Quick View | Modal Area End Here -->
+        
         </div>
         <!-- Body Wrapper End Here -->
         <!-- jQuery-V1.12.4 -->
@@ -574,6 +486,35 @@
         <script src="{{asset('js/jquery.nice-select.min.js')}}"></script>
         <script src="{{asset('js/scrollUp.min.js')}}"></script>
         <script src="{{asset('js/main.js')}}"></script>
+      
+       <script>
+$('.input-search-result').hide();
+$('.input-search-ajax').keyup(function(){
+var _text=$(this).val();    
+var _imgurl="{{url('website/product')}}"
+if(_text !=''){
+    $.ajax({
+url:"{{route('ajax_search')}}?key="+_text,
+type: 'GET',
+success:function(res){
+   
+    $('.search-ajax-result').show();
+   $('.search-ajax-result').html(res)
+}
+
+});
+    
+
+}else{
+    $('.search-ajax-result').html('');
+    $('.search-ajax-result').hide();
+}
+
+
+});
+
+
+        </script> 
     </body>
 
 

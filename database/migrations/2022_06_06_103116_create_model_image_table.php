@@ -16,8 +16,7 @@ return new class extends Migration
         Schema::create('model_image', function (Blueprint $table) {
             $table->increments('id');
             $table->string('file_name');
-            $table->integer('status')->default(0);
-            $table->softDeletes();
+           $table->softDeletes();
             $table->timestamps();
         });
     }
