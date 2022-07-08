@@ -14,7 +14,7 @@
             <div class="col-md-12">
                 <div class="form h-100" style="padding-bottom: 0px">
                 <h4>Thay đổi thông tin banner</h4>
-                <form class="mb-5" method="POST" acction="{{route('xylysuaBN',['BN'=>$thongtin->id])}}" style="margin-left :20px">
+                <form class="mb-5" method="POST" acction="{{route('xylysuaBN',['BN'=>$thongtin->id])}}" style="margin-left :20px"enctype = multipart/form-data>
                     @csrf
                     <div class="row">
                         <div class="col-md-6 form-group mb-3">

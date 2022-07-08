@@ -19,12 +19,19 @@ class GiaoDienController extends Controller
 {
 // hien thi du lieu ra trang chu
 public function httrangchu(){
-$newpro=ModelSP::where('status',1)->orderBy('updated_at','DESC')->get()->take(5);
-$danhmucss=DanhMuc::where('id',1)->where('status',1)->first();
-$samsung=ModelSP::where('category_id',$danhmucss->id)->where('status',1)->orderBy('id','DESC')->get();
-$danhmucapple=DanhMuc::where('id',2)->where('status',1)->first();
-$apple=ModelSP::where('category_id',$danhmucapple->id)->where('status',1)->orderBy('id','DESC')->get();
-    return view('welcome',compact('newpro','samsung','apple'));
+$newpro=ModelSP::with('getpro')->with('getimage')->with('getcomment')->where('status',1)->orderBy('updated_at','DESC')->get();
+$sale=ModelSP::join('product','product_model.id','=','product.model_id')->where('product_model.status',1)->where('product.status',1)->where('sale','>',0)->get(['product_model.id as mid',
+    'product.id',
+    'product_model.model_name',
+    'product_model.category_id',
+    'product_model.image',
+    'product.price',   
+     'product.capacity','product.sale',
+     'product_model.total_rated',
+]);
+$samsung=ModelSP::with('getpro')->with('getimage')->with('getcomment')->where('category_id',1)->where('status',1)->get()->take(10);
+$apple=ModelSP::with('getpro')->with('getimage')->with('getcomment')->where('category_id',2)->where('status',1)->get()->take(10);
+    return view('welcome',compact('newpro','samsung','apple','sale'));
 }
 
     //xu ly hien thi danh muc
@@ -36,7 +43,7 @@ $apple=ModelSP::where('category_id',$danhmucapple->id)->where('status',1)->order
     }
     //hien thi bai viet
     public function hienthibaiviet(){
-       $tintuc=TinTuc::get();
+       $tintuc=TinTuc::where('status',1)->get();
 
         return view('giaodien.blog',compact('tintuc'));
     }
@@ -170,7 +177,7 @@ public function chitietsanpham($cateid,$id){
     $bienthe=SanPham::where('status',1)->where('model_id',$ctmodel->id)->get();
 $modelimage=AnhSP::where('model_id',$id)->get();
 $samecate=DanhMuc::where('id',$cateid)->where('status',1)->first();
-$samemodel=ModelSP::where('category_id',$samecate->id)->where('status',1)->get();
+$samemodel=ModelSP::with('getpro')->with('getimage')->with('getcomment')->where('category_id',$samecate->id)->where('status',1)->get();
 $commentshow=BinhLuan::where('model_id',$id)->get();
 $commentcount=BinhLuan::where('model_id',$id)->get();
 $commentsum=BinhLuan::where('model_id',$id)->sum('stars');
@@ -310,6 +317,8 @@ public function hienthicart()
        'product.price',
        'cart.product_id',
        'product.sale',
+       'product_model.id as pid',
+       'product_model.category_id'
 ]);
 return view('giaodien.cart',compact('procartshow'));
 }
@@ -329,6 +338,7 @@ return view('giaodien.cart',compact('procartshow'));
            'product.price',
            'product.sale',
     ]);
+    
     return view('layout.header_footer',compact('quickcart'));
         }
 // hien thi thong tin mua hang

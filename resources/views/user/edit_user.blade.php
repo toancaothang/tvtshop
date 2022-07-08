@@ -54,21 +54,27 @@
                                                                     <div class="col-sm-6">
                                                                         <p class="m-b-10 f-w-600">Ảnh Đại Diện:</p>
                                                                    
-                                                                        <input type="file" value="" name="avt">
+                                                                        <input style="border:none;" type="file" value="" name="avt">
                                                                        
                                                                      
                                                                     </div>
                                                                     <div class="col-sm-6">
                                                                         <p class="m-b-10 f-w-600">Giới Tính:</p>
+                                                                        @if(Auth::user()->gender==0)
                                                                         <p> Nam</p>
-                                                                        <input type="checkbox" value="0" style="margin-left:0px;width:30px;height:30px; " name="sex">
+                                                                        <input type="checkbox" value="0" style="margin-left:0px;width:30px;height:30px; " name="sex" checked>
                                                                         <p> Nữ</p>
                                                                         <input type="checkbox" value="1" style="margin-left:0px;width:30px;height:30px;" name="sex">
-
+                                                                         @else
+                                                                         <p> Nam</p>
+                                                                        <input type="checkbox" value="0" style="margin-left:0px;width:30px;height:30px; " name="sex">
+                                                                        <p> Nữ</p>
+                                                                        <input type="checkbox" value="1" style="margin-left:0px;width:30px;height:30px;" name="sex" checked>
+                                                                        @endif
                                                                     </div>
                                                                    
                                                                 </div>
-                                                               <button type="submit" > Lưu Thay Đổi</button>
+                                                               <button type="submit" style="border:none;width:150px;height:30px;background-color:#0382C7;color:white;border-radius:2px;font-weight:bold;"> Lưu Thay Đổi</button>
                                                                 </form>
                                                                     
                                                                 </div>

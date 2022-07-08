@@ -1,5 +1,70 @@
 @extends('layout/header_footer')
 @section('main')
+
+<!--xu ly bien -->
+<script>
+  $(document).ready(function(){
+$('.update-bienthe').click(function(){
+ var bienthes=$(this).data("type");
+ var produm = $('#produm-' + $(this).data('id')).change().val();
+ const price=$(this).data('id');
+ $.ajax({
+    
+type:'get',
+dataType:'html',
+url:'<?php echo url('/selectbienthe');?>',
+data: "bienthes="+ bienthes +"&produm="+produm,
+success:function (response){
+    console.log(response);
+    $('#price-'+price).html(response);
+    $('#price1-'+price).html(response);
+    $('#price2-'+price).html(response);
+}
+}); 
+$.ajax({
+    
+    type:'get',
+    dataType:'html',
+    url:'<?php echo url('/selectwish');?>',
+    data: "bienthes="+ bienthes +"&produm="+produm,
+    success:function (response){
+        console.log(response);
+        $('#wish-'+price).html(response); 
+        $('#wish1-'+price).html(response); 
+        $('#wish2-'+price).html(response); 
+    }
+    }); 
+$.ajax({
+    
+    type:'get',
+    dataType:'html',
+    url:'<?php echo url('/selectsalecate');?>',
+    data: "bienthes="+ bienthes +"&produm="+produm,
+    success:function (response){
+        console.log(response);
+        $('#salefix-'+price).html(response); 
+        $('#salefix1-'+price).html(response);
+        $('#salefix2-'+price).html(response);
+    }
+    }); 
+    $.ajax({
+    
+    type:'get',
+    dataType:'html',
+    url:'<?php echo url('/selectcompare');?>',
+    data: "bienthes="+ bienthes +"&produm="+produm,
+    success:function (response){
+        console.log(response);
+        $('#compares-'+price).html(response);
+        $('#compares1-'+price).html(response);
+        $('#compares2-'+price).html(response);
+    }
+    }); 
+    
+});
+
+  });
+    </script>
  <!-- Begin Slider With Banner Area -->
  <div class="slider-with-banner">
                 <div class="container">
@@ -73,7 +138,6 @@
                         <div class="col-lg-12">
                             <div class="static-top-content mt-sm-30">
                                 Mừng Ngày Khai Trương Website TvT Shop - Giảm Giá Siêu Ưu Đãi!
-                                
                             </div>
                         </div>
                     </div>
@@ -101,47 +165,90 @@
                                 <div class="product-active owl-carousel">
                                 @foreach($newpro as $value)
                                     <div class="col-lg-12">
-                                        <!-- single-product-wrap start -->
-                                      <div class="single-product-wrap">
-                                            <div class="product-image">
-                                                <a href="single-product.html">
-                                                    <img src="{{url('website/product')}}/{{$value->image}}" alt="Li's Product Image">
-                                                </a>
-                                                <span class="sticker">Mới</span>
-                                            </div>
-                                            <div class="product_desc">
-                                                <div class="product_desc_info">
-                                                    <div class="product-review">
-                                                        <h5 class="manufacturer">
-                                                            <a href="product-details.html">NSX</a>
-                                                        </h5>
-                                                        <div class="rating-box">
-                                                            <ul class="rating">
-                                                                <li><i class="fa fa-star-o"></i></li>
-                                                                <li><i class="fa fa-star-o"></i></li>
-                                                                <li><i class="fa fa-star-o"></i></li>
-                                                                <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                                                <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                                            </ul>
+                                       <!-- single-product-wrap start -->
+                                       <div class="single-product-wrap" id="updateDiv">
+                                                        <div class="product-image">
+                                                            <a href="{{route('chitiet_sanpham',['cateid'=>$value->category_id,'id'=>$value->id])}}">
+                                                                <img src="{{url('website/product')}}/{{$value->image}}" alt="">
+                                                            </a>
+                                                            <span class="sticker">Mới</span>
+                                                        </div>
+                                                        <div class="product_desc">
+                                                            <div class="product_desc_info">
+                                                                <div class="product-review">
+                                                                <h5 class="manufacturer">
+
+                                                              
+                                                                    @foreach($value->getpro as $getpro)
+                                                                        
+                                                                        <div class="update-bienthe"  type="submit" data-type="{{$getpro->capacity}}" data-id="{{$value->id}}" tabindex="1" style="width:70px; padding-left:17px;padding-top:7px; margin-bottom:0px;" >{{$getpro->capacity}}GB</div>
+                                                                        
+                                                                  @endforeach
+                                                                  <input type="hidden" value="<?php echo $value->id?>" id="produm-{{ $value->id }}" class="produm"/> 
+                                                                    </h5>
+                                                                    
+                                                                   
+                                                                </div>
+                                                                
+                                                                <h4><a class="product_name" href="{{route('chitiet_sanpham',['cateid'=>$value->category_id,'id'=>$value->id])}}">{{$value->model_name}} </a></h4>
+                                                                
+                                                            <form action="{{route('com_pare',['id'=>$value->id])}}" class="compare_add" method="POST" >
+                                            @csrf
+                                            <span id="compares-{{$value->id}}">
+                                            <input type="hidden" value=" <?php echo $value->getpro->first()->id;?>" name="productid"/>
+                                            
+                                            </span>
+                                            <button class="compare-btn" type="submit" style="border:none; background-color:white; color:#05A7FF;margin-left:-10px;margin-top:10px;" ><img src=" {{asset('images/menu/logo/compare.png')}}" style="width:27px;"alt="" >So Sánh</button>
+
+                                           </form>
+                                                               <div class="price-box">
+                                                                
+                                                                <form action="{{route('add_cart',['id'=>$value->id])}}" class="cart-quantity" method="POST" enctype="multipart/form-data" style="margin-top:-4px;">
+                                                                @php $exsale=$value->getpro->first()->sale*$value->getpro->first()->price/100; @endphp
+                                                                @csrf
+                                                               <span class="new-price new-price-2" id="price-{{ $value->id }}">{{number_format($value->getpro->first()->price-$exsale)}} <u>đ</u>
+                                                             <input type="hidden" value=" <?php echo $value->getpro->first()->id;?>" name="productid" />
+                                                            </span>
+                                                               @if($value->getpro->first()->sale)
+                                                             <span id="salefix-{{ $value->id }}">
+                                                        <span class="old-price">{{number_format($value->getpro->first()->price)}}<u> đ</u></span>
+                                                        <span class="discount-percentage">-{{$value->getpro->first()->sale}}%</span>
+                                                        </span>
+                                                        @endif
+                                                                </div>
+                                                                <div class="rating-box">
+                                                                        <ul class="rating">
+                                                                        @for($i=1;$i<=$value->total_rated;$i++)
+                                            <li><i class="fa fa-star-o"></i></li>
+                                            @endfor
+                                            @for($j=$value->total_rated+1;$j<=5;$j++)
+                                            <li class="no-star"><i class="fa fa-star-o"></i></li>
+                                            @endfor
+                                                                        </ul>
+                                                                    </div>
+                                                            </div>
+                                                            <div class="add-actions">
+                                                                <ul class="add-actions-link">
+                                                                <input class="cart-plus-minus-box " value="1" type="hidden" name="quaninput">
+                                                               <li style="width:145px;"> <button class="add-cart active" type="submit" style="border:none;width:145px;background-color:#FFCB09;color:black;" > Thêm Vào Giỏ Hàng </button></li>
+                                                                    
+                                                                    </form> 
+                                                                   
+                                                                    <form action="{{route('wish_list',['id'=>$value->id])}}" class="wishlist_add" method="POST">
+                                                                @csrf
+                                                              <span id="wish-{{$value->id}}">
+                                                                
+                                                              <input type="hidden" value=" <?php echo $value->getpro->first()->id;?>" name="productidwish"/>
+                                                             </span>
+                                                             
+                                                                   <li > <button style="border:none;width:35px;"><i class="fa fa-heart-o"style="color:deeppink;" ></i></button> </li>
+                                                            </form>
+                                                        
+                                                                </ul>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <h4><a class="product_name" href="  ">{{$value->model_name}}</a></h4>
-                                                    <div class="price-box">
-                                                        <span class="new-price new-price-2">...</span>
-                                                        <span class="old-price">000</span>
-                                                        <span class="discount-percentage">-7%</span>
-                                                    </div>
-                                                </div>
-                                                <div class="add-actions">
-                                                    <ul class="add-actions-link">
-                                                        <li class="add-cart active"><a href="#">Thêm Vào Giỏ Hàng</a></li>
-                                                        <li><a class="links-details" href="single-product.html"><i class="fa fa-heart-o"></i></a></li>
-                                                        <li><a class="quick-view" data-toggle="modal" data-target="#exampleModalCenter" href="#"><i class="fa fa-eye"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                      <!-- single-product-wrap end -->
+                                                        <!-- single-product-wrap end -->
                                     </div>
                                     @endforeach
                                 </div>
@@ -150,49 +257,83 @@
                         <div id="li-bestseller-product" class="tab-pane" role="tabpanel">
                             <div class="row">
                                 <div class="product-active owl-carousel">
+                                @foreach($sale as $searchrs)
                                  <div class="col-lg-12">
-                                        <!-- single-product-wrap start -->
-                                        <div class="single-product-wrap">
-                                            <div class="product-image">
-                                                <a href="single-product.html">
-                                                    <img src="images/product/large-size/7.jpg" alt="Li's Product Image">
-                                                </a>
-                                                <span class="sticker">New</span>
-                                            </div>
-                                            <div class="product_desc">
-                                                <div class="product_desc_info">
-                                                    <div class="product-review">
-                                                        <h5 class="manufacturer">
-                                                            <a href="product-details.html">Studio Design</a>
-                                                        </h5>
-                                                        <div class="rating-box">
-                                                            <ul class="rating">
-                                                                <li><i class="fa fa-star-o"></i></li>
-                                                                <li><i class="fa fa-star-o"></i></li>
-                                                                <li><i class="fa fa-star-o"></i></li>
-                                                                <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                                                <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                                            </ul>
+                                      
+                                                    <!-- single-product-wrap start -->
+                                                    <div class="single-product-wrap">
+                                                        <div class="product-image">
+                                                            <a href="{{route('chitiet_sanpham',['cateid'=>$searchrs->category_id,'id'=>$searchrs->id])}}">
+                                                                <img src="{{url('website/product')}}/{{$searchrs->image}}" alt="Li's Product Image">
+                                                            </a>
+                                                            <span class="sticker">Mới</span>
+                                                        </div>
+                                                        <div class="product_desc">
+                                                            <div class="product_desc_info">
+                                                                <div class="product-review">
+                                                                    <h5 class="manufacturer">
+                                                                     
+                                                                    </h5>
+                                                                    <div class="rating-box">
+                                                                        <ul class="rating">
+                                                              @for($i=1;$i<=$searchrs->total_rated;$i++)
+                                                           <li><i class="fa fa-star-o"></i></li>
+                                                            @endfor
+                                                              @for($j=$searchrs->total_rated+1;$j<=5;$j++)
+                                                        <li class="no-star"><i class="fa fa-star-o"></i></li>
+                                                                       @endfor
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                                <h4><a class="product_name" href="{{route('chitiet_sanpham',['cateid'=>$searchrs->category_id,'id'=>$searchrs->id])}}">{{$searchrs->model_name}} {{$searchrs->capacity}}GB</a></h4>
+                                                                <form action="{{route('com_pare',['id'=>$searchrs->mid])}}" class="compare_add" method="POST" >
+                                                            @csrf
+                                                  <span id="compares-{{$searchrs->mid}}">
+                                                        <input type="hidden" value=" <?php echo $searchrs->id;?>" name="productid"/>
+                                            
+                                                          </span>
+                                                        <button class="compare-btn" type="submit" style="border:none; background-color:white; color:#05A7FF;margin-left:-10px;margin-top:10px;" ><img src=" {{asset('images/menu/logo/compare.png')}}" style="width:27px;"alt="" >So Sánh</button>
+
+                                           </form>
+                                                                <div class="price-box">
+                                                                @php $exsale=$searchrs->sale*$searchrs->price/100; @endphp
+                                                               <span class="new-price new-price-2" id="price1">{{number_format($searchrs->price-$exsale)}} <u>đ</u></span>
+                                                               @if($searchrs->sale)
+                                                             <span id="salefix1">
+                                                        <span class="old-price">{{number_format($searchrs->price)}}<u> đ</u></span>
+                                                        <span class="discount-percentage">-{{$searchrs->sale}}%</span>
+                                                        </span>
+                                                        @endif
+                                                                </div>
+                                                            </div>
+                                                            <div class="add-actions">
+                                                               
+                                                                <ul class="add-actions-link">
+                                                                <form action="{{route('add_cart',['id'=>$searchrs->mid])}}" class="cart-quantity" method="POST" enctype="multipart/form-data">
+                                                               @csrf
+                                                                <input value="1" type="hidden" name="quaninput">
+                                                                <input type="hidden" value=" <?php echo $searchrs->id;?>" name="productid"/>
+                                                                <li style="width:145px;"> <button class="add-cart active" type="submit" style="border:none;width:145px;background-color:#FFCB09;color:black;" > Thêm Vào Giỏ Hàng </button></li>
+                                                                    </form>
+                                                                 
+                                                                   <form action="{{route('wish_list',['id'=>$searchrs->mid])}}" class="wishlist_add" method="POST">
+                                                                @csrf
+                                                              <span id="wish">
+                                                                
+                                                              <input type="hidden" value=" <?php echo $searchrs->id;?>" name="productidwish"/>
+                                                             </span>
+                                                             
+                                                             <li style="margin-left: 153px;
+    margin-top: -36px;" > <button style="border:none;width:35px;"><i class="fa fa-heart-o"style="color:deeppink;" ></i></button> </li>
+                                                            </form>
+                                                                </ul>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <h4><a class="product_name" href="single-product.html">Mug Today is a good day</a></h4>
-                                                    <div class="price-box">
-                                                        <span class="new-price new-price-2">$71.80</span>
-                                                        <span class="old-price">$77.22</span>
-                                                        <span class="discount-percentage">-7%</span>
-                                                    </div>
-                                                </div>
-                                                <div class="add-actions">
-                                                    <ul class="add-actions-link">
-                                                        <li class="add-cart active"><a href="#">Add to cart</a></li>
-                                                        <li><a class="links-details" href="single-product.html"><i class="fa fa-heart-o"></i></a></li>
-                                                        <li><a class="quick-view" data-toggle="modal" data-target="#exampleModalCenter" href="#"><i class="fa fa-eye"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- single-product-wrap end -->
+                                                  
+                                                    <!-- single-product-wrap end -->
                                     </div>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
@@ -241,49 +382,92 @@
                             </div>
                             <div class="row">
                                 <div class="product-active owl-carousel">
-                                    @foreach($samsung as $ss)
+                                    @foreach($samsung as $value)
                                     <div class="col-lg-12">
-                                        <!-- single-product-wrap start -->
-                                        <div class="single-product-wrap">
-                                            <div class="product-image">
-                                                <a href="single-product.html">
-                                                    <img src="{{url('website/product')}}/{{$ss->image}}" alt="Li's Product Image">
-                                                </a>
-                                                <span class="sticker">Mới</span>
-                                            </div>
-                                            <div class="product_desc">
-                                                <div class="product_desc_info">
-                                                    <div class="product-review">
-                                                        <h5 class="manufacturer">
-                                                            <a href="product-details.html">NSX </a>
-                                                        </h5>
-                                                        <div class="rating-box">
-                                                            <ul class="rating">
-                                                                <li><i class="fa fa-star-o"></i></li>
-                                                                <li><i class="fa fa-star-o"></i></li>
-                                                                <li><i class="fa fa-star-o"></i></li>
-                                                                <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                                                <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                                            </ul>
+                                       <!-- single-product-wrap start -->
+                                       <div class="single-product-wrap" id="updateDiv">
+                                                        <div class="product-image">
+                                                            <a href="{{route('chitiet_sanpham',['cateid'=>$value->category_id,'id'=>$value->id])}}">
+                                                                <img src="{{url('website/product')}}/{{$value->image}}" alt="">
+                                                            </a>
+                                                            <span class="sticker">Mới</span>
+                                                        </div>
+                                                        <div class="product_desc">
+                                                            <div class="product_desc_info">
+                                                                <div class="product-review">
+                                                                <h5 class="manufacturer">
+
+                                                              
+                                                                    @foreach($value->getpro as $getpro)
+                                                                        
+                                                                        <div class="update-bienthe"  type="submit" data-type="{{$getpro->capacity}}" data-id="{{$value->id}}" tabindex="1" style="width:70px; padding-left:17px;padding-top:7px; margin-bottom:0px;" >{{$getpro->capacity}}GB</div>
+                                                                        
+                                                                  @endforeach
+                                                                  <input type="hidden" value="<?php echo $value->id?>" id="produm-{{ $value->id }}" class="produm"/> 
+                                                                    </h5>
+                                                                    
+                                                                   
+                                                                </div>
+                                                                
+                                                                <h4><a class="product_name" href="{{route('chitiet_sanpham',['cateid'=>$value->category_id,'id'=>$value->id])}}">{{$value->model_name}} </a></h4>
+                                                                
+                                                            <form action="{{route('com_pare',['id'=>$value->id])}}" class="compare_add" method="POST" >
+                                            @csrf
+                                            <span id="compares1-{{$value->id}}">
+                                            <input type="hidden" value=" <?php echo $value->getpro->first()->id;?>" name="productid"/>
+                                            
+                                            </span>
+                                            <button class="compare-btn" type="submit" style="border:none; background-color:white; color:#05A7FF;margin-left:-10px;margin-top:10px;" ><img src=" {{asset('images/menu/logo/compare.png')}}" style="width:27px;"alt="" >So Sánh</button>
+
+                                           </form>
+                                                               <div class="price-box">
+                                                                
+                                                                <form action="{{route('add_cart',['id'=>$value->id])}}" class="cart-quantity" method="POST" enctype="multipart/form-data" style="margin-top:-4px;">
+                                                                @php $exsale=$value->getpro->first()->sale*$value->getpro->first()->price/100; @endphp
+                                                                @csrf
+                                                               <span class="new-price new-price-2" id="price1-{{ $value->id }}">{{number_format($value->getpro->first()->price-$exsale)}} <u>đ</u>
+                                                             <input type="hidden" value=" <?php echo $value->getpro->first()->id;?>" name="productid" />
+                                                            </span>
+                                                               @if($value->getpro->first()->sale)
+                                                             <span id="salefix1-{{ $value->id }}">
+                                                        <span class="old-price">{{number_format($value->getpro->first()->price)}}<u> đ</u></span>
+                                                        <span class="discount-percentage">-{{$value->getpro->first()->sale}}%</span>
+                                                        </span>
+                                                        @endif
+                                                                </div>
+                                                                <div class="rating-box">
+                                                                        <ul class="rating">
+                                                                        @for($i=1;$i<=$value->total_rated;$i++)
+                                            <li><i class="fa fa-star-o"></i></li>
+                                            @endfor
+                                            @for($j=$value->total_rated+1;$j<=5;$j++)
+                                            <li class="no-star"><i class="fa fa-star-o"></i></li>
+                                            @endfor
+                                                                        </ul>
+                                                                    </div>
+                                                            </div>
+                                                            <div class="add-actions">
+                                                                <ul class="add-actions-link">
+                                                                <input class="cart-plus-minus-box " value="1" type="hidden" name="quaninput">
+                                                               <li style="width:145px;"> <button class="add-cart active" type="submit" style="border:none;width:145px;background-color:#FFCB09;color:black;" > Thêm Vào Giỏ Hàng </button></li>
+                                                                    
+                                                                    </form> 
+                                                                    
+                                                                    <form action="{{route('wish_list',['id'=>$value->id])}}" class="wishlist_add" method="POST">
+                                                                @csrf
+                                                              <span id="wish1-{{$value->id}}">
+                                                                
+                                                              <input type="hidden" value=" <?php echo $value->getpro->first()->id;?>" name="productidwish"/>
+                                                             </span>
+                                                             
+                                                                   <li > <button style="border:none;width:35px;"><i class="fa fa-heart-o"style="color:deeppink;" ></i></button> </li>
+                                                            </form>
+                                                        
+                                                                </ul>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <h4><a class="product_name" href="single-product.html"> {{$ss->model_name}}</a> </h4>
-                                                    <div class="price-box">
-                                                        <span class="new-price"> ...</span>
-                                                        <span class="old-price">$77.22</span>
-                                                        <span class="discount-percentage">-7%</span>
-                                                    </div>
-                                                </div>
-                                                <div class="add-actions">
-                                                    <ul class="add-actions-link">
-                                                        <li class="add-cart active"><a href="#">Thêm Vào Giỏ Hàng</a></li>
-                                                        <li><a class="links-details" href="single-product.html"><i class="fa fa-heart-o"></i></a></li>
-                                                        <li><a class="quick-view" data-toggle="modal" data-target="#exampleModalCenter" href="#"><i class="fa fa-eye"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- single-product-wrap end -->
+                                                        <!-- single-product-wrap end -->
                                     </div>
                             
                                     @endforeach
@@ -309,49 +493,92 @@
                             </div>
                             <div class="row">
                                 <div class="product-active owl-carousel">
-                                @foreach($apple as $ap)
+                                @foreach($apple as $value)
                                     <div class="col-lg-12">
-                                        <!-- single-product-wrap start -->
-                                        <div class="single-product-wrap">
-                                            <div class="product-image">
-                                                <a href="single-product.html">
-                                                    <img src="{{url('website/product')}}/{{$ap->image}}" alt="Li's Product Image">
-                                                </a>
-                                                <span class="sticker">Mới</span>
-                                            </div>
-                                            <div class="product_desc">
-                                                <div class="product_desc_info">
-                                                    <div class="product-review">
-                                                        <h5 class="manufacturer">
-                                                            <a href="product-details.html">NSX </a>
-                                                        </h5>
-                                                        <div class="rating-box">
-                                                            <ul class="rating">
-                                                                <li><i class="fa fa-star-o"></i></li>
-                                                                <li><i class="fa fa-star-o"></i></li>
-                                                                <li><i class="fa fa-star-o"></i></li>
-                                                                <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                                                <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                                            </ul>
+                                         <!-- single-product-wrap start -->
+                                       <div class="single-product-wrap" id="updateDiv">
+                                                        <div class="product-image">
+                                                            <a href="{{route('chitiet_sanpham',['cateid'=>$value->category_id,'id'=>$value->id])}}">
+                                                                <img src="{{url('website/product')}}/{{$value->image}}" alt="">
+                                                            </a>
+                                                            <span class="sticker">Mới</span>
+                                                        </div>
+                                                        <div class="product_desc">
+                                                            <div class="product_desc_info">
+                                                                <div class="product-review">
+                                                                <h5 class="manufacturer">
+
+                                                              
+                                                                    @foreach($value->getpro as $getpro)
+                                                                        
+                                                                        <div class="update-bienthe"  type="submit" data-type="{{$getpro->capacity}}" data-id="{{$value->id}}" tabindex="1" style="width:70px; padding-left:17px;padding-top:7px; margin-bottom:0px;" >{{$getpro->capacity}}GB</div>
+                                                                        
+                                                                  @endforeach
+                                                                  <input type="hidden" value="<?php echo $value->id?>" id="produm-{{ $value->id }}" class="produm"/> 
+                                                                    </h5>
+                                                                    
+                                                                   
+                                                                </div>
+                                                                
+                                                                <h4><a class="product_name" href="{{route('chitiet_sanpham',['cateid'=>$value->category_id,'id'=>$value->id])}}">{{$value->model_name}} </a></h4>
+                                                                
+                                                            <form action="{{route('com_pare',['id'=>$value->id])}}" class="compare_add" method="POST" >
+                                            @csrf
+                                            <span id="compares2-{{$value->id}}">
+                                            <input type="hidden" value=" <?php echo $value->getpro->first()->id;?>" name="productid"/>
+                                            
+                                            </span>
+                                            <button class="compare-btn" type="submit" style="border:none; background-color:white; color:#05A7FF;margin-left:-10px;margin-top:10px;" ><img src=" {{asset('images/menu/logo/compare.png')}}" style="width:27px;"alt="" >So Sánh</button>
+
+                                           </form>
+                                                               <div class="price-box">
+                                                                
+                                                                <form action="{{route('add_cart',['id'=>$value->id])}}" class="cart-quantity" method="POST" enctype="multipart/form-data" style="margin-top:-4px;">
+                                                                @php $exsale=$value->getpro->first()->sale*$value->getpro->first()->price/100; @endphp
+                                                                @csrf
+                                                               <span class="new-price new-price-2" id="price2-{{ $value->id }}">{{number_format($value->getpro->first()->price-$exsale)}} <u>đ</u>
+                                                             <input type="hidden" value=" <?php echo $value->getpro->first()->id;?>" name="productid" />
+                                                            </span>
+                                                               @if($value->getpro->first()->sale)
+                                                             <span id="salefix2-{{ $value->id }}">
+                                                        <span class="old-price">{{number_format($value->getpro->first()->price)}}<u> đ</u></span>
+                                                        <span class="discount-percentage">-{{$value->getpro->first()->sale}}%</span>
+                                                        </span>
+                                                        @endif
+                                                                </div>
+                                                                <div class="rating-box">
+                                                                        <ul class="rating">
+                                                                        @for($i=1;$i<=$value->total_rated;$i++)
+                                            <li><i class="fa fa-star-o"></i></li>
+                                            @endfor
+                                            @for($j=$value->total_rated+1;$j<=5;$j++)
+                                            <li class="no-star"><i class="fa fa-star-o"></i></li>
+                                            @endfor
+                                                                        </ul>
+                                                                    </div>
+                                                            </div>
+                                                            <div class="add-actions">
+                                                                <ul class="add-actions-link">
+                                                                <input class="cart-plus-minus-box " value="1" type="hidden" name="quaninput">
+                                                               <li style="width:145px;"> <button class="add-cart active" type="submit" style="border:none;width:145px;background-color:#FFCB09;color:black;" > Thêm Vào Giỏ Hàng </button></li>
+                                                                    
+                                                                    </form> 
+                                                                
+                                                                    <form action="{{route('wish_list',['id'=>$value->id])}}" class="wishlist_add" method="POST">
+                                                                @csrf
+                                                              <span id="wish2-{{$value->id}}">
+                                                                
+                                                              <input type="hidden" value=" <?php echo $value->getpro->first()->id;?>" name="productidwish"/>
+                                                             </span>
+                                                             
+                                                                   <li > <button style="border:none;width:35px;"><i class="fa fa-heart-o"style="color:deeppink;" ></i></button> </li>
+                                                            </form>
+                                                        
+                                                                </ul>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <h4><a class="product_name" href="single-product.html">{{$ap->model_name}}</a></h4>
-                                                    <div class="price-box">
-                                                        <span class="new-price new-price-2">$71.80</span>
-                                                        <span class="old-price">$77.22</span>
-                                                        <span class="discount-percentage">-7%</span>
-                                                    </div>
-                                                </div>
-                                                <div class="add-actions">
-                                                    <ul class="add-actions-link">
-                                                        <li class="add-cart active"><a href="#">Add to cart</a></li>
-                                                        <li><a class="links-details" href="single-product.html"><i class="fa fa-heart-o"></i></a></li>
-                                                        <li><a class="quick-view" data-toggle="modal" data-target="#exampleModalCenter" href="#"><i class="fa fa-eye"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- single-product-wrap end -->
+                                                        <!-- single-product-wrap end -->
                                     </div>
                                     @endforeach
                                 </div>

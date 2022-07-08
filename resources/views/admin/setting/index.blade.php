@@ -25,7 +25,7 @@
                         <tbody id="listUser">
                           @foreach ($dsbanner as $a)
                             <tr>
-                              <td style="padding-left: 30px"><img style="width:80px;height:80px" src="{!! url('adminss/img/'.$a->banner_image.'') !!}"></td>
+                              <td style="padding-left: 30px"><img style="width:80px;height:80px" src="{!! url('banner/'.$a->banner_image.'') !!}"></td>
                               <td>{{$a->banner_name}}</td>
                               <td><a href="{{$a->banner_link}}">{{$a->banner_link}}</a></td>
                               <td>

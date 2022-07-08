@@ -27,19 +27,8 @@
                                         <span>Showing 1 to 9 of 15</span>
                                     </div>
                                 </div>
-                                <!-- product-select-box start -->
-                                <div class="product-select-box">
-                                    <div class="product-short">
-                                        <p>Sắp xếp theo:</p>
-                                        <select class="nice-select">
-                                        <option value="price">Giá Thấp Đến Cao</option>
-                                            <option value="price">Giá Cao Đến Thấp</option>
-                                      <option value="lastest">Mới Nhất</option>
-                                            <option value="old">Cũ Nhât</option>
-                                            
-                                        </select>
-                                    </div>
-                                </div>
+                               <!-- product-select-box start -->
+                                
                                 <!-- product-select-box end -->
                             </div>
                             <!-- shop-top-bar end -->
@@ -76,9 +65,19 @@
                                                         <li class="no-star"><i class="fa fa-star-o"></i></li>
                                                                        @endfor
                                                                         </ul>
+                                                                        
                                                                     </div>
                                                                 </div>
                                                                 <h4><a class="product_name" href="{{route('chitiet_sanpham',['cateid'=>$searchrs->category_id,'id'=>$searchrs->id])}}">{{$searchrs->model_name}} {{$searchrs->capacity}}GB</a></h4>
+                                                                <form action="{{route('com_pare',['id'=>$searchrs->mid])}}" class="compare_add" method="POST" >
+                                                            @csrf
+                                                  <span id="compares-{{$searchrs->mid}}">
+                                                        <input type="hidden" value=" <?php echo $searchrs->id;?>" name="productid"/>
+                                            
+                                                          </span>
+                                                        <button class="compare-btn" type="submit" style="border:none; background-color:white; color:#05A7FF;margin-left:-10px;margin-top:10px;" ><img src=" {{asset('images/menu/logo/compare.png')}}" style="width:27px;"alt="" >So Sánh</button>
+
+                                           </form>
                                                                 <div class="price-box">
                                                                 @php $exsale=$searchrs->sale*$searchrs->price/100; @endphp
                                                                <span class="new-price new-price-2" id="price1">{{number_format($searchrs->price-$exsale)}} <u>đ</u></span>
@@ -90,16 +89,16 @@
                                                         @endif
                                                                 </div>
                                                             </div>
+                                                            
                                                             <div class="add-actions">
-                                                               
-                                                                <ul class="add-actions-link">
+                                                               <ul class="add-actions-link">
                                                                 <form action="{{route('add_cart',['id'=>$searchrs->mid])}}" class="cart-quantity" method="POST" enctype="multipart/form-data">
                                                                @csrf
                                                                 <input value="1" type="hidden" name="quaninput">
                                                                 <input type="hidden" value=" <?php echo $searchrs->id;?>" name="productid"/>
                                                                 <li style="width:145px;"> <button class="add-cart active" type="submit" style="border:none;width:145px;background-color:#FFCB09;color:black;" > Thêm Vào Giỏ Hàng </button></li>
                                                                     </form>
-                                                                   <li><a href="#" title="quick view" class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-eye"></i></a></li>
+                                                                
                                                                    <form action="{{route('wish_list',['id'=>$searchrs->mid])}}" class="wishlist_add" method="POST">
                                                                 @csrf
                                                               <span id="wish">
@@ -107,7 +106,8 @@
                                                               <input type="hidden" value=" <?php echo $searchrs->id;?>" name="productidwish"/>
                                                              </span>
                                                              
-                                                                   <li > <button style="border:none;width:35px;"><i class="fa fa-heart-o"style="color:deeppink;" ></i></button> </li>
+                                                                   <li style="margin-left: 153px;
+    margin-top: -36px;" > <button style="border:none;width:35px;"><i class="fa fa-heart-o"style="color:deeppink;" ></i></button> </li>
                                                             </form>
                                                                 </ul>
                                                             </div>

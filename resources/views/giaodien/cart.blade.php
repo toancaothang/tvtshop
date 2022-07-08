@@ -2,9 +2,17 @@
 @section('main')
 <script>
  $(document).ready(function(){
-$(".total_after").change(function(e) {
+$(".total").click(function(e) {
+    var total=$(this).val();
     e.preventDefault();
-   alert("hello");
+    $.ajax({
+        type:'get',
+        url:'cart',
+        data: { total: total},
+        success:function(response){
+           alert(response);
+        }
+    });
 });});
 </script>
 
@@ -79,7 +87,7 @@ success: function(response){
                 <div class="container">
                     <div class="row">
                         <div class="col-12">
-                        @if (session('message')) <div class="alert alert-success"> {{ session('message') }} </div> @endif
+                        @if (session('cart')) <div class="alert alert-success"> {{ session('cart') }} </div> @endif
                             <div class="table-content table-responsive">
                                     <table class="table">
                                         <thead>
@@ -98,7 +106,7 @@ success: function(response){
                                             @foreach($procartshow as $pc)
                                             <tr class="prod-data">
                                                 <td class="li-product-thumbnail"><a href="#"><img src="{{url('website/product')}}/{{$pc->image}}" alt="" style="width:100px;height:100px;"></a></td>
-                                                <td class="li-product-name"><a href="#">{{$pc->model_name}} {{$pc->capacity}} GB</a></td>
+                                                <td class="li-product-name"><a href="{{route('chitiet_sanpham',['cateid'=>$pc->category_id,'id'=>$pc->pid])}}">{{$pc->model_name}} {{$pc->capacity}} GB</a></td>
                                                 @php $exsale=$pc->sale*$pc->price/100;
                                                 $trueprice=$pc->price-$exsale;
                                                  @endphp
@@ -169,7 +177,7 @@ success: function(response){
                                                 <li>Giảm Giá : <span>{{number_format($total_coupon)}} <u> đ</u></span></li>
                                                 
                                               <li>Tổng Tiền: <span>{{number_format($total-$total_coupon)}} <u> đ</u></span></li>
-                                              <input id="total_after" class="total" name="total_after" value="{{$total-$total_coupon}}"  type="text">
+                                              <input id="total_after" class="total" name="total_after" value="{{$total-$total_coupon}}"  type="hidden">
                                             </ul>
                                             
                                             <div style="background-image: url(images/menu/logo/coupon2.jpg);background-size:cover; width:320px;height:100px;margin-top:5px; box-shadow: 1px 2px 3px 0px;">
@@ -179,12 +187,15 @@ success: function(response){
                                             @endforeach
                                             @else
                                             <li>Tổng Tiền: <span>{{number_format($total)}} <u> đ</u></span></li>
-                                            <input id="total_after" class="total" name="total_after" value="{{$total}}"  type="text">
+                                            <input id="total_after" class="total" name="total_after" value="{{$total}}"  type="hidden">
                                             </ul>
                                             @endif
                                             <button style="border:none;background-color:#333333;color:white;margin-top:5px;height:42px;border-radius:2px;width:200px;font-weight:bold;" type="submit"> Thanh Toán    </button> 
                                         </div>
                                         <form>
+                                        @php
+                                              
+                                          @endphp
                                     </div>
                                 </div>
                                 @else

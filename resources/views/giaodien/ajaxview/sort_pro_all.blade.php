@@ -1,4 +1,12 @@
 <head> 
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+  <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script> 
  <link rel="shortcut icon" type="image/x-icon" href="{{asset('images/menu/logo/logo.png')}}">
    
    <link rel="stylesheet" href="{{asset('css/material-design-iconic-font.min.css')}}">

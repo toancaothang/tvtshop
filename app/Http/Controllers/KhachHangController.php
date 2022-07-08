@@ -105,6 +105,7 @@ if($req->hasfile('avt'))
 $file=$req->avt;
 $extention=$file->getClientOriginalExtension();
 $filename=time().'.'.$extention;
+
 $file->move('users/',$filename);
 $editpro->avatar=$filename;
 }
@@ -121,7 +122,8 @@ $editpro->update();
         if($verified_purchase){
 $exist_comment=BinhLuan::where('user_id',Auth::user()->id)->where('model_id',$idpro)->first();
 if($exist_comment){
-    dd('da cmt roi');
+    Session::flash('binhluantontai');
+    return redirect()->back();
 }
 else{
             $comment=new BinhLuan();
@@ -131,12 +133,14 @@ else{
         $comment->content = $request->content;
         $comment->stars =  $request->stars;
         $comment->save();
+        Session::flash('binhluanthanhcong');
         return redirect()->back();
     }
         }
         
         else{
-dd('khong cmt dc');
+            Session::flash('chuamua');
+            return redirect()->back();
         }
 
     }
@@ -146,7 +150,8 @@ dd('khong cmt dc');
       $prowish=Wishlist::where('product_id',$product)->where('user_id',Auth::user()->id)->first();
         if(isset($prowish))
         {   
-           dd("san pham da ton tai !");
+            Session::flash('wishlisttontai');
+            return redirect()->back();
         }
         else{
                 $prowish = new WishList();
@@ -185,8 +190,9 @@ return redirect('/wishlist')->with(['messtontaiwishlist' => 'Sản Phẩm Đã �
        $procart=Cart::where('product_id',$product)->where('user_id',Auth::user()->id)->first();
 if(isset($procart))
 {   
-    Session::flash('dacosanphamcart');
-    return redirect()->back();
+    $procart->pro_quantity+=$request->quaninput;
+    $procart->update();
+    return redirect('/cart')->with(['cart' => 'Cập Nhật Sản Phẩm Thành Công']);
 }
 else{
         $procart = new Cart();
@@ -195,21 +201,9 @@ $procart->pro_model_id=$id;
 $procart->product_id=$request->productid;
 $procart->pro_quantity=$request->quaninput;
 $procart->save();
-
+return redirect('/cart')->with(['cart' => 'Thêm Sán Phẩm Thành Công']);
 
 }   
-$auth = Auth::user()->id;
-    $procartshow = Cart::join('product_model','cart.pro_model_id','=','product_model.id')->
-    join('product','cart.product_id','=','product.id')
-    ->where('user_id',$auth)->get(['cart.id as cid',
-       'cart.pro_quantity',
-       'product_model.model_name',
-       'product_model.image',
-       'product.capacity',
-       'product.price',
-       'product.sale'
-]);
-return view('giaodien.cart',compact('procartshow'));
 }
 
      //xoa khoi cart
@@ -217,7 +211,7 @@ return view('giaodien.cart',compact('procartshow'));
      {
  $delpro=Cart::where('user_id',Auth::user()->id)->find($id);
  $delpro->delete();
- return redirect('/cart')->with(['messtontaiwishlist' => 'Sản Phẩm Đã Được Xóa Khỏi Giỏ Hàng']);
+ return redirect('/cart')->with(['cart' => 'Sản Phẩm Đã Được Xóa Khỏi Giỏ Hàng']);
      }
      //xoa tat ca khoi cart
      public function deleteallcart()
@@ -225,7 +219,7 @@ return view('giaodien.cart',compact('procartshow'));
  $delpro=Cart::truncate();
  Session::forget('totalafter');
  Session::forget('coupon');
- return redirect('/cart')->with(['messtontaiwishlist' => 'Đã Xóa Tất Cả Sản Phẩm Khỏi Giỏ Hàng']);
+ return redirect('/cart')->with(['cart' => 'Đã Xóa Tất Cả Sản Phẩm Khỏi Giỏ Hàng']);
      }
    
     //update cart
@@ -235,7 +229,7 @@ return view('giaodien.cart',compact('procartshow'));
       $cart=Cart::where('product_id',$prod_id)->where('user_id',Auth::id())->first();
         $cart->pro_quantity=$prod_qty;
         $cart->update();
-        return redirect()->back()->with('message','Cập nhật giỏ hàng thành công !');
+        return redirect()->back()->with('cart','Cập nhật giỏ hàng thành công !');
  
     }
 
@@ -324,10 +318,10 @@ if($coupon){
                 Session::put('coupon',$cou);
         }
         Session::save();
-        return redirect()->back()->with('message','Thêm mã giảm giá thành công');
+        return redirect()->back()->with('cart','Thêm mã giảm giá thành công');
     }
 } else{
-    return redirect()->back()->with('message','Sai mã giảm hoặc mã giảm không tồn tại');
+    return redirect()->back()->with('cart','Sai mã giảm hoặc mã giảm không tồn tại');
 }
 }
 //xoa coupon

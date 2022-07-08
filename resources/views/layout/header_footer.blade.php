@@ -190,7 +190,7 @@
                                                 @php 
                                         $cartcount=(App\Models\Cart::join('product_model','cart.pro_model_id','=','product_model.id')->join('product','cart.product_id','=','product.id')->where('user_id',Auth::user()->id)->where('product_model.status',1)->where('product.status',1)->count());
                                         @endphp
-                                                <span class="item-text"><u> đ</u>
+                                                <span class="item-text">{{number_format(Session::get('totalafter'))}}<u> đ</u>
                                                        <span class="cart-item-count"> {{$cartcount}}</span>
                                                 </span>
                                             </div>
@@ -209,7 +209,7 @@
                                                             @php $exsale=$qc->sale*$qc->price/100;
                                                 $trueprice=$qc->price-$exsale;
                                                  @endphp
-                                                            <span>{{number_format($qc->sale)}} <u> đ</u> x {{$qc->pro_quantity}}</span>
+                                                            <span>{{number_format($trueprice)}} <u> đ</u> x {{$qc->pro_quantity}}</span>
                                                         </div>
                                                     </li>
                                                     @endforeach

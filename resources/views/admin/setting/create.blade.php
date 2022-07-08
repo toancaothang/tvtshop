@@ -10,7 +10,7 @@
             <div class="col-md-12">
                 <div class="form h-100" style="padding-bottom: 0px">
                 <h4>Thêm mới banner</h4>
-                <form class="mb-5" method="POST" action="{{route('xylythemBN')}}" style="margin-left :20px">
+                <form class="mb-5" method="POST" action="{{route('xylythemBN')}}" style="margin-left :20px" enctype = multipart/form-data>
                     @csrf
                     <div class="row">
                         <div class="col-md-6 form-group mb-3">

@@ -18,13 +18,13 @@
     <!-- Start Page Content -->
     <!-- ============================================================== -->
     <!-- Row -->
-    <form class="form-horizontal form-material"  method="POST" acction="{{route('xylysuaprofile',['profile'=>$thongtin->id])}}">
+    <form class="form-horizontal form-material"  method="POST" acction="{{route('xylysuaprofile',['profile'=>$thongtin->id])}}" enctype = multipart/form-data>
     <div class="row">
         <!-- Column -->
         <div class="col-lg-3 col-xlg-3 col-md-5">
             <div class="card">
                 <div class="card-block">
-                    <center class="m-t-30"> <img src="{!! url('adminavatar'.$thongtin->avatar.'') !!}" class="img-circle" width="150" style="margin-top: 10px;margin-bottom:10px"/>
+                    <center class="m-t-30"> <img src="{!! url('adminavatar/'.$thongtin->avatar.'') !!}" class="img-circle" width="150" style="margin-top: 10px;margin-bottom:10px"/>
                         <h6 class="card-title m-t-10" >{{$thongtin->full_name}}</h6>
                         <input style="font-size: 10px; margin-bottom:20px" type="file" id="avatar" name="avatar">
                     </center>

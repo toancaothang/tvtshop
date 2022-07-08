@@ -98,7 +98,7 @@ filter.push($(this).val());
   $(document).ready(function(){
 $('.update-bienthe').click(function(){
  var bienthes=$(this).data("type");
- var produm = $('#produm-' + $(this).data('id') ). change (). val();
+ var produm = $('#produm-' + $(this).data('id') ).change().val();
  const price=$(this).data('id');
  $.ajax({
     

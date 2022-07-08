@@ -66,20 +66,18 @@ class KhachhangController extends Controller
             $KH->birth = $a;
         }else{
             $KH->birth = $req->ngaysinh;
-        }
+        } 
         $a = $KH->avatar;
        if($req->anhdaidien == '')
         {
             $KH->avatar = $a;
-        }else if($req->hasfile('anhdaidien'))
+        }else if($file=$req->file('anhdaidien'))
         {
-       $file=$req->anhdaidien;
-        $extention=$file->getClientOriginalExtension();
-        $filename=time().'.'.$extention;
-        $file->move('users/',$filename);
-        $KH->avatar =$filename;
+            $extention=$file->getClientOriginalExtension();
+            $filename=time().'.'.$extention;
+            $file->move('users/',$filename);
+            $KH->avatar =$filename;
         }
-
         $KH->status = 1;
         $KH -> save();    
         $dskhachhang = khachhang::all();

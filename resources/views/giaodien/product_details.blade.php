@@ -72,6 +72,26 @@ $.ajax({
 
   });
     </script>
+     @if(Session::has('wishlisttontai'))
+ <script>
+    swal("Sản phẩm đã tồn tại trong wishlist","","info");
+    </script>
+    @endif	
+    @if(Session::has('binhluantontai'))
+ <script>
+    swal("Đánh giá sản phẩm không thành công","chỉ có thể đánh gía môt lần mỗi lần mua sản phẩm","info");
+    </script>
+    @endif	
+    @if(Session::has('binhluanthanhcong'))
+ <script>
+    swal("Đánh giá sản phẩm thành công","cảm ơn bạn vì đánh giá","success");
+    </script>
+    @endif	
+    @if(Session::has('chuamua'))
+ <script>
+    swal(" Đánh giá sản phẩm không thành công","Không thể đánh giá khi chưa mua sản phẩm","info");
+    </script>
+    @endif	
 <div class="breadcrumb-area">
                 <div class="container">
                     <div class="breadcrumb-content">
@@ -84,22 +104,7 @@ $.ajax({
             </div>
             <!-- Li's Breadcrumb Area End Here -->
             <!-- content-wraper start -->
-            @if(Session::has('dacosanphamcart'))
- <script>
-    swal("Sản phẩm đã tồn tài trong giỏ hàng.","","info");
-    </script>
-    @endif	
-	@if(Session::has('dacosanphamwish'))
- <script>
-     swal("Sản phẩm đã tồn tài trong wishlist.","","info");
-    </script>
-    @endif	
-	@if(Session::has('dacosanphamcompare'))
- <script>
-    swal("Sản phẩm đã tồn tài trong so sánh.","","info");
-    </script>
-    @endif	
-            <div class="content-wraper">
+           <div class="content-wraper">
                 <div class="container">
                     <div class="row single-product-area">
                         <div class="col-lg-5 col-md-6">
@@ -338,7 +343,7 @@ $.ajax({
                                                                             </p>
                                                                             <div class="feedback-input">
                                                                                <div class="feedback-btn pb-15">
-                                                                               <button type="submit"  value="Submit">Gửi Bình Luận</button>
+                                                                               <button type="submit"  value="Submit" style="border: none;height: 30px;color: white;background-color: #242424;font-weight: 500;">Gửi Bình Luận</button>
                                                                                     <a href="#" class="close" data-dismiss="modal" aria-label="Close">Đóng</a>
                                                                              
                                                                                 </div>

@@ -25,7 +25,14 @@ class SettingController extends Controller
         $KH = new Setting();
         $KH->banner_name = $req->banner_name;
         $KH->banner_link = $req->banner_link;
-        $KH->banner_image = $req->banner_image;
+        if($req->hasfile('banner_image'))
+        {
+       $file=$req->image;
+        $extention=$file->getClientOriginalExtension();
+        $filename=time().'.'.$extention;
+        $file->move('banner/',$filename);
+        $KH->banner_image =$filename;
+        }
         $KH -> save();
         $dsbanner = Setting::all();
        return redirect()->route('setting',compact('dsbanner'));
@@ -44,8 +51,12 @@ class SettingController extends Controller
         if($req->banner_image == '')
         {
             $KH->banner_image = $a;
-        }else{
-            $KH->banner_image = $req->banner_image;
+        }else if($file=$req->file('banner_image'))
+        {
+        $extention=$file->getClientOriginalExtension();
+        $filename=time().'.'.$extention;
+        $file->move('banner/',$filename);
+        $KH->banner_image =$filename;
         }
         $KH -> save();    
         $dsbanner = Setting::all();
