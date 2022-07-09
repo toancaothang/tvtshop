@@ -179,12 +179,8 @@ success: function(response){
                                               <li>Tổng Tiền: <span>{{number_format($total-$total_coupon)}} <u> đ</u></span></li>
                                               <input id="total_after" class="total" name="total_after" value="{{$total-$total_coupon}}"  type="hidden">
                                             </ul>
-                                            
-                                            <div style="background-image: url(images/menu/logo/coupon2.jpg);background-size:cover; width:320px;height:100px;margin-top:5px; box-shadow: 1px 2px 3px 0px;">
-                                            <p ><a style="color:#E80F0F;margin-left:300px;font-size:20px;" href="{{route('delete_coupon')}}"> x</a> </p>
-                                            <p style="font-size:15px;color:white; width:320px; background-color:#C5161D; text-align:center; margin-top:15px;height:25px;"> Đã Áp Dụng Mã Giảm Giá "{{$cou['coupon_code']}}" Giảm {{$cou['coupon_number']}} %</p>  </div>
-                                          
-                                            @endforeach
+                                            <p style="font-size:15px;color:white; width:360px; background-color:#EF1E24; text-align:center;height:30px;margin-bottom:3px;margin-top:5px;border:dotted white 2px;font-weight:bold;display:inline-block;"> Đã Áp Dụng Mã Giảm Giá "{{$cou['coupon_code']}}" Giảm {{$cou['coupon_number']}} % </p> <span style="font-size:15px;color:white;width:30px; background-color:#EF1E24; text-align:center;height:30px;margin-bottom:3px;margin-top:5px;border:dotted white 2px;font-weight:bold;display:inline-block;"><a style="color:white;" href="{{route('delete_coupon')}}"> x </a></span>
+                                           @endforeach
                                             @else
                                             <li>Tổng Tiền: <span>{{number_format($total)}} <u> đ</u></span></li>
                                             <input id="total_after" class="total" name="total_after" value="{{$total}}"  type="hidden">

@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
     <title>Quản Lý TVT Shop </title>
-    
+    <link rel="shortcut icon" type="image/x-icon" href="{{asset('images/menu/logo/admin.png')}}">
     <link rel="stylesheet"  href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ asset('adminss/style.css') }}">
@@ -19,13 +19,13 @@
       <div class="sidebar-header">
       <div class="logo pb-sm-30 pb-xs-30">
                                     <a href="{{route('htsp_trangchu')}}">
-                                        <img src=" {{asset('images/menu/logo/logo.png')}}" alt="" style="margin-top:20px; margin-left:" >
+                                        <img src=" {{asset('images/menu/logo/logo.png')}}" alt="" style="margin-top:30px; margin-left:" >
                                         
                                         </a>
                                         
                                     </div>
       </div>
-      <div class="sidebar-menu">
+      <div style="margin-top:20px;"class="sidebar-menu">
         <ul id="accordion" class="accordion">
           <li>
             <a href= {{route('admin.dashboard')}}>
@@ -132,7 +132,7 @@
           <li>
             <div class="link"><a>
               <span class="ti-settings"></span>
-              <span style="margin-left: 12px">Cài đặt<i style="top: 3px" class="fa fa-chevron-down"></i></span>
+              <span style="margin-left: 12px">Giao Diện<i style="top: 3px" class="fa fa-chevron-down"></i></span>
               
             </a></div>
             <ul class="submenu">

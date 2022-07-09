@@ -18,7 +18,7 @@
                 <div class="container">
                 <div class="compare-table table-responsive">
                         <div style="margin-bottom:10px;">
-                    <button style="margin-bottom:10px;background-color: #0382C7;border: none;height: 39px;width: 158px;border-radius: 4px;"><a href="{{route('delete_compare')}}" style="color:white;"> Xóa So Sánh </a> </button>
+                    <button style="margin-bottom:10px;background-color: #0382C7;border: none;height: 39px;width: 158px;border-radius: 3px;"><a href="{{route('delete_compare')}}" style="color:white;font-weight:bold;"> Xóa So Sánh </a> </button>
 </div>
                         <table class="table table-bordered table-hover mb-0">
                             <tbody>

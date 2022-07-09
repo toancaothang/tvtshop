@@ -75,6 +75,7 @@
                                         <!-- Begin Setting Area -->
                                         <li> 
                                         @if(Auth::check()) 
+                                        <img src="{{url('users/')}}/{{Auth::user()->avatar}}" class="img-radius" alt="User-Profile-Image" style="width:26px;height:24px;margin-right:7px;">
                                         <div class="ht-setting-trigger"><span>{{Auth::user()->full_name}}</span></div>
                                         <div class="setting ht-setting">
                                                 <ul class="ht-setting-list" style="width:150px;">
@@ -188,7 +189,7 @@
                                                 <span class="item-icon"></span>
                                                 @if(Auth::check())
                                                 @php 
-                                        $cartcount=(App\Models\Cart::join('product_model','cart.pro_model_id','=','product_model.id')->join('product','cart.product_id','=','product.id')->where('user_id',Auth::user()->id)->where('product_model.status',1)->where('product.status',1)->count());
+                                        $cartcount=(App\Models\Cart::join('product_model','cart.pro_model_id','=','product_model.id')->join('product','cart.product_id','=','product.id')->where('user_id',Auth::user()->id)->where('product_model.status',1)->where('product.status',1)->sum('pro_quantity'));
                                         @endphp
                                                 <span class="item-text">{{number_format(Session::get('totalafter'))}}<u> đ</u>
                                                        <span class="cart-item-count"> {{$cartcount}}</span>
@@ -201,7 +202,7 @@
                                                     
                                                 @foreach($quickcart as $qc)
                                                 <li>
-                                                        <a href="single-product.html" class="minicart-product-image">
+                                                        <a href="{{route('chitiet_sanpham',['cateid'=>$qc->category_id,'id'=>$qc->id])}}" class="minicart-product-image">
                                                             <img src="{{url('website/product')}}/{{$qc->image}}" alt="cart products">
                                                         </a>
                                                         <div class="minicart-product-details">

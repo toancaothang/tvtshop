@@ -136,8 +136,15 @@
                                                 <td><strong><span class="amount">{{number_format(Session::get('totalafter'))}} <u>đ</u></span></strong></td>
                                                 <input type="hidden" value="{{Session::get('totalafter')}}"name="total_after">
                                             </tr>
+                                           
                                         </tfoot>
+                                        
                                     </table>
+                                    @if(Session::get('coupon'))
+                                            @foreach(Session::get('coupon') as $key => $cou)
+                                            <p style="font-size:15px;color:white; width:360px; background-color:#EF1E24; text-align:center;height:30px;margin-bottom:3px;margin-top:5px;border:dotted white 2px;font-weight:bold;"> Đã Áp Dụng Mã Giảm Giá "{{$cou['coupon_code']}}" Giảm {{$cou['coupon_number']}} %</p>
+                                            @endforeach
+                                            @endif
                                 </div>
                                 <div class="payment-method">
                                     <div class="payment-accordion">
@@ -151,7 +158,7 @@
                                 </div>
                                 <form action="{{route('checkout_vnpay')}}" method="POST" enctype="multipart/form-data">
                                         @csrf
-                                              <button style="border-radius:3px;background-color:white;color:black;border:none; height:40px; margin-top:10px; padding-bottom:48px;" type="submit" name="redirect">Thanh Toán  <img src=" {{asset('images/payment/vnpay.png')}}" alt="" style="height:50px;"> </button>
+                                              <button style="border-radius:3px;background-color:white;color:#434343;border:none; height:40px; margin-top:10px; padding-bottom:48px;font-weight:bold;" type="submit" name="redirect">Thanh Toán  <img src=" {{asset('images/payment/vnpay.png')}}" alt="" style="height:50px;"> </button>
                                                 </form>
                             </div>
                         </div>

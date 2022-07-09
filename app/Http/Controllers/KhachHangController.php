@@ -281,6 +281,13 @@ foreach($orderdetail as $detail)
 'unit_price'=>$detail->price-$exsale,
 'pro_model_id'=>$detail->pid,
 ]);
+$trusl=SanPham::where('product.id',$detail->product_id)->get();
+foreach($trusl as $ts)
+{
+$soluongdatru=$ts->stock-$detail->pro_quantity;
+$ts->update(['stock' => $soluongdatru]);
+}
+
 }
 $delcart=Cart::where('user_id',Auth::user()->id);
 $delcart->delete();
@@ -355,7 +362,12 @@ public function ajaxsearch()
 }
 //tim kiem binh thuong
 public function search(Request $request){
+   
     if($request->searchdm==0){
+        $hethang=ModelSP::join('product','product_model.id','=','product.model_id')->where('product_model.status',1)->where('product.status',1)->where('model_name','like','%'.$request->searchrs.'%')->orWhere('capacity','like','%'.$request->searchrs.'%')->get([
+            'product_model.id as mid',
+            'product.stock',
+    ]); 
         $data=ModelSP::join('product','product_model.id','=','product.model_id')->where('product_model.status',1)->where('product.status',1)->where('model_name','like','%'.$request->searchrs.'%')->orWhere('capacity','like','%'.$request->searchrs.'%')
         ->get(['product_model.id as mid',
         'product.id',
@@ -365,6 +377,7 @@ public function search(Request $request){
         'product.price',   
          'product.capacity','product.sale',
          'product_model.total_rated',
+         'product.stock',
     
         
     ]);
@@ -379,13 +392,13 @@ $data=ModelSP::join('product','product_model.id','=','product.model_id')->where(
     'product.price',   
      'product.capacity','product.sale',
      'product_model.total_rated',
-
+     'product.stock',
     
 ]);
     }
 
 
-return view('giaodien.search-page',compact('data'));
+return view('giaodien.search-page',compact('data','hethang'));
 }
 
 

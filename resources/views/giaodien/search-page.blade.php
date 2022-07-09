@@ -76,9 +76,25 @@
                                             
                                                           </span>
                                                         <button class="compare-btn" type="submit" style="border:none; background-color:white; color:#05A7FF;margin-left:-10px;margin-top:10px;" ><img src=" {{asset('images/menu/logo/compare.png')}}" style="width:27px;"alt="" >So Sánh</button>
-
+ 
                                            </form>
-                                                                <div class="price-box">
+                                           @php
+                                    $dahethang=0;
+                                    @endphp
+                                    @foreach($hethang as $hh)
+                                    @if($hh->mid==$searchrs->mid)
+                                    @php 
+                                    $dahethang+=$hh->stock;
+                                    @endphp
+                                    @endif
+                                    @endforeach
+                                    @if($dahethang==0)
+                                    <div class="price-box">
+                                                            <span class="new-price new-price-2" id="price1">Đã Hết Hàng</span>
+                                                            <span id="salefix1">
+                                                           </div>
+                                                           @else
+                                                      <div class="price-box">
                                                                 @php $exsale=$searchrs->sale*$searchrs->price/100; @endphp
                                                                <span class="new-price new-price-2" id="price1">{{number_format($searchrs->price-$exsale)}} <u>đ</u></span>
                                                                @if($searchrs->sale)
@@ -86,6 +102,7 @@
                                                         <span class="old-price">{{number_format($searchrs->price)}}<u> đ</u></span>
                                                         <span class="discount-percentage">-{{$searchrs->sale}}%</span>
                                                         </span>
+                                                        @endif
                                                         @endif
                                                                 </div>
                                                             </div>
@@ -96,10 +113,13 @@
                                                                @csrf
                                                                 <input value="1" type="hidden" name="quaninput">
                                                                 <input type="hidden" value=" <?php echo $searchrs->id;?>" name="productid"/>
+                                                                @if($dahethang>0)
                                                                 <li style="width:145px;"> <button class="add-cart active" type="submit" style="border:none;width:145px;background-color:#FFCB09;color:black;" > Thêm Vào Giỏ Hàng </button></li>
-                                                                    </form>
-                                                                
-                                                                   <form action="{{route('wish_list',['id'=>$searchrs->mid])}}" class="wishlist_add" method="POST">
+                                                                </form>
+                                                                @else
+                                                                <li style="width:145px;"> <button class="add-cart active" style="border:none;width:145px;background-color:#FFCB09;color:black;" ><a href="#" style="color:black;"> Đã Hết Hàng</a></button></li>
+                                                                  @endif
+                                                                 <form action="{{route('wish_list',['id'=>$searchrs->mid])}}" class="wishlist_add" method="POST">
                                                                 @csrf
                                                               <span id="wish">
                                                                 
@@ -116,6 +136,7 @@
                                                   
                                                     <!-- single-product-wrap end -->
                                                 </div>
+                                               
                                                 @endforeach
                                             </div>
                                         </div>

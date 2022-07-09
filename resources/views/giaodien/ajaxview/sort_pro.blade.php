@@ -5,8 +5,10 @@
                                         <div class="product-area shop-product-area">
                                             <div class="row">
                                            
- @foreach($productshow as $value)
-    <div class="col-lg-4 col-md-4 col-sm-6 mt-40" >
+
+                                             @foreach($productshow as $value)
+   
+                                        <div class="col-lg-4 col-md-4 col-sm-6 mt-40" >
                                                     <!-- single-product-wrap start -->
                                                     <div class="single-product-wrap" id="updateDiv">
                                                         <div class="product-image">
@@ -40,17 +42,31 @@
                                             <input type="hidden" value=" <?php echo $value->getpro->first()->id;?>" name="productid"/>
                                             
                                             </span>
-                                            <button class="compare-btn" type="submit" style="border:none; background-color:white; color:#05A7FF;margin-left:-10px;" ><img src=" {{asset('images/menu/logo/compare.png')}}" style="width:27px;"alt="" >So Sánh</button>
+                                            <button class="compare-btn" type="submit" style="border:none; background-color:white; color:#05A7FF;margin-left:-10px;margin-top:10px;" ><img src=" {{asset('images/menu/logo/compare.png')}}" style="width:27px;"alt="" >So Sánh</button>
 
                                            </form>
+                                           @php
+                                               $dahethang=0;
+                                            @endphp
+                                            @foreach($value->getpro as $hethang)
+                                            @php
+                                               $dahethang+=$hethang->stock;
+                                            @endphp
+                                            @endforeach
+                                                                  @if($dahethang==0)
+                                                                  <div class="price-box">
+                                                                <span class="new-price new-price-2" id=""> 
+                                                            Đã Hết Hàng
+                                                            </span>
+                                                              </div>
+                                                              @else
                                                                <div class="price-box">
                                                                 
                                                                 <form action="{{route('add_cart',['id'=>$value->id])}}" class="cart-quantity" method="POST" enctype="multipart/form-data" style="margin-top:-4px;">
                                                                 @php $exsale=$value->getpro->first()->sale*$value->getpro->first()->price/100; @endphp
                                                                 @csrf
                                                                <span class="new-price new-price-2" id="price-{{ $value->id }}">{{number_format($value->getpro->first()->price-$exsale)}} <u>đ</u>
-                                                               
-                                                               <input type="hidden" value=" <?php echo $value->getpro->first()->id;?>" name="productid" />
+                                                             <input type="hidden" value=" <?php echo $value->getpro->first()->id;?>" name="productid" />
                                                             </span>
                                                                @if($value->getpro->first()->sale)
                                                              <span id="salefix-{{ $value->id }}">
@@ -59,6 +75,7 @@
                                                         </span>
                                                         @endif
                                                                 </div>
+                                                                @endif 
                                                                 <div class="rating-box">
                                                                         <ul class="rating">
                                                                         @for($i=1;$i<=$value->total_rated;$i++)
@@ -73,10 +90,13 @@
                                                             <div class="add-actions">
                                                                 <ul class="add-actions-link">
                                                                 <input class="cart-plus-minus-box " value="1" type="hidden" name="quaninput">
+                                                                @if($dahethang>0)
                                                                <li style="width:145px;"> <button class="add-cart active" type="submit" style="border:none;width:145px;background-color:#FFCB09;color:black;" > Thêm Vào Giỏ Hàng </button></li>
                                                                     
                                                                     </form> 
+                                                                    
                                                                     <li><a href="#" title="Xem Nhanh Sản Phẩm" class="quick-view-btn" data-toggle="modal" data-target="#xemnhanh-{{$value->id}}"><i class="fa fa-eye"></i></a></li>
+                                                                    @endif
                                                                     <form action="{{route('wish_list',['id'=>$value->id])}}" class="wishlist_add" method="POST">
                                                                 @csrf
                                                               <span id="wish-{{$value->id}}">
@@ -88,6 +108,7 @@
                                                             </form>
                                                         
                                                                 </ul>
+                                                               
                                                             </div>
                                                         </div>
                                                     </div>
@@ -134,12 +155,25 @@
                                                 @for($j=$value->total_rated+1;$j<=5;$j++)
                                                 <li class="no-star"><i class="fa fa-star-o"></i></li>
                                                 @endfor
-                                                        <li class="review-item"><a href="#">{{$value->getpro->count()}}</a></li>
+                                                        <li class="review-item"><a href="#">{{$value->getcomment->count()}}</a></li>
                                                     </ul>
                                                 </div>
-                                                <div class="price-box pt-20" >
+                                                <form action="{{route('com_pare',['id'=>$value->id])}}" class="compare_add" method="POST" >
+                                            @csrf
+                                            <span id="compares1-{{$value->id}}">
+                                            <input type="hidden" value=" <?php echo $value->getpro->first()->id;?>" name="productid"/>
+                                            
+                                            </span>
+                                            <button class="compare-btn" type="submit" style="border:none; background-color:white; color:#05A7FF; font-size:17px; margin-top:10px;" ><img src=" {{asset('images/menu/logo/compare.png')}}" style="width:27px;"alt="" > So Sánh</button>
+
+                                           </form>
+                                                <form action="{{route('add_cart',['id'=>$value->id])}}" class="cart-quantity" method="POST" >
+                                        @csrf
+                            <div class="price-box pt-20" >
                                                 @php $exsale=$value->getpro->first()->sale*$value->getpro->first()->price/100; @endphp
-                                                                <span class="new-price new-price-2" id="price1-{{$value->id}}">{{number_format($value->getpro->first()->price-$exsale)}} <u>đ</u></span>
+                                                                <span class="new-price new-price-2" id="price1-{{$value->id}}">{{number_format($value->getpro->first()->price-$exsale)}} <u>đ</u>
+                                                                <input type="hidden" value=" <?php echo $value->getpro->first()->id;?>" name="productid"/>
+                                                            </span>
                                                                 @if($value->getpro->first()->sale)
                                                                 <span id="salefix1-{{$value->id}}">
                                                             <span class="old-price" style="text-decoration:line-through;">{{number_format($value->getpro->first()->price)}}<u> đ</u></span>
@@ -157,6 +191,7 @@
                                                 <div class="product-variants">
                                                     <div class="produt-variants-size">
                                                     <label>Chọn Mẫu Khác Của {{$value->model_name}} </label>
+                                           
                                                 <ul>
                                                 @foreach($value->getpro as $getpro)
                                                 <div class="update-bienthe" type="submit" data-type="{{$getpro->capacity}}" data-id="{{$value->id}}" tabindex="1"  >{{$getpro->capacity}}GB</div>
@@ -166,23 +201,27 @@
                                                     </div>
                                                 </div>
                                                 <div class="single-add-to-cart">
-                                                    <form action="#" class="cart-quantity">
-                                                        <div class="quantity">
-                                                            <label>Quantity</label>
-                                                            <div class="cart-plus-minus">
-                                                                <input class="cart-plus-minus-box" value="1" type="text">
-                                                                <div class="dec qtybutton"><i class="fa fa-angle-down"></i></div>
-                                                                <div class="inc qtybutton"><i class="fa fa-angle-up"></i></div>
-                                                            </div>
-                                                        </div>
-                                                        <button class="add-to-cart" type="submit">Add to cart</button>
+                                                  
+                                                         <div class="quantity">
+                                                <label>Số Lượng</label>
+                                                <div class="cart-plus-minus">
+                                                    <input class="cart-plus-minus-box " value="1" type="text" name="quaninput">
+                                                    <div class="dec qtybutton"><i class="fa fa-angle-down"></i></div>
+                                                    <div class="inc qtybutton"><i class="fa fa-angle-up"></i></div>
+                                                </div>
+                                            </div>
+                                                        <button class="add-to-cart" type="submit">Thêm Vào Giỏ Hàng</button>
                                                     </form>
                                                 </div>
                                                 <div class="product-additional-info pt-25">
-                                                    <a class="wishlist-btn" href="wishlist.html"><i class="fa fa-heart-o"></i>Add to wishlist</a>
-                                                    <div class="product-social-sharing pt-25">
-                                                        
-                                                    </div>
+                                                <form action="{{route('wish_list',['id'=>$value->id])}}" class="wishlist_add" method="POST" >
+                                    @csrf
+                                    <span id="wish1-{{$value->id}}">
+                                    <input type="hidden" value=" <?php echo $value->getpro->first()->id;?>" name="productidwish"/>
+                                    </span> 
+                                    <button class="wishlist-btn" type="submit" style="border:none; background-color:white; color:deeppink; font-size:15px;" > <i class="fa fa-heart-o"></i>Thêm Vào WishList</button>
+                                    </form>
+                                                    
                                                 </div>
                                             </div>
                                         </div>
@@ -230,6 +269,21 @@
                                                                         </div>
                                                                     </div>
                                                                     <h4><a class="product_name" href="{{route('chitiet_sanpham',['cateid'=>$value->category_id,'id'=>$value->id])}}">{{$value->model_name}}</a></h4>
+                                                                    @php
+                                               $dahethang=0;
+                                            @endphp
+                                            @foreach($value->getpro as $hethang)
+                                            @php
+                                               $dahethang+=$hethang->stock;
+                                            @endphp
+                                            @endforeach
+                                                                  @if($dahethang==0)
+                                                                  <div class="price-box">
+                                                                <span class="new-price new-price-2" id=""> 
+                                                            Đã Hết Hàng
+                                                            </span>
+                                                              </div>
+                                                              @else
                                                                     <div class="price-box">
                                                                     <form action="{{route('add_cart',['id'=>$value->id])}}" class="cart-quantity" method="POST" enctype="multipart/form-data" style="margin-top:-4px;">
                                                                     @csrf
@@ -245,6 +299,7 @@
                                                             </span>
                                                             @endif
                                                                     </div>
+                                                                    @endif
                                                                     <h5 class="manufacturer">
                                                                         @foreach($value->getpro as $getpro)
                                                                             
@@ -252,7 +307,7 @@
                                                                         
                                 @endforeach
                                                                         <input type="hidden" value="<?php echo $value->id?>" id="produm-{{ $value->id }}" class="produm"/> 
-                                                                        <input class="cart-plus-minus-box " value="1" type="text" name="quaninput">
+                                                                        <input class="cart-plus-minus-box " value="1" type="hidden" name="quaninput">
                                                                 </h5>
                                                                 </div>
                                                             </div>
@@ -261,8 +316,10 @@
                                                         <div class="col-lg-4">
                                                             <div class="shop-add-action mb-xs-30">
                                                                 <ul class="add-actions-link">
-                                                            
+                                              
+                                                                  @if($dahethang>0)
                                                                     <button type="submit" style="border:none;background-color:white;">Thêm Vào Giỏ Hàng</button>
+                                                                    @endif
                                                                     </form>
                                                                     <form action="{{route('wish_list',['id'=>$value->id])}}" class="wishlist_add" method="POST">
                                                                     @csrf
@@ -284,8 +341,11 @@
                                                 <button class="compare-btn" type="submit" style="border:none; background-color:white; color:#05A7FF;margin-left:-6px;" ><img src=" {{asset('images/menu/logo/compare.png')}}" style="width:27px;"alt="" >So Sánh</button>
 
                                             </form>
-                                            <li><a class="quick-view" data-toggle="modal" data-target="#exampleModalCenter" href="#"><i class="fa fa-eye"></i>Xem Nhanh Sản Phẩm</a></li>
+                                            @if($dahethang>0)
+                                            <li style="margin-left:7px;"><a class="quick-view" data-toggle="modal" data-target="#exampleModalCenter" href="#"><i class="fa fa-eye"></i>Xem Nhanh Sản Phẩm</a></li>
+                                            @endif
                                                             </div>
+                                                       
                                                         </div>
                                                     </div>
                                                     @endforeach
@@ -300,4 +360,4 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- shop-products-wrapper end -->
+                                  <!-- shop-products-wrapper end -->

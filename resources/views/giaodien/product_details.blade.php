@@ -166,12 +166,30 @@ $.ajax({
                                         
                                         </ul>
                                     </div>
-                                    
-                                      
+
+                                    @php
+                                    $dahethang=0;
+                                    @endphp
+                                    @foreach($hethang as $hh)
+                                    @if($hh->mid==$ctmodel->id)
+                                    @php 
+                                    $dahethang+=$hh->stock;
+                                    @endphp
+                                    @endif
+                                    @endforeach
                                    
+                                      
                                     <form action="{{route('add_cart',['id'=>$ctmodel->id])}}" class="cart-quantity" method="POST" >
                                         @csrf
-                                       
+
+                                       @if($dahethang==0)
+                                       <div class="price-box pt-20" style="margin-top:-20px;">
+                                   
+                                        <span class="new-price new-price-2" id="price"> Đã Hết Hàng
+                                      </span>
+                                    </div>
+                                    @else
+
                                     <div class="price-box pt-20" style="margin-top:-20px;">
                                     @php $exsale=$ctmodel->getpro->first()->sale*$ctmodel->getpro->first()->price/100; @endphp
                                         <span class="new-price new-price-2" id="price">{{number_format($ctmodel->getpro->first()->price-$exsale)}} <u>đ </u>
@@ -186,6 +204,8 @@ $.ajax({
                                     </span>
                                     @endif
                                     </div>
+                                   
+
                                     <div class="product-variants">
                                         <div class="produt-variants-size">
                                             <label>Chọn Mẫu Khác Của {{$ctmodel->model_name}} </label>
@@ -210,9 +230,11 @@ $.ajax({
                                         </div>
                                         </div>
                                         </form>
+                                       
                                         </div>
                                         </div>
                                         </div>
+                                        @endif
                                     <div class="product-additional-info pt-25">
                                     <form action="{{route('wish_list',['id'=>$ctmodel->id])}}" class="wishlist_add" method="POST" >
                                     @csrf

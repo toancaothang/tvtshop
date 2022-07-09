@@ -112,7 +112,7 @@ input[type="search"] {
     $('#example').dataTable({
         "language": {
         "sProcessing":   "Đang xử lý...",
-        "sLengthMenu":   "Xem _MENU_ mục",
+        "sLengthMenu":   "Xem Mục_MENU_ ",
         "sInfo":         "Đang xem _START_ đến _END_ trong tổng số _TOTAL_ mục",
         "sInfoEmpty":    "Đang xem 0 đến 0 trong tổng số 0 mục",
         "sInfoFiltered": "(được lọc từ _MAX_ mục)",

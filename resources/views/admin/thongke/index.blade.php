@@ -7,7 +7,7 @@
     <div class="dash-cards" >
         <section class="recent" style="margin-top: 0px">
             <div class="activity-grid">
-                <div class="activity-card" style="width:1033px">
+                <div class="activity-card" style="width:1050px!important;">
                     <div id="tabstrip">
                         <ul>
                             <li>

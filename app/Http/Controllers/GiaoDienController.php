@@ -6,6 +6,7 @@ use App\Models\ModelSP;
 use App\Models\User;
 use App\Models\AnhSP;
 use App\Models\CTHoaDon;
+use App\Models\Coupon;
 use App\Models\HoaDon;
 use App\Models\WishList;
 use App\Models\SanPham;
@@ -19,7 +20,8 @@ class GiaoDienController extends Controller
 {
 // hien thi du lieu ra trang chu
 public function httrangchu(){
-$newpro=ModelSP::with('getpro')->with('getimage')->with('getcomment')->where('status',1)->orderBy('updated_at','DESC')->get();
+    $coupon=Coupon::where('coupon_condition',0)->get();
+$newpro=ModelSP::with('getpro')->with('getimage')->with('getcomment')->where('status',1)->orderBy('updated_at','DESC')->get()->take(10);
 $sale=ModelSP::join('product','product_model.id','=','product.model_id')->where('product_model.status',1)->where('product.status',1)->where('sale','>',0)->get(['product_model.id as mid',
     'product.id',
     'product_model.model_name',
@@ -28,10 +30,14 @@ $sale=ModelSP::join('product','product_model.id','=','product.model_id')->where(
     'product.price',   
      'product.capacity','product.sale',
      'product_model.total_rated',
+     'product.stock',
 ]);
+
 $samsung=ModelSP::with('getpro')->with('getimage')->with('getcomment')->where('category_id',1)->where('status',1)->get()->take(10);
 $apple=ModelSP::with('getpro')->with('getimage')->with('getcomment')->where('category_id',2)->where('status',1)->get()->take(10);
-    return view('welcome',compact('newpro','samsung','apple','sale'));
+$toprate=ModelSP::with('getpro')->with('getimage')->where('status',1)->orderBy('total_rated','DESC')->get()->take(20);
+
+    return view('welcome',compact('newpro','samsung','apple','sale','toprate','coupon'));
 }
 
     //xu ly hien thi danh muc
@@ -174,6 +180,11 @@ public function editprofile(){
 // xem chi tiet san pham
 public function chitietsanpham($cateid,$id){
     $ctmodel=ModelSP::where('status',1)->find($id);
+    $hethang=ModelSP::join('product','product_model.id','=','product.model_id')->where('product_model.status',1)->where('product.status',1)->get([
+        'product_model.id as mid',
+        'product.stock',
+]); 
+
     $bienthe=SanPham::where('status',1)->where('model_id',$ctmodel->id)->get();
 $modelimage=AnhSP::where('model_id',$id)->get();
 $samecate=DanhMuc::where('id',$cateid)->where('status',1)->first();
@@ -192,7 +203,7 @@ else{
 }
 $ctmodel->save();
 
-return view('giaodien.product_details',compact('ctmodel','modelimage','samemodel','samecate','commentshow','bienthe','commentcount','commentvalue'));
+return view('giaodien.product_details',compact('ctmodel','modelimage','samemodel','samecate','commentshow','bienthe','commentcount','commentvalue','hethang'));
 }
 
 
@@ -208,8 +219,13 @@ public function hienthiwishlist()
        'product.capacity',
        'product.price',
        'product.sale',
+       'product_model.id as mid'
 ]);
-return view('giaodien.wishlist',compact('prowishshow'));
+$hethang=ModelSP::join('product','product_model.id','=','product.model_id')->where('product_model.status',1)->where('product.status',1)->get([
+    'product_model.id as mid',
+    'product.stock',
+]); 
+return view('giaodien.wishlist',compact('prowishshow','hethang'));
 }
 //dem so luong sp trong wishlist
 public function wishlistcount($id)
@@ -336,7 +352,6 @@ return view('giaodien.cart',compact('procartshow'));
            'product_model.image',
           'product.capacity',
            'product.price',
-           'product.sale',
     ]);
     
     return view('layout.header_footer',compact('quickcart'));

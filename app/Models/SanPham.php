@@ -15,6 +15,7 @@ class SanPham extends Model
         'capaticy',
         'price',
         'sale',
+        'stock',
         
     
     ];
