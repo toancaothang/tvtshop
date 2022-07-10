@@ -35,23 +35,25 @@
                   <table class="table-sortable" id="example" style="margin-bottom: 20px">
                       <thead>
                         <tr>
-                       
+                        <th style="width:126px!important;">Ảnh sản phẩm</th>
                           <th>Tên mẫu sản phẩm</th>
-                          <th>Hệ điều hành</th>
-                          <th>CPU</th>
-                          <th>GPU</th>
+                          <th style="width:132px!important;">Hệ điều hành</th>
+                          
+                          <th style="width:87px!important;">CPU</th>
+                          <th style="width:64px!important;">GPU</th>
                           <th>Pin</th>
                           <th>Ram</th>
-                          <th>Tổng đánh giá</th>
-                          <th></th>
+                          <th style="width:160px!important;" >Tổng đánh giá</th>
+                          <th style="width:160px!important;"></th>
                         </tr>
                       </thead>
                       <tbody>
                         @foreach ($dsmausanpham as $a)
                           <tr>
-                          
+                          <td style="padding-left: 30px"><img style="width:50px;height:60px" src="{!! url('website/product/'.$a->image.'') !!}"></td>
                             <td>{{$a->model_name}}</td>
                             <td>{{$a->opera_sys}}</td>
+                         <!--   <td maxlength="10"><p style="white-space: nowrap;background-color: white;width: 170px;overflow: hidden;text-overflow: ellipsis;"> {{$a->description}}</p></td>-->
                             <td>{{$a->cpu}}</td>
                             <td>{{$a->gpu}}</td>
                             <td>{{$a->pin}}</td>

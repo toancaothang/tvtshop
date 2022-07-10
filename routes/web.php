@@ -71,6 +71,9 @@ Route::get('/ajax-search-product',[KhachHangController::class,'ajaxsearch'])->na
 Route::post('/search-product',[KhachHangController::class,'search'])->name('search_product');
 //Xoa san pham so sanh
 Route::get('/delete-compare',[KhachHangController::class,'deletecompare'])->name('delete_compare');
+// them san pham tu wishlist vao cart
+Route::get('/wish-to-cart',[KhachHangController::class,'wishtocart'])->name('wishto_cart');
+Auth::routes();
 //checkout vnpay
 Route::post('/checkout-vnpay',[KhachHangController::class,'checkoutvnpay'])->name('checkout_vnpay');
 
@@ -117,5 +120,9 @@ Route::get('/compare', function () {
     return view('giaodien.compare');
 })->name('compare');
 Auth::routes();
-
+//back lai
+Route::get('/back-get', function () {
+    return redirect('/product-all');
+})->name('back_get');
+//
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

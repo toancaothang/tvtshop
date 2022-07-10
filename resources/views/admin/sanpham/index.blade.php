@@ -22,27 +22,25 @@
                     <table class="table-sortable" id="example" style="margin-bottom: 20px">
                         <thead>
                           <tr>
-                            <th>Ảnh sản phẩm</th>
                             <th>Tên sản phẩm</th>
                             <th>Đơn giá</th>
-                            <th>Mô tả</th>
-                            <th>Số lượng</th>
+                        
+                            <th style="width:91px!important;" >Số lượng</th>
                             <th>Màu</th>
-                            <th>Bộ nhớ</th>
-                            <th>Giảm giá</th>
-                            <th style="width:180px"></th>
+                            <th style="width:86px!important;">Bộ nhớ</th>
+                            <th style="width:96px!important;" >Giảm giá</th>
+                            <th style="width:180px!important;"></th>
                           </tr>
                         </thead>
                         <tbody>
                           @foreach ($dssanpham as $a)
                             <tr>
-                              <td style="padding-left: 30px"><img style="width:90px;height:60px" src="{!! url('website/product/'.$a->image.'') !!}"></td>
                               <td>{{$a->model_name}}</td>
                               <td style="width:100px">  <?php
                                 echo number_format($a->price,'0','.','.')
                                 ?>đ
                                 </td>
-                              <td maxlength="10"><p style="white-space: nowrap;background-color: white;width: 150px;overflow: hidden;text-overflow: ellipsis;"> {{$a->description}}</p></td>
+                            
                               <td>{{$a->stock}}</td>
                               <td>{{$a->color}}</td>
                               <td>{{$a->capacity}}</td>

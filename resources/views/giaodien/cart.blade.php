@@ -210,7 +210,7 @@ success: function(response){
                                 <img src=" {{asset('images/menu/logo/cartpage.png')}}" alt="" style="width:100px;" >
                                 </div>
                                 <div class="error-button" >
-                                    <a href="index.html"style="color:black;">Bắt Đầu Thêm Sản Phẩm</a>
+                                    <a href="{{route('back_get')}}"style="color:black;">Bắt Đầu Thêm Sản Phẩm</a>
                                 </div>
                             </div>
                         </div>

@@ -154,7 +154,7 @@
       <header style="display: flex;">
         <div class="search-wrapper">
           <span ></span>
-          <input type="search"  readonly/>
+          <input type="search" style="display:none;"  readonly/>
         </div>
         <div class="social-icons">
           <span class="ti-bell"></span>

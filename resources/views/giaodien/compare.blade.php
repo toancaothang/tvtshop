@@ -162,7 +162,7 @@
                                 <img src=" {{asset('images/menu/logo/compare.webp')}}" alt="" style="width:100px;" >
                                 </div>
                                 <div class="error-button" style="border-rad">
-                                    <a href="index.html"style="color:black;">Bắt Đầu Thêm Sản Phẩm</a>
+                                    <a href="{{route('back_get')}}"style="color:black;">Bắt Đầu Thêm Sản Phẩm</a>
                                 </div>
                             </div>
                         </div>

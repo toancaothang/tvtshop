@@ -157,13 +157,13 @@ $.ajax({
                                          </div>
                                          <div>
                                          <p style="    margin-left: 29px;font-size: 14px;color: #393434;font-weight:bold;"> Điều Kiện: Người Dùng Đã Đăng Ký </p>
-                                         <input type="text" value="{{$cp->coupon_code}}" id="couponcode" style="display:none;">
-                                         <button style="border: none;color: white;background-color: #c41212;width: 114px;border-radius: 2px;height: 35px; margin-left: 178px; margin-top: -9px;font-weight: bold;}" onclick="copcode()" stype="submit"> Sao Chép Mã </button>
+                                         <input type="text" value="{{$cp->coupon_code}}" id="couponcode-{{$cp->id}}" style="display:none;">
+                                         <button style="border: none;color: white;background-color: #c41212;width: 114px;border-radius: 2px;height: 35px; margin-left: 178px; margin-top: -9px;font-weight: bold;}" onclick="copcode({{$cp->id}})" type="submit"> Sao Chép Mã </button>
                                          </div>
 <script>
-    function copcode() {
+    function copcode(id) {
   /* Get the text field */
-  var copyText = document.getElementById("couponcode");
+  var copyText = document.getElementById("couponcode-"+id);
 
   /* Select the text field */
   copyText.select();

@@ -66,7 +66,7 @@
                                                     <span class="amount" style="color:red"> Hết Hàng</span></td>
                                                 <td class="li-product-stock-status"><span class="in-stock" style="color:red;">Hết Hàng</span></td>
                                                 @endif
-                                                <td class="li-product-add-cart"> @if($dahethang>0)<a href="#">Thêm Vào Giỏ Hàng</a> @else<a href="#" style="">Đã Hết Hàng</a>@endif  </td>
+                                                <td class="li-product-add-cart"> @if($dahethang>0)<a href="{{route('wishto_cart',['id'=>$ps->wid])}}">Thêm Vào Giỏ Hàng</a> @else<a href="#" style="">Đã Hết Hàng</a>@endif  </td>
                                                 <td class="li-product-remove"><a href="{{route('delete_wish',['id'=>$ps->wid])}}"><i class="fa fa-times"></i></a></td>
                                                 
                                             </tr>
@@ -95,7 +95,7 @@
                                 <img src=" {{asset('images/menu/logo/wishlist.png')}}" alt="" style="width:250px;" >
                                 </div>
                                 <div class="error-button">
-                                <a href="index.html"style="color:black;">Bắt Đầu Thêm Sản Phẩm</a>
+                                <a href="{{route('back_get')}}"style="color:black;">Bắt Đầu Thêm Sản Phẩm</a>
                                 </div>
                             </div>
                         </div>

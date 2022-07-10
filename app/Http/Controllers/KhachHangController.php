@@ -460,6 +460,20 @@ public function deletecompare()
     Session::forget('compare');
     return redirect('/compare');
 }
+//them wish vao cart
+public function wishtocart($id){
+$takewish=WishList::where('id',$id)->first();
+  $tocart=Cart::create([
+        'user_id'=>$takewish->user_id,
+        'pro_model_id'=>$takewish->model_pro_id,
+        'pro_quantity'=>1,
+        'product_id'=>$takewish->product_id,
+    ]);
+    $tocart->save();
+    $takewish->delete();
+return redirect('/cart')->with(['cart' => 'Thêm Sán Phẩm Thành Công']);
+
+}
 // thanh toan vnpay
 public function checkoutvnpay()
 {
