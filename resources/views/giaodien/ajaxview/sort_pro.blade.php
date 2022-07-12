@@ -1,5 +1,4 @@
  <!-- shop-products-wrapper start -->
- <div class="shop-products-wrapper ajaxupdate" id="">
                                 <div class="tab-content">
                                     <div id="grid-view" class="tab-pane fade active show" role="tabpanel">
                                         <div class="product-area shop-product-area">
@@ -359,5 +358,4 @@
                                             
                                         </div>
                                     </div>
-                                </div>
-                                  <!-- shop-products-wrapper end -->
+                          

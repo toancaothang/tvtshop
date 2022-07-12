@@ -46,7 +46,7 @@
                                             </div>
                                         </div>
                                         <div class="col-md-4 mt-10 mb-20 text-left text-md-right">
-                                            <a href="#"> Quên Mật Khẩu?</a>
+                                            <a href="{{route('hienthi_quenmatkhau')}}"> Quên Mật Khẩu?</a>
                                         </div>
                                         <div class="col-md-12">
                                             <button type="submit" class="register-button mt-0">Đăng Nhập</button>

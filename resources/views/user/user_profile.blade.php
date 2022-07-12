@@ -1,6 +1,15 @@
 @extends('layout/header_footer')
 @section('main')
-
+@if(Session::has('editpass'))
+ <script>
+    swal("Thay đổi mật khẩu thành công","","success");
+    </script>
+    @endif	
+    @if(Session::has('editpro'))
+ <script>
+    swal("Thay đổi thông tin thành công","","success");
+    </script>
+    @endif	
 <div class="page-content page-container" id="page-content">
     <div class="padding">
         <div class="row container d-flex justify-content-center">
@@ -73,7 +82,7 @@
                                                                     <p class="m-b-10 f-w-600">Mật Khẩu:</p>
                                                                    
                                                                         <h6 class="text-muted f-w-400" >*************</h6>
-                                                                        <li><a href=""><img src=" {{asset('images/menu/logo/edit.png')}}" style="width:20px;"alt="" > </a> Thay đổi mật khẩu</li>
+                                                                        <li><a href="{{route('show_edit_password')}}"><img src=" {{asset('images/menu/logo/edit.png')}}" style="width:20px;"alt="" > </a> Thay đổi mật khẩu</li>
                                                                
                                                                     </div>
                                                                     

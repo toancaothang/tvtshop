@@ -82,8 +82,7 @@ success: function(response){
             <!-- Li's Breadcrumb Area End Here -->
             <!--Shopping Cart Area Strat-->
             @if(count($procartshow))
-            {
-            <div class="Shopping-cart-area pt-60 pb-60">
+             <div class="Shopping-cart-area pt-60 pb-60">
                 <div class="container">
                     <div class="row">
                         <div class="col-12">

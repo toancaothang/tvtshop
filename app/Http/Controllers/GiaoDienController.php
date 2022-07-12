@@ -15,7 +15,7 @@ use App\Models\TinTuc;
 use Illuminate\Http\Request;
 use App\Models\BinhLuan;
 use Illuminate\Support\Facades\Auth;
-use Session;
+use Session,DB;
 class GiaoDienController extends Controller
 {
 // hien thi du lieu ra trang chu
@@ -49,7 +49,7 @@ $toprate=ModelSP::with('getpro')->with('getimage')->where('status',1)->orderBy('
     }
     //hien thi bai viet
     public function hienthibaiviet(){
-       $tintuc=TinTuc::where('status',1)->get();
+       $tintuc=TinTuc::where('status',1)->paginate(6);
 
         return view('giaodien.blog',compact('tintuc'));
     }
@@ -87,7 +87,7 @@ if(isset($data['sort'])&&!empty($data['sort'])){
         }
     ])->addSelect(['price'=>SanPham::selectRaw('Min(price)')->whereColumn('product_model.id','product.model_id')])->where('status',1)->orderBy('price','Desc');
     }
-    $productshow=$productshow->paginate(6);
+    $productshow=$productshow->paginate(30);
 }
 else{
     $productshow=ModelSP::with('getpro')->with('getimage')->with('getcomment')->where('status',1)->paginate(30);
@@ -110,18 +110,23 @@ public function hienthidanhmuc(Request $request,$id){
     if($request->ajax()){
         $data=$request->all();
         $url=$data['url'];
-        //echo "<pre>"; print_r($data); die;
-       $categoryshow=DanhMuc::where('id',$id)->first();
-$productshow=ModelSP::with('getpro')->with('getimage')->with('getcomment')->where('category_id',$categoryshow->id)->where('status',1);
+        $categoryshow=DanhMuc::where('id',$id)->where('status',1)->first();
+ $productshow=ModelSP::with('getimage')->with('getcomment')->where('category_id',$categoryshow->id)->where('status',1);
+        if(isset($data['capavalue'])&&!empty($data['capavalue'])){
+            $productshow =  ModelSP::query();
+            $productshow =  $productshow->where('category_id',$id);
+        $productshow =   $productshow->where('product_model.status',1);
+            $productshow =  $productshow->leftJoin('product','product_model.id','=','product.model_id');
+            $productshow =  $productshow->whereIn('product.capacity',$data['capavalue']);
+         
+        }
+       // echo "<pre>"; print_r($data); die;
+//        $categoryshow=DanhMuc::where('id',$id)->first();
+//  $productshow=ModelSP::with('getimage')->with('getcomment')->where('category_id',$categoryshow->id)->where('status',1);
 //neu co filter dung luong
-if(isset($data['capavalue'])&&!empty($data['capavalue'])){
-    $data=$data['capavalue'];
-    $productshow->with(['getpro'=>function($q) use($data){
-        $q->Where('capacity',$data);
-    }
-])->addSelect(['capacity'=>SanPham::WhereIn('capacity',$data)->whereColumn('product_model.id','product.model_id')])->where('status',1);
-
-}
+// if(isset($data['capavalue'])&&!empty($data['capavalue'])){
+//     $productshow->whereIn('capacity',$data['capavalue']);
+// }
 
 //neu co filter ram
 if(isset($data['ramvalue'])&&!empty($data['ramvalue'])){
@@ -372,7 +377,13 @@ public function billdetails($id)
  
 return view('user.bill_details',compact('billdetails','billinfo'));
 }
+public function blogdetails($id){
+$tinchitiet=TinTuc::find($id);
+$category= DanhMuc::where('status',1)->where('status',1)->orderBy('id')->get();
+$cacbaiviet=TinTuc::orderBy('created_at','DESC')->get()->take(7);
+return view('giaodien.blog_details',compact('tinchitiet','category','cacbaiviet'));
 
+}
 
 
 }

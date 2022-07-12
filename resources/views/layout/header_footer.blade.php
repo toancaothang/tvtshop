@@ -173,8 +173,9 @@
                                         <li class="hm-wishlist"  >
                                             <a href="{{route('hienthi_wishlist')}}" >
                                             @if(Auth::check())
+                                            
                                             @php 
-                                        $wishcount=(App\Models\WishList::join('product_model','wishlist.model_pro_id','=','product_model.id')->join('product','wishlist.product_id','=','product.id')->where('user_id',Auth::user()->id)->where('product_model.status',1)->where('product.status',1)->count());
+                                        $wishcount=(App\Models\WishList::join('product_model','wishlist.pro_model_id','=','product_model.id')->join('product','wishlist.product_id','=','product.id')->where('user_id',Auth::user()->id)->where('product_model.status',1)->where('product.status',1)->count());
                                         @endphp
                                                 <span class="cart-item-count wishlist-item-count" style="color:white;background-color:deeppink;"> {{$wishcount}} </span>
                                                 @endif
@@ -226,6 +227,7 @@
                                                     </a>
                                                 </div>
                                             </div>
+                                          
                                         </li>
                                         @endif
                                         <!-- Header Mini Cart Area End Here -->
@@ -245,7 +247,7 @@
                             <div class="col-lg-12">
                                <!-- Begin Header Bottom Menu Area -->
                                <div class="hb-menu">
-                                   <nav style="margin-left:170px;">
+                                   <nav style="margin-left:145px;">
                                        <ul>
                                            <li class=""><a href="{{route('htsp_trangchu')}}">Trang Chủ</a>
                                                
@@ -265,7 +267,7 @@
                                                  
                                                </ul>
                                            </li>
-                                           <li class="" style="margin-right:9px;"><a href="{{route('hienthi_baiviet')}}">Tin Tức</a>
+                                           <li class="" style="margin-right:9px;"><a href="{{route('hienthi_baiviet')}}">Công Nghệ 24h</a>
                                                
                                            </li>
                                            <li><a href="about-us.html">Về Chúng Tôi</a></li>

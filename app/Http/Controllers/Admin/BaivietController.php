@@ -29,6 +29,14 @@ class BaivietController extends Controller
         $KH->content = $req->content;
         $KH->image = $req->image;
         $KH->status = 1;
+        if($req->hasfile('image'))
+        {
+       $file=$req->image;
+        $extention=$file->getClientOriginalExtension();
+        $filename=time().'.'.$extention;
+        $file->move('website/news/',$filename);
+        $KH->image =$filename;
+        }
         $KH -> save();
         $dsbaiviet = Baiviet::all();
        return redirect()->route('baiviet',compact('dsbaiviet'));

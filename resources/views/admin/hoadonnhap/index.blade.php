@@ -21,8 +21,8 @@
             <button style=" display: inline-block; vertical-align: middle" type="submit" class="button type2">Tìm kiếm</button>
             {{ csrf_field() }}
             </form>
-            <div class="activity-grid" style="margin-top: 20px">
-                <div class="activity-card" style="width:1050px">
+            <div class="activity-grid" >
+                <div class="activity-card" >
                   <div class="table-responsive">
                     <table class="table-sortable" id="example" style="margin-bottom: 20px">
                         <thead>

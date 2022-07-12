@@ -87,7 +87,7 @@
                         </div>
                         <div class="col-md-6 form-group mb-3">
                             <label for="" class="col-form-label">Hình ảnh *</label>
-                            <input type="file" class="form-control" name="image" id="image" required>
+                            <input type="file" class="form-control" name="image" id="image" required style="border:none;" >
                         </div>
                     </div>
                     <div class="row">

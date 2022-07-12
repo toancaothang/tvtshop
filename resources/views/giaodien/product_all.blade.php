@@ -119,7 +119,7 @@ $.ajax({
                                         <!-- shop-item-filter-list end -->
                                     </div>
                                     <div class="toolbar-amount">
-                                        <span>Đang Hiển Thị </span>
+                                    <span>  {!!$productshow->links('giaodien/partials.paginate_top')!!}</span>
                                     </div>
                                 </div>
                                <!-- product-select-box start -->

@@ -64,7 +64,7 @@
                     <div class="row">
                         <div class="col-md-6 form-group mb-3">
                             <label for="" class="col-form-label">Ảnh đại diện</label>
-                            <input type="file" class="form-control" name="anhdaidien" id="anhdaidien">
+                            <input type="file" class="form-control" name="anhdaidien" id="anhdaidien" style="border:none;">
                         </div>
                     </div>
                     <div class="row">

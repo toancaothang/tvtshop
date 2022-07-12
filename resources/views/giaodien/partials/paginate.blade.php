@@ -28,12 +28,14 @@
 
         <div class="d-none flex-sm-fill d-sm-flex align-items-sm-center justify-content-sm-between">
             <div>
-                <p class="small text-muted" style="font-size:15px;">
-                    {!! __('Đang Hiển Thị: ') !!}
+            <p class="small text-muted" style="font-weight:bold;font-size:13px;">
+                    {!! __('Đang Hiển Thị') !!}
                     <span class="font-medium">{{ $paginator->firstItem() }}</span>
-                   {!! __('của') !!}
+                    {!! __('Đến') !!}
+                    <span class="font-medium">{{ $paginator->lastItem() }}</span>
+                    {!! __('Tổng') !!}
                     <span class="font-medium">{{ $paginator->total() }}</span>
-                    {!! __('sản phẩm danh mục') !!}
+                    {!! __('Sản Phẩm') !!}
                 </p>
             </div>
 

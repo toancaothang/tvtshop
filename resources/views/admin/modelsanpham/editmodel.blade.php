@@ -94,7 +94,7 @@
                         </div>
                         <div class="col-md-6 form-group mb-3">
                             <label for="" class="col-form-label">Hình ảnh *</label>
-                            <input type="file" class="form-control" name="image" value="{{$thongtin->image}}" id="image">
+                            <input type="file" class="form-control" name="image" value="{{$thongtin->image}}" id="image" style="border:none;">
                         </div>
 
                     </div>

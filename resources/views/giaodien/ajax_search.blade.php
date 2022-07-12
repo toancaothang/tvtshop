@@ -16,9 +16,17 @@
                 @endfor
 </ul>
     </div>
-<p style="color:#E80F0F;">{{number_format($dt->price-$exsale)}} <u> đ</u>
+    @php
+    $stocked=0;
+    $stocked+=$dt->stock;
+    @endphp
+    @if($stocked==0)
+    <p style="color:#E80F0F;"> Đã Hết Hàng </p>
+    @else
+<p style="color:#E80F0F;">{{number_format($dt->price-$exsale)}} <u> đ</u> </p>
 @if($dt->sale)
 <span style="color:black;text-decoration:line-through;" > {{number_format($dt->price)}}  <u> đ</u></span> <span> -{{number_format($dt->sale)}}%</span></p> 
+@endif
 @endif
 </div>
 </div>

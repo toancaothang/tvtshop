@@ -157,6 +157,11 @@ $.ajax({
 
   });
     </script>
+    @if(Session::has('wishlisttontai'))
+ <script>
+    swal("Sản phẩm đã tồn tại trong wishlist","","info");
+    </script>
+    @endif	
 <body>
     <!--[if lt IE 8]>
 		<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
@@ -190,13 +195,15 @@ $.ajax({
                                         <!-- shop-item-filter-list end -->
                                     </div>
                                     <div class="toolbar-amount">
-                                        <span>Đang Hiển Thị </span>
+                                        <span>  {!!$productshow->links('giaodien/partials.paginate_top')!!}</span>
                                     </div>
                                 </div>
+                                
                                 <!-- product-select-box start -->
                                 
                                 <div class="product-select-box">
-                                    <div class="product-short">
+                                       
+                               <div class="product-short">
                                     
                                        <p>Sắp xếp theo:</p>
                                        <form id="softproform">
@@ -590,10 +597,13 @@ $.ajax({
                       
                             <!--sidebar-categores-box end  -->
                             <!--sidebar-categores-box start  -->
+                            
                             <div class="sidebar-categores-box">
+                                
                                 <div class="sidebar-title">
-                                    <h2>Lọc Theo</h2>
+                                    <h2>Lọc Sản Phẩm</h2>
                                 </div>
+
                                 <!-- filter-sub-area start -->
                                 <div class="filter-sub-area">
                                     <h5 class="filter-sub-titel">Giá Từ:  </h5>

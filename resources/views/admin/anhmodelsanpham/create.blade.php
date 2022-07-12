@@ -26,7 +26,7 @@
                         </div>
                         <div class="col-md-6 form-group mb-3">
                             <label for="" class="col-form-label">Chọn hình ảnh *</label>
-                            <input required  type="file" class="form-control" name="filename[]" id="images" multiple>
+                            <input required  type="file" class="form-control" name="filename[]" id="images" multiple style="border:none;">
                         </div>
                     <div class="row">
                         <div class="col-md-12 form-group">

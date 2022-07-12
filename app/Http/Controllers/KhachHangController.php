@@ -35,6 +35,7 @@ class KhachHangController extends Controller
         ,'diachi'=>'required'
         ,'gioitinh'=>'required'
         
+        
     ],['tentk.required'=>'Không được để trống tên tài khoản'
     ,'matkhau.required'=>'Không được để trống tên mật khẩu',
     'ten.required'=>'Không được để trống họ tên'
@@ -53,7 +54,7 @@ class KhachHangController extends Controller
         $kh->address = $request->diachi;
         $kh->phone_number = $request->sdt;
         $kh->gender = $request->gioitinh;
-        $kh->status = 1;
+        $kh->remember_token=Str::random(40);
   $kh->save();
         return view('user.dn_dk');
     }
@@ -82,6 +83,12 @@ class KhachHangController extends Controller
         }
         
     }
+    
+    //hien thi quen mat khau
+    public function hienthiquenmatkhau(){
+        return view('user.quenmatkhau');
+    }
+
 //dang xuat
     public function xulydangxuat(){
         Auth::logout();
@@ -109,8 +116,30 @@ $filename=time().'.'.$extention;
 $file->move('users/',$filename);
 $editpro->avatar=$filename;
 }
+Session::flash('editpro');
 $editpro->update();
+return redirect('/profile');
+
     }
+//edit password
+public function editpassword(Request $req,$id)
+{
+$editpass=KhachHang::find($id);
+if(Hash::check($req->oldpass,$editpass->password)){
+$editpass->password=Hash::make(($req->newpass));
+    $editpass->update(); 
+ Session::flash('editpass');
+ return redirect('/profile');
+}
+else{
+    Session::flash('saipasscu');
+    return redirect()->back();
+ }
+
+
+
+}
+
 
     //Binh Luan User
     public function binhluanuser($id,Request $request)
@@ -171,8 +200,9 @@ else{
            'product.capacity',
            'product.price',
            'product.sale',
-    ]);
-    return view('giaodien.wishlist',compact('prowishshow'));
+    ]);     
+   
+    return redirect('/wishlist')->with(['messtontaiwishlist' => 'Sản Phẩm Đã Được Xóa Khỏi Danh Sách Yêu Thích']);
 
     }
     //xoa khoi wishlist
@@ -357,6 +387,7 @@ public function ajaxsearch()
     'product.price',   
      'product.capacity','product.sale',
      'product_model.total_rated',
+     'product.stock',
 ]);
     return view('giaodien.ajax_search',compact('data'));
 }
@@ -453,6 +484,17 @@ public function compare(Request $req,$id)
    Session::put('compare',$compare);
 
    return redirect('/compare');
+}
+public function comparecart(Request $req){
+$addcart=Cart::create([
+    $addcart->user_id=Auth::user()->id,
+    $addcart->pro_model_id=$req->moid,
+    $addcart->product_id=$req->proid,
+    $addcart->pro_quantity=1,
+]);
+$addcart->save();
+return redirect('/cart')->with(['cart' => 'Thêm Sán Phẩm Thành Công']);
+
 }
 //xoa san pham so sanh
 public function deletecompare()

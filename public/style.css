@@ -4203,8 +4203,8 @@ thead {
 	display: flex;
 }
 .li-blog-sidebar .li-recent-post .li-recent-post-thumb {
-	width: 65px;
-	border: 1px solid #e1e1e1;
+	width: 72px;
+	margin-top: 14px;
 }
 .li-blog-sidebar .li-recent-post .li-recent-post-des {
 	padding-left: 10px;

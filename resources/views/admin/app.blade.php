@@ -160,6 +160,7 @@
           <span class="ti-bell"></span>
           <span class="ti-comment"></span>
           <span>Xin chào {{auth()->guard('admin')->user()->full_name}}</span>
+          
           <a style="background-image: url({{url('adminavatar')}}/{{auth()->guard('admin')->user()->avatar}});" href="{{route('suaprofile',['profile'=>auth()->guard('admin')->user()->id])}}">
           </a>
         </div>

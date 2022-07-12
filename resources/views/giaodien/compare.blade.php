@@ -132,10 +132,14 @@
                                 <tr>
                                     <th>Dung Lượng Bộ Nhớ Trong</th>
                                     @foreach(Session::get('compare') as $key => $com)
-                                    <td>
-                                <a href="cart.html" class="ho-button ho-button-sm">
-                                                <span>Thêm Vào Giỏ Hàng</span>
+                                   <td>
+                                    <form action="{{route('compare_cart')}}" method="POST" enctype="multipart/form-data">
+                                        <input type="text" value="{{$com['model_id']}}" name="moid">
+                                        <input type="text" value="{{$com['product_id']}}" name="proid">
+                                <button type="submit" style="border:none;background-color:#FED700;color:black;height:40px;border-radius:2px;font-weight:bold;"  class="ho-button ho-button-sm"> Thêm Vào Giỏ Hàng</button>
+                                               
                                             </a>
+                                           </form>
 </td>
 @endforeach
 </tr>

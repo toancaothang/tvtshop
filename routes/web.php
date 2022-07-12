@@ -20,6 +20,8 @@ Route::get('/', function () {
 // Dang ky
 Route::get('/dangky',[KhachHangController::class,'hienthidangky'])->name('hienthi_dangky');
 Route::post('/dangky',[KhachHangController::class,'xulydangky'])->name('xuly_dangky');
+//quen mat khau
+Route::get('/forgot-password',[KhachHangController::class,'hienthiquenmatkhau'])->name('hienthi_quenmatkhau');
 // Dang Nhap
 Route::get('/dangnhap',[KhachHangController::class,'hienthidangnhap'])->name('hienthi_dangnhap');
 Route::post('/dangnhap',[KhachHangController::class,'xulydangnhap'])->name('xuly_dangnhap');
@@ -30,7 +32,8 @@ Route::get('/profile',[KhachHangController::class,'hienthiprofile'])->name('hien
 Route::post('/',[KhachHangController::class,'xulytimkiem'])->name('timkiem');
 //edit profile
 Route::post('/edit-profile/{id}',[KhachHangController::class,'submitprofile'])->name('submit_profile'); 
-
+//edit password
+Route::post('/edit-password/{id}',[KhachHangController::class,'editpassword'])->name('edit_password'); 
 //binh luan
 Route::post('/comment/{id}',[KhachHangController::class,'binhluanuser'])->name('binh_luan')->middleware('CheckLogin');
 
@@ -73,13 +76,16 @@ Route::post('/search-product',[KhachHangController::class,'search'])->name('sear
 Route::get('/delete-compare',[KhachHangController::class,'deletecompare'])->name('delete_compare');
 // them san pham tu wishlist vao cart
 Route::get('/wish-to-cart',[KhachHangController::class,'wishtocart'])->name('wishto_cart');
+//them compare vao cart
+Route::post('/compare-to-cart',[KhachHangController::class,'comparecart'])->name('compare_cart');
+
 Auth::routes();
 //checkout vnpay
 Route::post('/checkout-vnpay',[KhachHangController::class,'checkoutvnpay'])->name('checkout_vnpay');
 
 //=====================================================================================================
 // GIAO DIEN:
-Route::get('/',[GiaoDienController::class,'httrangchu'])->name('htsp_trangchu'); 
+Route::get('/',[GiaoDienController::class,'httrangchu'])->name('htsp_trangchu');
 //hien thi tat ca san pham
 Route::get('/product-all',[GiaoDienController::class,'allproduct'])->name('all_product');
 //hien thi san pham trong danh muc
@@ -91,6 +97,10 @@ Route::get('/chi-tiet-sanpham/{cateid}/{id}',[GiaoDienController::class,'chitiet
 // GIAO DIEN:
 //hien thi edit profile
 Route::get('/edit-profile',[GiaoDienController::class,'editprofile'])->name('edit_profile'); 
+//hien thi edit password
+Route::get('/edit-password', function () {
+    return view('user.change_password');
+})->name('show_edit_password');
 //hien thi wishlist
 Route::get('/wishlist',[GiaoDienController::class,'hienthiwishlist'])->name('hienthi_wishlist')->middleware('CheckLogin');
 Route::get('/wishlist_count/{id}',[GiaoDienController::class,'wishlistcount'])->name('wish_count');
@@ -124,5 +134,8 @@ Auth::routes();
 Route::get('/back-get', function () {
     return redirect('/product-all');
 })->name('back_get');
+//xem chi tiet bai viet
+Route::get('/blog-details/{id}',[GiaoDienController::class,'blogdetails'])->name('blog_details');
 //
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+

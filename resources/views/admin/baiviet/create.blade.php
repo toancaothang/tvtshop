@@ -26,7 +26,7 @@
                         </div>
                         <div class="col-md-12 form-group mb-12">
                             <label for="" class="col-form-label">Hình ảnh</label>
-                            <input class="form-control" type="file" class="form-control" name="image" id="image"  required>
+                            <input class="form-control" type="file" class="form-control" name="image" id="image"  required style="border:none;">
                         </div>
                     </div>
                     <div class="row">
