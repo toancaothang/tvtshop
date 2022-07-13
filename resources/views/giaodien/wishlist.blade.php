@@ -1,22 +1,12 @@
 @extends('layout/header_footer')
 @section('main')
-<!-- Begin Li's Breadcrumb Area -->
-<div class="breadcrumb-area">
-                <div class="container">
-                    <div class="breadcrumb-content">
-                        <ul>
-                            <li><a href="index.html">Trang Chủ</a></li>
-                            <li class="active">Danh Sách Yêu Thích</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <!-- Li's Breadcrumb Area End Here -->
+
             @if(session()->has('messtontaiwishlist'))
     <div class="alert alert-success">
         {{ session()->get('messtontaiwishlist') }}
     </div>
 @endif
+
 @if(count($prowishshow))
             {
             <!--Wishlist Area Strat-->

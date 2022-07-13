@@ -73,14 +73,26 @@ $.ajax({
                         <div class="col-lg-8 col-md-8">
                             <div class="slider-area pt-sm-30 pt-xs-30">
                                 <div class="slider-active owl-carousel">
+                                     <!-- Begin Single Slide Area -->
+                                     <div class="single-slide align-center-left animation-style-01 bg-3">
+                                        <div class="slider-progress"></div>
+                                        <div class="slider-content">
+                                            <h5>Giảm giá <span>10%</span> Tuần Này</h5>
+                                            <h2>Realme 8 Series</h2>
+                                            <div class="default-btn slide-btn">
+                                                <a class="links" href="shop-left-sidebar.html">Mua Ngay</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Single Slide Area End Here -->
                                     <!-- Begin Single Slide Area -->
                                     <div class="single-slide align-center-left animation-style-01 bg-1">
                                         <div class="slider-progress"></div>
                                         <div class="slider-content">
-                                            <h5>Giảm giá <span>20% </span> Tuần Này</h5>
-                                            <h2>SamSung Galaxy S9</h2>
+                                            <h5>Giảm giá <span>8% </span> Tuần Này</h5>
+                                            <h2> Samsung Galaxy S22 Ultra 5G </h2>
                                            <div class="default-btn slide-btn">
-                                                <a class="links" href="shop-left-sidebar.html">Mua Ngay</a>
+                                                <a class="links" href="">Mua Ngay</a>
                                             </div>
                                         </div>
                                     </div>
@@ -89,26 +101,15 @@ $.ajax({
                                     <div class="single-slide align-center-left animation-style-02 bg-2">
                                         <div class="slider-progress"></div>
                                         <div class="slider-content">
-                                            <h5>Giảm giá <span>20%</span> Tuần Này</h5>
-                                            <h2>Iphone 10</h2>
+                                            <h5>Giảm giá <span>8%</span> Tuần Này</h5>
+                                            <h2>Iphone 13 Pro Max</h2>
                                           <div class="default-btn slide-btn">
                                                 <a class="links" href="shop-left-sidebar.html">Mua Ngay</a>
                                             </div>
                                         </div>
                                     </div>
                                     <!-- Single Slide Area End Here -->
-                                    <!-- Begin Single Slide Area -->
-                                    <div class="single-slide align-center-left animation-style-01 bg-3">
-                                        <div class="slider-progress"></div>
-                                        <div class="slider-content">
-                                            <h5>Giảm giá <span>10%</span> Tuần Này</h5>
-                                            <h2>Redmi Note 9s</h2>
-                                            <div class="default-btn slide-btn">
-                                                <a class="links" href="shop-left-sidebar.html">Mua Ngay</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Single Slide Area End Here -->
+                                   
                                 </div>
                             </div>
                         </div>

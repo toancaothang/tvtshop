@@ -75,7 +75,9 @@
                                         <!-- Begin Setting Area -->
                                         <li> 
                                         @if(Auth::check()) 
+                                        @if(Auth::user()->avatar) 
                                         <img src="{{url('users/')}}/{{Auth::user()->avatar}}" class="img-radius" alt="User-Profile-Image" style="width:26px;height:24px;margin-right:7px;">
+                                        @endif
                                         <div class="ht-setting-trigger"><span>{{Auth::user()->full_name}}</span></div>
                                         <div class="setting ht-setting">
                                                 <ul class="ht-setting-list" style="width:150px;">

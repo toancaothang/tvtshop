@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Auth;
 
 class CheckVerify
 {
@@ -16,11 +17,13 @@ class CheckVerify
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Auth::guard('user')->user()->status==0){
-
-            return redirect()->intended('/dangnhap')->with(['messchualogin' => 'Tài Khoản Chưa Được Xác Nhận']);
+        if(Auth::check())
+       {
+        if(Auth::user()->status==0){
+            Auth::logout();
+            return redirect()->intended('/dangnhap')->with('messchuaxacnhan','Tài Khoản Chưa Được Xác Nhận. <a style="color:red;"href="'.route('no_active').'">Nhấn vào để kích hoạt tài khoản </a>');
         }
-
+    }
         return $next($request);
     }
 }

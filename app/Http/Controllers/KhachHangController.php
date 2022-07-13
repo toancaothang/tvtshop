@@ -18,6 +18,7 @@ use Carbon\Carbon;
 use Session;
 use Auth;
 use Hash;
+use Mail;
 
 class KhachHangController extends Controller
 {
@@ -44,7 +45,10 @@ class KhachHangController extends Controller
     ,'sdt.required'=>'Không được để trống số điện thoại'
     ,'gioitinh.required'=>'Không được để trống giới tinh'
     ,'diachi.required'=>'Không được để trống địa chỉ']);
-    
+    $checkkh=KhachHang::where('username',$request->tentk)->orWhere('email',$request->email)->first();
+    if($checkkh){
+        return redirect()->intended('/dangnhap')->with(['taikhoantontai' => 'Tên tài khoản hoặc email đã tồn tại, vui lòng sử dụng tên tài khoản hoặc email khác']);
+    }
     $kh = new KhachHang();
         $kh->username = $request->tentk;
         $kh->full_name = $request->ten;
@@ -54,9 +58,13 @@ class KhachHangController extends Controller
         $kh->address = $request->diachi;
         $kh->phone_number = $request->sdt;
         $kh->gender = $request->gioitinh;
-        $kh->remember_token=Str::random(40);
+        $kh->remember_token=Str::random(10);
   $kh->save();
-        return view('user.dn_dk');
+  Mail::send('emails.active_account',compact('kh'),function($email) use($kh){
+    $email->subject('TVT Shop - Xác Nhận Tài Khoản');
+    $email->to($kh->email,$kh->full_name);
+  });
+  return redirect()->intended('/dangnhap')->with(['xacnhanmail' => 'Đăng Ký Tài Khoản Thành Công Vui Lòng Xác Nhận Email']);
     }
     public function hienthidangnhap(){
         return view('user.dn_dk');
@@ -77,7 +85,9 @@ class KhachHangController extends Controller
         if(Auth::attempt($array)){
             $user=KhachHang::where('username',$tentkkh)->first();
             Auth::login($user);
+           
             return redirect('/');
+      
         }else{ 
             return redirect()->back()->with('dangnhap','Sai mật khẩu hoặc tài khoản');
         }
@@ -135,9 +145,6 @@ else{
     Session::flash('saipasscu');
     return redirect()->back();
  }
-
-
-
 }
 
 
@@ -185,14 +192,14 @@ else{
         else{
                 $prowish = new WishList();
                 $prowish->user_id=Auth::user()->id;
-                $prowish->	model_pro_id=$id;
+                $prowish->pro_model_id=$id;
                 $prowish->product_id=$req->productidwish;
               $prowish->save();
         
         }   
 
         $auth = Auth::user()->id;
-        $prowishshow = WishList::join('product_model','wishlist.model_pro_id','=','product_model.id')->
+        $prowishshow = WishList::join('product_model','wishlist.pro_model_id','=','product_model.id')->
         join('product','wishlist.product_id','=','product.id')
         ->where('user_id',$auth)->get(['wishlist.id as wid',
            'product_model.model_name',
@@ -202,7 +209,7 @@ else{
            'product.sale',
     ]);     
    
-    return redirect('/wishlist')->with(['messtontaiwishlist' => 'Sản Phẩm Đã Được Xóa Khỏi Danh Sách Yêu Thích']);
+    return redirect('/wishlist')->with(['messtontaiwishlist' => 'Đã thêm sản phẩm thành công']);
 
     }
     //xoa khoi wishlist
@@ -393,12 +400,12 @@ public function ajaxsearch()
 }
 //tim kiem binh thuong
 public function search(Request $request){
-   
+    $hethang=ModelSP::join('product','product_model.id','=','product.model_id')->where('product_model.status',1)->where('product.status',1)->where('model_name','like','%'.$request->searchrs.'%')->orWhere('capacity','like','%'.$request->searchrs.'%')->get([
+        'product_model.id as mid',
+        'product.stock',
+]);
     if($request->searchdm==0){
-        $hethang=ModelSP::join('product','product_model.id','=','product.model_id')->where('product_model.status',1)->where('product.status',1)->where('model_name','like','%'.$request->searchrs.'%')->orWhere('capacity','like','%'.$request->searchrs.'%')->get([
-            'product_model.id as mid',
-            'product.stock',
-    ]); 
+    
         $data=ModelSP::join('product','product_model.id','=','product.model_id')->where('product_model.status',1)->where('product.status',1)->where('model_name','like','%'.$request->searchrs.'%')->orWhere('capacity','like','%'.$request->searchrs.'%')
         ->get(['product_model.id as mid',
         'product.id',
@@ -485,12 +492,13 @@ public function compare(Request $req,$id)
 
    return redirect('/compare');
 }
+//them compare vao cart
 public function comparecart(Request $req){
 $addcart=Cart::create([
-    $addcart->user_id=Auth::user()->id,
-    $addcart->pro_model_id=$req->moid,
-    $addcart->product_id=$req->proid,
-    $addcart->pro_quantity=1,
+    'user_id'=>Auth::user()->id,
+    'pro_model_id'=>$req->moid,
+    'product_id'=>$req->proid,
+    'pro_quantity'=>1,
 ]);
 $addcart->save();
 return redirect('/cart')->with(['cart' => 'Thêm Sán Phẩm Thành Công']);
@@ -507,7 +515,7 @@ public function wishtocart($id){
 $takewish=WishList::where('id',$id)->first();
   $tocart=Cart::create([
         'user_id'=>$takewish->user_id,
-        'pro_model_id'=>$takewish->model_pro_id,
+        'pro_model_id'=>$takewish->pro_model_id,
         'pro_quantity'=>1,
         'product_id'=>$takewish->product_id,
     ]);
@@ -516,6 +524,50 @@ $takewish=WishList::where('id',$id)->first();
 return redirect('/cart')->with(['cart' => 'Thêm Sán Phẩm Thành Công']);
 
 }
+
+public function submitfpassword(Request $req){
+    $token=Str::random(10);
+    $user=KhachHang::where('email',$req->femail)->first();
+    $user->update(['remember_token'=>$token]);
+    Mail::send('emails.forgot_password',compact('user'),function($email) use($user){
+        $email->subject('TVT Shop - Quên Mật Khẩu');
+        $email->to($user->email,$user->full_name);
+      });
+      return redirect()->intended('/dangnhap')->with(['guifpass' => 'Xác nhận mail người dùng thành công, vui lòng gmail để tiến hành lấy lại mật khẩu']);
+}
+public function getfpassword(KhachHang $id,$token){
+    if($id->remember_token==$token)
+    {
+        return view('user.doimatkhaumoi',compact('id'));
+    }
+}
+public function changefpassword(KhachHang $id,$token,Request $req){
+    $req->validate([
+'newpass'=>'required',
+'newpasscf'=>'required|same:newpass',
+    ]);
+    $password_new=bcrypt($req->newpass);
+    $id->update(['password'=>$password_new,'remember_token'=>null]);
+    Session::flash('laylaimatkhauok');
+    return redirect()->intended('/dangnhap');
+}
+public function noactive(){
+    return view('emails.login_active');
+
+}
+public function subnoactive(Request $req)
+{
+    $token=Str::random(10);
+    $kh=KhachHang::where('email',$req->emailactive)->first();
+    $kh->update(['remember_token'=>$token]);
+    Mail::send('emails.active_account',compact('kh'),function($email) use($kh){
+        $email->subject('TVT Shop - Xác Nhận Tài Khoản');
+        $email->to($kh->email,$kh->full_name);
+      });
+     
+      return redirect()->intended('/dangnhap')->with(['xacnhanmail' => 'Gửi Xác Nhận Thành Công Vui Lòng Xác Nhận Email']);
+}
+
 // thanh toan vnpay
 public function checkoutvnpay()
 {

@@ -51,17 +51,17 @@
    <body>
       <div class="container d-flex justify-content-center align-items-center vh-100" style="height:550px;">
          <div class="bg-white text-center p-5 mt-3 center">
-            <h3>Quên Mật Khẩu? </h3>
-            <p>Nhập vào gmail của bạn để lấy lại mật khẩu</p>
-            <form action="{{route('submit_fpassword')}}" method="POST" enctype = multipart/form-data>
+            <h3>Vui lòng nhập vào gmail xác nhận của bạn </h3>
+            <form action="{{route('sub_no_active')}}" method="POST" enctype = multipart/form-data>
             @csrf
-               <div class="form-group">
-                  <input type="text" class="form-control" placeholder="Tài khoản gmail của bạn..." required name="femail">
+          <div class="form-group">
+                  <input type="text" class="form-control" placeholder="Email xác nhận..." required name="emailactive">
+                
                </div>
-            
-            <button type="submit" class="btn">Gửi</button>
+           
+            <button type="submit" class="btn">Gửi Xác Nhận</button>
+        </form>
          </div>
-         <form>
       </div>
    </body>
 @stop()

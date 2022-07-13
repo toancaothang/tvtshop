@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\DanhMuc;
+use App\Models\KhachHang;
 use App\Models\ModelSP;
 use App\Models\User;
 use App\Models\AnhSP;
@@ -13,10 +14,12 @@ use App\Models\SanPham;
 use App\Models\Cart;
 use App\Models\TinTuc;
 use Illuminate\Http\Request;
+use Mail;
 use App\Models\BinhLuan;
 use Illuminate\Support\Facades\Auth;
 use Session,DB;
 class GiaoDienController extends Controller
+
 {
 // hien thi du lieu ra trang chu
 public function httrangchu(){
@@ -110,6 +113,7 @@ public function hienthidanhmuc(Request $request,$id){
     if($request->ajax()){
         $data=$request->all();
         $url=$data['url'];
+        //echo "<pre>"; print_r($data); die;
         $categoryshow=DanhMuc::where('id',$id)->where('status',1)->first();
  $productshow=ModelSP::with('getimage')->with('getcomment')->where('category_id',$categoryshow->id)->where('status',1);
         if(isset($data['capavalue'])&&!empty($data['capavalue'])){
@@ -216,7 +220,7 @@ return view('giaodien.product_details',compact('ctmodel','modelimage','samemodel
 public function hienthiwishlist()
 {
     $auth = Auth::user()->id;
-    $prowishshow = WishList::join('product_model','wishlist.model_pro_id','=','product_model.id')->
+    $prowishshow = WishList::join('product_model','wishlist.pro_model_id','=','product_model.id')->
     join('product','wishlist.product_id','=','product.id')
     ->where('user_id',$auth)->where('product_model.status',1)->where('product.status',1)->get(['wishlist.id as wid',
        'product_model.model_name',
@@ -364,7 +368,7 @@ return view('giaodien.cart',compact('procartshow'));
 // hien thi thong tin mua hang
 public function purchaselist()
 {
-    $hoadon=HoaDon::where('user_id',Auth::user()->id)->get();
+    $hoadon=HoaDon::where('user_id',Auth::user()->id)->paginate(6);
 return view('user.thongtingiaodich',compact('hoadon'));
 }
 // hien thi chi tiet hoa don mua hang
@@ -383,6 +387,36 @@ $category= DanhMuc::where('status',1)->where('status',1)->orderBy('id')->get();
 $cacbaiviet=TinTuc::orderBy('created_at','DESC')->get()->take(7);
 return view('giaodien.blog_details',compact('tinchitiet','category','cacbaiviet'));
 
+}
+public function activedmail(KhachHang $id,$token)
+{
+   if($id->remember_token==$token){
+    $id->update(['status'=>1,'remember_token'=>null]);
+    Session::flash('actived');
+ 
+   }
+   else
+   {
+    Session::flash('noactived');
+   }
+   return redirect()->intended('/dangnhap');
+}
+public function searchhd(Request $req){
+    $output="";
+$hoadon=HoaDon::where('id','like','%'.$req->search.'%')->get();
+foreach($hoadon as $hd){
+    $output.=
+    '<tr>
+    <td> '.$hd->id.'</td>
+    <td> '.$hd->receiver_fullname.'</td>
+    <td> '.$hd->deliver_address.'</td>
+    <td> '.$hd->created_at.'</td>
+    <td> '.$hd->status.'</td>
+    <td> '.$hd->total.'</td>
+    </tr>';
+
+}
+return response($output);
 }
 
 

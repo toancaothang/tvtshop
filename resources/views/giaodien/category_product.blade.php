@@ -72,6 +72,7 @@ filter.push($(this).val());
     return filter;
 }
 
+
 });
 </script>
 <!--xu ly slider range price -->
@@ -610,14 +611,14 @@ $.ajax({
                                     <div class="categori-checkbox">
                                     <form>
                             <p>
-                       <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
-                       <input type="text" id="startprice" name="startprice" >
-                       <input type="text" id="endprice"name="endprice" >
+                       <input type="text" id="amount" readonly style="border:0; color:green; font-weight:bold;background-color:#F4F4F4;">
+                       <input type="hidden" id="startprice" name="startprice" >
+                       <input type="hidden" id="endprice"name="endprice" >
                         </p>
  
                         <div id="slider-range"></div><br>
                         
-                        <button onclick="send()" type='button'> Click me  </button>
+                       <!-- <button onclick="send()" type='button'> Cập Nhật Giá  </button>-->
                             </form>
                                     </div>
                                  </div>
@@ -666,10 +667,10 @@ $.ajax({
                                     <div class="color-categoriy">
                                         <form action="#">
                                             <ul>
-                                                <li><span class="white"></span><a href="#">Trắng </a></li>
-                                                <li><span class="black"></span><a href="#">Đen </a></li>
-                                                <li><span class="Orange"></span><a href="#">Vàng  </a></li>
-                                                <li><span class="Blue"></span><a href="#">Xanh   </a></li>
+                                                <li><span class="white"></span><button class="colorvalue" value="trắng" type="submit" style="border:none;color:black;font-size:15px;">Trắng </button></li>
+                                                <li><span class="black"></span><button class="colorvalue" value="Đen"type="submit" style="border:none;color:black;font-size:15px;">Đen</button></li>
+                                                <li><span class="Orange"></span><button class="colorvalue" value="Vàng" type="submit" style="border:none;color:black;font-size:15px;">Vàng </button></li>
+                                                <li><span class="Blue"></span><button  class="colorvalue" value="Xanh Dương" type="submit" style="border:none;color:black;font-size:15px;">Xanh Dương </button></li>
                                             </ul>
                                         </form>
                                     </div>

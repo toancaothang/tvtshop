@@ -20,8 +20,13 @@
                                                             <div class="card-block text-center text-white">
                                                           
                                                                 <div class="m-b-25">
-                                                                    <div style=" width:180px;height:160px;border-radius:100px; margin-left:70px;"> 
+                                                                
+                                                                    <div style=" width:180px;height:160px;border-radius:100px; margin-left:70px;">
+                                                                    @if(Auth::user()->avatar)
                                                                     <img src="{{url('users/')}}/{{Auth::user()->avatar}}" class="img-radius" alt="User-Profile-Image" style="width:100%;height:100%;">
+                                                                    @else
+                                                                    <img src=" {{asset('images/menu/logo/davatar.png')}}" class="img-radius" alt="User-Profile-Image" style="width:100%;height:100%;">
+                                                                     @endif
                                                                     </div>
                                                                 </div>
                                                              

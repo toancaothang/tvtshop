@@ -1,17 +1,6 @@
 @extends('layout/header_footer')
 @section('main')
- <!-- Begin Li's Breadcrumb Area -->
- <div class="breadcrumb-area">
-                <div class="container">
-                    <div class="breadcrumb-content">
-                        <ul>
-                            <li><a href="index.html">Trang Chủ</a></li>
-                            <li class="active">Thanh Toán</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <!-- Li's Breadcrumb Area End Here -->
+ 
             <!--Checkout Area Strat-->
             <div class="checkout-area pt-60 pb-30">
                 <div class="container">
@@ -41,7 +30,7 @@
                                         <div class="col-md-6">
                                             <div class="checkout-form-list">
                                                 <label>Số Điện Thoại: <span class="required"></span></label>
-                                                <p style="font-size:15px; color:black;">{{Auth::user()->phone_number}} </p>
+                                                <p style="font-size:15px; color:black;">0{{Auth::user()->phone_number}} </p>
                                                
                                             </div>
                                         </div>

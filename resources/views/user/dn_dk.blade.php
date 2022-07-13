@@ -1,22 +1,31 @@
 @extends('layout/header_footer')
 @section('main')
-<!-- Begin Li's Breadcrumb Area -->
-<div class="breadcrumb-area">
-                <div class="container">
-                    <div class="breadcrumb-content">
-                        <ul>
-                            <li><a href="index.html">Trang Chủ</a></li>
-                            <li class="active">Đăng Nhập - Đăng Ký</li>
-                        </ul>
-                    </div>
-                </div>
-            
-            </div>
+@if(Session::has('actived'))
+ <script>
+    swal("Đã xác nhận tài khoản thành công","Bạn có thể đăng nhập","success");
+    </script>
+    @endif	
+    @if(Session::has('noactived'))
+ <script>
+    swal("Xác Nhận Tài Khoản Không Thành Công","","error");
+    </script>
+    @endif	
+    @if(Session::has('laylaimatkhauok'))
+ <script>
+    swal("Lấy lại mật khẩu thành công","bây giờ bạn có thể đăng nhập","success");
+    </script>
+    @endif	
+
             <div><h1 style="text-align:center; color:#0382C7;"> CHÀO MỪNG ĐẾN VỚI <img  src=" {{asset('images/menu/logo/logo.png')}}" alt=""> SHOP  </div> </h1>
             <!-- Li's Breadcrumb Area End Here -->
             <!-- Begin Login Content Area -->
   <div class="page-section mb-60">
+  @if (session('messchualogin')) <div class="alert alert-success"> {{ session('messchualogin') }} </div> @endif
   @if (session('dangnhap')) <div class="alert alert-success"> {{ session('dangnhap') }} </div> @endif
+  @if (session('messchuaxacnhan')) <div class="alert alert-success"> {!!session('messchuaxacnhan')!!} </div> @endif
+  @if (session('xacnhanmail')) <div class="alert alert-success"> {{ session('xacnhanmail') }} </div> @endif
+  @if (session('guifpass')) <div class="alert alert-success"> {{ session('guifpass') }} </div> @endif
+  @if (session('taikhoantontai')) <div class="alert alert-success"> {{ session('taikhoantontai') }} </div> @endif
 </div>
                 <div class="container">
                     <div class="row">

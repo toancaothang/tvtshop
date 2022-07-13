@@ -1,17 +1,6 @@
 @extends('layout/header_footer')
 @section('main')
-<!-- Begin Li's Breadcrumb Area -->
-<div class="breadcrumb-area">
-                <div class="container">
-                    <div class="breadcrumb-content">
-                        <ul>
-                            <li><a href="index.html">Trang Chủ</a></li>
-                            <li class="active">So Sánh Sản Phẩm</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <!-- Li's Breadcrumb Area End Here -->
+
             <!-- Compare Area -->
             @if(Session::get('compare'))
             <div class="compare-area pt-60 pb-60">
@@ -101,15 +90,6 @@
                                     @endforeach
                                 </tr>
                                 <tr>
-                                    <th>Mô Tả Sản Phẩm</th>
-                                    @foreach(Session::get('compare') as $key => $com)
-                                    <td>{{$com['description']}}</td>
-                                    @endforeach
-                                    
-                                </tr>
-                                
-                            
-                                <tr>
                                     <th>Lượt Đánh Giá</th>
                                     @foreach(Session::get('compare') as $key => $com)
                                     <td>
@@ -130,10 +110,11 @@
                                     @endforeach
                                 </tr>
                                 <tr>
-                                    <th>Dung Lượng Bộ Nhớ Trong</th>
+                                    <th>Mua Ngay</th>
                                     @foreach(Session::get('compare') as $key => $com)
                                    <td>
                                     <form action="{{route('compare_cart')}}" method="POST" enctype="multipart/form-data">
+                                    @csrf
                                         <input type="text" value="{{$com['model_id']}}" name="moid">
                                         <input type="text" value="{{$com['product_id']}}" name="proid">
                                 <button type="submit" style="border:none;background-color:#FED700;color:black;height:40px;border-radius:2px;font-weight:bold;"  class="ho-button ho-button-sm"> Thêm Vào Giỏ Hàng</button>

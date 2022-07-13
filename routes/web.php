@@ -20,14 +20,21 @@ Route::get('/', function () {
 // Dang ky
 Route::get('/dangky',[KhachHangController::class,'hienthidangky'])->name('hienthi_dangky');
 Route::post('/dangky',[KhachHangController::class,'xulydangky'])->name('xuly_dangky');
+
 //quen mat khau
+
 Route::get('/forgot-password',[KhachHangController::class,'hienthiquenmatkhau'])->name('hienthi_quenmatkhau');
+Route::post('/submit-fpassword',[KhachHangController::class,'submitfpassword'])->name('submit_fpassword');
+Route::get('/get-fpassword/{id}/{token}',[KhachHangController::class,'getfpassword'])->name('get_fpassword');
+Route::post('/change-fpassword/{id}/{token}',[KhachHangController::class,'changefpassword'])->name('change_fpassword');
 // Dang Nhap
 Route::get('/dangnhap',[KhachHangController::class,'hienthidangnhap'])->name('hienthi_dangnhap');
 Route::post('/dangnhap',[KhachHangController::class,'xulydangnhap'])->name('xuly_dangnhap');
 Route::post('/dangxuat',[KhachHangController::class,'xulydangxuat'])->name('xuly_dangxuat');
 Route::get('/profile',[KhachHangController::class,'hienthiprofile'])->name('hienthi_profile')->middleware('CheckLogin');
-
+//dang nhap tai khoan chua kich hoat
+Route::get('/no-active',[KhachHangController::class,'noactive'])->name('no_active');
+Route::post('/sub-no-active',[KhachHangController::class,'subnoactive'])->name('sub_no_active');
 //tim kiem
 Route::post('/',[KhachHangController::class,'xulytimkiem'])->name('timkiem');
 //edit profile
@@ -75,7 +82,7 @@ Route::post('/search-product',[KhachHangController::class,'search'])->name('sear
 //Xoa san pham so sanh
 Route::get('/delete-compare',[KhachHangController::class,'deletecompare'])->name('delete_compare');
 // them san pham tu wishlist vao cart
-Route::get('/wish-to-cart',[KhachHangController::class,'wishtocart'])->name('wishto_cart');
+Route::get('/wish-to-cart/{id}',[KhachHangController::class,'wishtocart'])->name('wishto_cart');
 //them compare vao cart
 Route::post('/compare-to-cart',[KhachHangController::class,'comparecart'])->name('compare_cart');
 
@@ -85,7 +92,9 @@ Route::post('/checkout-vnpay',[KhachHangController::class,'checkoutvnpay'])->nam
 
 //=====================================================================================================
 // GIAO DIEN:
-Route::get('/',[GiaoDienController::class,'httrangchu'])->name('htsp_trangchu');
+Route::get('/',[GiaoDienController::class,'httrangchu'])->name('htsp_trangchu')->middleware('CheckVerify');
+// mail xac nhan 
+Route::get('/actived-mail/{id}/{token}', [GiaoDienController::class, 'activedmail'])->name('actived_mail');
 //hien thi tat ca san pham
 Route::get('/product-all',[GiaoDienController::class,'allproduct'])->name('all_product');
 //hien thi san pham trong danh muc
@@ -123,6 +132,8 @@ Route::get('/selectsalecate',[GiaoDienController::class,'selectsalecate'])->name
 Route::get('/cart',[GiaoDienController::class,'hienthicart'])->name('hienthi_cart');
 //hien thi thong tin mua hang
 Route::get('/purchase-list',[GiaoDienController::class,'purchaselist'])->name('purchase_list');
+//tim kiem don hang
+Route::get('/searchhd',[GiaoDienController::class,'searchhd'])->name('search_hd');
 //hien thi chi tiet hoa don mua hang
 Route::get('/bill-details/{id}',[GiaoDienController::class,'billdetails'])->name('user_bill_details');
 //hien thi so sanh san pham

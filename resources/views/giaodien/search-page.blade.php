@@ -1,17 +1,7 @@
 @extends('layout/header_footer')
 @section('main')
 <!-- Begin Li's Breadcrumb Area -->
-<div class="breadcrumb-area">
-                <div class="container">
-                    <div class="breadcrumb-content">
-                        <ul>
-                            <li><a href="index.html">Home</a></li>
-                            <li class="active">Shop 4 Column</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <!-- Li's Breadcrumb Area End Here -->
+
             <!-- Begin Li's Content Wraper Area -->
             <div class="content-wraper pt-60 pb-60">
                 <div class="container">
@@ -24,7 +14,7 @@
                             <div class="shop-top-bar mt-30">
                                 <div class="shop-bar-inner">
                                    <div class="toolbar-amount">
-                                        <span>Showing 1 to 9 of 15</span>
+                                  
                                     </div>
                                 </div>
                                <!-- product-select-box start -->

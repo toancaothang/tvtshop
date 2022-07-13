@@ -68,18 +68,7 @@ success: function(response){
 
 })(); 
 </script> -->
-  <!-- Begin Li's Breadcrumb Area -->
-  <div class="breadcrumb-area">
-                <div class="container">
-                    <div class="breadcrumb-content">
-                        <ul>
-                            <li><a href="index.html">Trang Chủ</a></li>
-                            <li class="active">Giỏ Hàng </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <!-- Li's Breadcrumb Area End Here -->
+  
             <!--Shopping Cart Area Strat-->
             @if(count($procartshow))
              <div class="Shopping-cart-area pt-60 pb-60">
@@ -87,7 +76,7 @@ success: function(response){
                     <div class="row">
                         <div class="col-12">
                         @if (session('cart')) <div class="alert alert-success"> {{ session('cart') }} </div> @endif
-                            <div class="table-content table-responsive">
+                      <div class="table-content table-responsive">
                                     <table class="table">
                                         <thead>
                                             <tr style="background-color: #0382C7;color: white;">

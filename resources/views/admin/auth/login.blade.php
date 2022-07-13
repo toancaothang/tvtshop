@@ -16,26 +16,27 @@
 
 <body>
   <div class="layer"></div>
+  
     <main class="page-center">
+    <h1 class="sign-up__title">Chào mừng đến với trang quản lý TVT Shop </h1>
     <article class="sign-up">
-        <h1 class="sign-up__title">Chào mừng quay lại!</h1>
-        <p class="sign-up__subtitle">Đăng nhập tài khoản của bạn để tiếp tục</p>
+        <p class="sign-up__subtitle">Đăng nhập tài khoản admin của bạn để tiếp tục</p>
         <form class="sign-up-form form"  action="{{ route('admin.login.post') }}" method="POST" role="form">
             @csrf
         <label class="form-label-wrapper">
-            <p class="form-label" for="email">Tên đăng nhậP</p>
+            <p class="form-label" for="email">Tên đăng nhập</p>
             <input class="form-input" type="text" id="username" name="username" placeholder="Nhập tên đăng nhập" autofocus value="{{ old('username') }}" required >
         </label>
         <label class="form-label-wrapper">
             <p class="form-label">Mật khẩu</p>
             <input class="form-input" type="password" id="password" name="password" placeholder="Nhập mật khẩu" required>
         </label>
-        <a class="link-info forget-link" href="##">Quên mật khẩu?</a>
+      
         <label class="form-checkbox-wrapper">
             <input class="form-checkbox" type="checkbox">
             <span class="form-checkbox-label">Nhớ tôi đăng nhập lần sau</span>
         </label>
-        <button type="submit" class="form-btn primary-default-btn transparent-btn">Sign in</button>
+        <button type="submit" class="form-btn primary-default-btn transparent-btn">Đăng Nhập</button>
         </form>
     </article>
     </main>

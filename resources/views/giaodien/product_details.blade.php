@@ -92,17 +92,7 @@ $.ajax({
     swal(" Đánh giá sản phẩm không thành công","Không thể đánh giá khi chưa mua sản phẩm","info");
     </script>
     @endif	
-<div class="breadcrumb-area">
-                <div class="container">
-                    <div class="breadcrumb-content">
-                        <ul>
-                            <li><a href="index.html">Trang Chủ</a></li>
-                            <li class="active">Xem Sản Phẩm</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <!-- Li's Breadcrumb Area End Here -->
+
             <!-- content-wraper start -->
            <div class="content-wraper">
                 <div class="container">
@@ -402,51 +392,104 @@ $.ajax({
                             </div>
                             <div class="row">
                                 <div class="product-active owl-carousel">
-                                    @foreach($samemodel as $samem)
+                                    @foreach($samemodel as $value)
+                                    @php
+                                               $dahethang=0;
+                                            @endphp
+                                            @foreach($value->getpro as $hethang)
+                                            @php
+                                               $dahethang+=$hethang->stock;
+                                            @endphp
+                                            @endforeach
+                                                                  @if($dahethang>0)
                                     <div class="col-lg-12">
-                                        <!-- single-product-wrap start -->
-                                        <div class="single-product-wrap">
-                                            <div class="product-image">
-                                                <a href="single-product.html">
-                                                    <img src="{{url('website/product')}}/{{$samem->image}}" alt="Li's Product Image">
-                                                </a>
-                                                <span class="sticker">Mới</span>
-                                            </div>
-                                            <div class="product_desc">
-                                                <div class="product_desc_info">
-                                                    <div class="product-review">
-                                                        <h5 class="manufacturer">
-                                                            <a href="product-details.html">NSX</a>
-                                                        </h5>
-                                                        <div class="rating-box">
-                                                            <ul class="rating">
-                                                                <li><i class="fa fa-star-o"></i></li>
-                                                                <li><i class="fa fa-star-o"></i></li>
-                                                                <li><i class="fa fa-star-o"></i></li>
-                                                                <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                                                <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                                            </ul>
+                                       <!-- single-product-wrap start -->
+                                       <div class="single-product-wrap" id="updateDiv">
+                                                        <div class="product-image">
+                                                            <a href="{{route('chitiet_sanpham',['cateid'=>$value->category_id,'id'=>$value->id])}}">
+                                                                <img src="{{url('website/product')}}/{{$value->image}}" alt="">
+                                                            </a>
+                                                            <span class="sticker">Mới</span>
+                                                        </div>
+                                                        <div class="product_desc">
+                                                            <div class="product_desc_info">
+                                                                <div class="product-review">
+                                                                <h5 class="manufacturer">
+
+                                                              
+                                                                    @foreach($value->getpro as $getpro)
+                                                                        
+                                                                        <div class="update-bienthe"  type="submit" data-type="{{$getpro->capacity}}" data-id="{{$value->id}}" tabindex="1" style="width:70px; padding-left:17px;padding-top:7px; margin-bottom:0px;" >{{$getpro->capacity}}GB</div>
+                                                                        
+                                                                  @endforeach
+                                                                  <input type="hidden" value="<?php echo $value->id?>" id="produm-{{ $value->id }}" class="produm"/> 
+                                                                    </h5>
+                                                                    
+                                                                   
+                                                                </div>
+                                                                
+                                                                <h4><a class="product_name" href="{{route('chitiet_sanpham',['cateid'=>$value->category_id,'id'=>$value->id])}}">{{$value->model_name}} </a></h4>
+                                                                
+                                                            <form action="{{route('com_pare',['id'=>$value->id])}}" class="compare_add" method="POST" >
+                                            @csrf
+                                            <span id="compares1-{{$value->id}}">
+                                            <input type="hidden" value=" <?php echo $value->getpro->first()->id;?>" name="productid"/>
+                                            
+                                            </span>
+                                            <button class="compare-btn" type="submit" style="border:none; background-color:white; color:#05A7FF;margin-left:-10px;margin-top:10px;" ><img src=" {{asset('images/menu/logo/compare.png')}}" style="width:27px;"alt="" >So Sánh</button>
+
+                                           </form>
+                                                               <div class="price-box">
+                                                                
+                                                                <form action="{{route('add_cart',['id'=>$value->id])}}" class="cart-quantity" method="POST" enctype="multipart/form-data" style="margin-top:-4px;">
+                                                                @php $exsale=$value->getpro->first()->sale*$value->getpro->first()->price/100; @endphp
+                                                                @csrf
+                                                               <span class="new-price new-price-2" id="price1-{{ $value->id }}">{{number_format($value->getpro->first()->price-$exsale)}} <u>đ</u>
+                                                             <input type="hidden" value=" <?php echo $value->getpro->first()->id;?>" name="productid" />
+                                                            </span>
+                                                               @if($value->getpro->first()->sale)
+                                                             <span id="salefix1-{{ $value->id }}">
+                                                        <span class="old-price">{{number_format($value->getpro->first()->price)}}<u> đ</u></span>
+                                                        <span class="discount-percentage">-{{$value->getpro->first()->sale}}%</span>
+                                                        </span>
+                                                        @endif
+                                                                </div>
+                                                                <div class="rating-box">
+                                                                        <ul class="rating">
+                                                                        @for($i=1;$i<=$value->total_rated;$i++)
+                                            <li><i class="fa fa-star-o"></i></li>
+                                            @endfor
+                                            @for($j=$value->total_rated+1;$j<=5;$j++)
+                                            <li class="no-star"><i class="fa fa-star-o"></i></li>
+                                            @endfor
+                                                                        </ul>
+                                                                    </div>
+                                                            </div>
+                                                            <div class="add-actions">
+                                                                <ul class="add-actions-link">
+                                                                <input class="cart-plus-minus-box " value="1" type="hidden" name="quaninput">
+                                                               <li style="width:145px;"> <button class="add-cart active" type="submit" style="border:none;width:145px;background-color:#FFCB09;color:black;" > Thêm Vào Giỏ Hàng </button></li>
+                                                                    
+                                                                    </form> 
+                                                                    
+                                                                    <form action="{{route('wish_list',['id'=>$value->id])}}" class="wishlist_add" method="POST">
+                                                                @csrf
+                                                              <span id="wish1-{{$value->id}}">
+                                                                
+                                                              <input type="hidden" value=" <?php echo $value->getpro->first()->id;?>" name="productidwish"/>
+                                                             </span>
+                                                             
+                                                                   <li > <button style="border:none;width:35px;"><i class="fa fa-heart-o"style="color:deeppink;" ></i></button> </li>
+                                                            </form>
+                                                        
+                                                                </ul>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <h4><a class="product_name" href="single-product.html">{{$samem ->model_name}}</a></h4>
-                                                    <div class="price-box">
-                                                    <span class="new-price new-price-2">....</span>
-                                                        <span class="old-price">000</span>
-                                                        <span class="discount-percentage">-7%</span>
-                                                    </div>
-                                                </div>
-                                                <div class="add-actions">
-                                                    <ul class="add-actions-link">
-                                                        <li class="add-cart active"><a href="#">Thêm Vào Giỏ Hàng</a></li>
-                                                        <li><a href="#" title="quick view" class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-eye"></i></a></li>
-                                                        <li><a class="links-details" href="wishlist.html"><i class="fa fa-heart-o"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- single-product-wrap end -->
+                                                        <!-- single-product-wrap end -->
                                     </div>
-                                  @endforeach
+                            @endif
+                                    @endforeach
                                 </div>
                             </div>
                         </div>

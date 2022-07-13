@@ -252,7 +252,7 @@ $(document).ready(function(){
                         <button type="button" class="btn btn-primary"><i class="fa fa-search"></i></button>
                         <div class="filter-group">
                             <label>Mã Đơn</label>
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control" id="searchhd">
                         </div>
                         
                         <div class="filter-group">
@@ -309,25 +309,37 @@ $(document).ready(function(){
                         <td><a href="{{route('user_bill_details',['id'=>$hd->id])}}" class="view" title="Xem chi tiết hóa đơn" data-toggle="tooltip"><i class="material-icons">&#xE5C8;</i></a></td>
                     </tr>
 @endforeach
-                </tbody>
+                </tbody> 
+				<tbody id="contenthd"> </tbody>
             </table>
             <div class="clearfix">
-                <div class="hint-text">Đang hiển thị <b>5</b> out of <b>25</b> entries</div>
+               
                 <ul class="pagination">
-                    <li class="page-item disabled"><a href="#">Previous</a></li>
-                    <li class="page-item"><a href="#" class="page-link">1</a></li>
-                    <li class="page-item"><a href="#" class="page-link">2</a></li>
-                    <li class="page-item"><a href="#" class="page-link">3</a></li>
-                    <li class="page-item active"><a href="#" class="page-link">4</a></li>
-                    <li class="page-item"><a href="#" class="page-link">5</a></li>
-                    <li class="page-item"><a href="#" class="page-link">6</a></li>
-                    <li class="page-item"><a href="#" class="page-link">7</a></li>
-                    <li class="page-item"><a href="#" class="page-link">Next</a></li>
+				{!!$hoadon->links('giaodien/partials.paginate')!!}
                 </ul>
             </div>
         </div>
     </div>        
 </div>     
+<script>
+	$('#searchhd').on('keyup',function(){
+  $value=$(this).val();
+
+$.ajax({
+type:'get',
+url:'{{URL::to('searchhd')}}',
+data:{'search':$value},
+success:function(data)
+{
+	console.log(data);
+	$('#contenthd').html(data);
+}
+});
+
+	});
+</script>
+
 
 </body>
+
 @stop()
