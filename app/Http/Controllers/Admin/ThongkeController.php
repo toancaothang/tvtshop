@@ -58,5 +58,32 @@ class ThongkeController extends Controller
             ->get(); 
         return response()->json($ThongKeTheoThang);
     }
-
+    function LoadBangDanhSach(){
+        // $nam = $request->TheoNam;
+        $LoadBangDanhSach  = DB::table('bill_details')
+        ->select(DB::raw("product_model.id as Sid,branch_name,model_name, SUM(bill_details.quantity) as soluong, SUM(bill_details.quantity*bill_details.unit_price) as tongtien"))
+        ->join('bill', 'bill.id', '=', 'bill_details.bill_id')
+        ->join('product', 'product.id', '=', 'bill_details.product_id')
+        ->join('product_model', 'product_model.id', '=', 'product.model_id')
+        ->join('branch', 'branch.id', '=', 'product_model.branch_id')
+        ->where("bill.status",2)
+        ->groupBy(DB::raw("product_model.id,model_name,branch_name"))
+        ->orderBy('stock', 'desc')
+        ->get();
+         return response()->json($LoadBangDanhSach);
+     }
+     function Doanhthucaonhat(){
+        // $nam = $request->TheoNam;
+        $LoadBangDanhSach  = DB::table('bill_details')
+        ->select(DB::raw("product_model.id as Sid,branch_name,model_name, SUM(bill_details.quantity) as soluong, SUM(bill_details.quantity*bill_details.unit_price) as tongtien"))
+        ->join('bill', 'bill.id', '=', 'bill_details.bill_id')
+        ->join('product', 'product.id', '=', 'bill_details.product_id')
+        ->join('product_model', 'product_model.id', '=', 'product.model_id')
+        ->join('branch', 'branch.id', '=', 'product_model.branch_id')
+        ->where("bill.status",2)
+        ->groupBy(DB::raw("product_model.id,model_name,branch_name"))
+        ->orderBy('tongtien', 'desc')
+        ->get();
+         return response()->json($LoadBangDanhSach);
+     }
 }

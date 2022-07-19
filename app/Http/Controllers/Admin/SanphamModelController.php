@@ -137,9 +137,8 @@ class SanphamModelController extends Controller
         if($req->image == '')
         {
             $KH->image = $a;
-        }else if($req->hasfile('image'))
+        }else if($file=$req->file('image'))
         {
-       $file=$req->image;
         $extention=$file->getClientOriginalExtension();
         $filename=time().'.'.$extention;
         $file->move('website/product/',$filename);
