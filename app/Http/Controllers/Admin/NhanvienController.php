@@ -26,18 +26,17 @@ class NhanvienController extends Controller
         $KH->full_name = $req->hoten;
         $KH->username = $req->tentaikhoan;
         $KH->email = $req->email;
-        $KH->password = $req->matkhau;
+        $KH->password = bcrypt($req->matkhau);
         $KH->birth = $req->ngaysinh;
         $KH->address = $req->diachi;
         $KH->gender = $req->gioitinh;
         $KH->phone_number = $req->sodienthoai;
-        if($req->hasfile('anhdaidien'))
+        if($file=$req->file('anhdaidien'))
         {
-       $file=$req->image;
         $extention=$file->getClientOriginalExtension();
         $filename=time().'.'.$extention;
         $file->move('adminavatar/',$filename);
-        $KH->image =$filename;
+        $KH->avatar =$filename;
         }
         //$KH->anhdaidien = $req->anhdaidien;
         $KH->status = 1;

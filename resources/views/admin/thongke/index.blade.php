@@ -115,7 +115,7 @@
             tooltip: {
                 visible: true,
                 format: "{0}%",
-                template: "#= value #"
+                template: '#= kendo.toString(value,"n0")# đ'
             }
         });
         $("#chart1").kendoChart({
